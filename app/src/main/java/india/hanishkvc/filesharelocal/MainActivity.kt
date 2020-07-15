@@ -1,3 +1,8 @@
+/**
+ * FileShareLocal: Allow files to be shared locally on the same network across multiple devices
+ * @author C Hanish Menon <hanishkvc@gmail.com>, 2020
+ * @License GPL
+ */
 package india.hanishkvc.filesharelocal
 
 import androidx.appcompat.app.AppCompatActivity
