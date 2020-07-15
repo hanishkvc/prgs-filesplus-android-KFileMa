@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import india.hanishkvc.filesharelocal.dummy.DummyContent
+import india.hanishkvc.filesharelocal.fman.FMan
 
 /**
  * A fragment representing a list of Items.
@@ -38,7 +38,7 @@ class FManFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = FManRecyclerViewAdapter(DummyContent.ITEMS)
+                adapter = FManRecyclerViewAdapter(FMan.ITEMS)
             }
         }
         return view
