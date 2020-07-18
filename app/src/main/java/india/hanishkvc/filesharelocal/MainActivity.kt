@@ -21,16 +21,27 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        FMan.loadPath(filesDir.absolutePath)
         tvPath = findViewById<TextView>(R.id.tvPath)
-        tvPath?.text = filesDir.absolutePath
+        loadPath(filesDir.absolutePath)
         btnUp = findViewById<Button>(R.id.btnUp)
         btnUp?.setOnClickListener {
-            tvPath?.text = FMan.backPath()
-            FMan.loadPath()
+            backPath()
             val fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
             fragMain.updateFrag()
             Log.v(TAGME, "caught you button up, ${FMan.ITEMS.size}")
         }
     }
+
+    private fun loadPath(path: String? = null) {
+        if (path != null) {
+            tvPath?.text = path
+        }
+        FMan.loadPath(path, true)
+    }
+
+    private fun backPath() {
+        tvPath?.text = FMan.backPath()
+        loadPath()
+    }
+
 }
