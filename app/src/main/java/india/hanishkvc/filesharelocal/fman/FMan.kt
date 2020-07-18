@@ -1,8 +1,8 @@
 package india.hanishkvc.filesharelocal.fman
 
 import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.ArrayList
-import java.util.HashMap
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -25,8 +25,9 @@ object FMan {
     init {
         // Start at the root dir
         var iCur = 0
-        for (de in Files.list(curPath)) {
-            createFManItem(iCur, de.normalize(),"dirORfile")
+        for (de in Files.list(Paths.get(curPath))) {
+            var sType = if (Files.isDirectory(de)) "Dir" else "File"
+            createFManItem(iCur, de.normalize(), sType)
             iCur += 1
         }
     }

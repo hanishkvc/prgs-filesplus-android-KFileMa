@@ -25,7 +25,7 @@ class FManRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.contentView.text = item.path
     }
 
     override fun getItemCount(): Int = values.size
