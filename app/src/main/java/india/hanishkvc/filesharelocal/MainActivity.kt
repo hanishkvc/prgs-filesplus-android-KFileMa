@@ -7,12 +7,14 @@ package india.hanishkvc.filesharelocal
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import india.hanishkvc.filesharelocal.fman.FMan
 
 class MainActivity : AppCompatActivity() {
 
+    private val TAGME = "FSLMain"
     private var btnUp: Button? = null
     private var tvPath: TextView? = null
 
@@ -20,8 +22,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         FMan.loadPath(filesDir.absolutePath)
-        btnUp = findViewById(R.id.btnUp)
-        tvPath = findViewById(R.id.tvPath) as TextView
+        tvPath = findViewById<TextView>(R.id.tvPath)
         tvPath?.text = filesDir.absolutePath
+        btnUp = findViewById(R.id.btnUp)
+        btnUp?.setOnClickListener {
+            FMan.dummyItems(100,110)
+            Log.v(TAGME, "caught you button up, ${FMan.ITEMS.size}")
+        }
     }
 }
