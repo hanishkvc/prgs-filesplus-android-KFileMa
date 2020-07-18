@@ -34,7 +34,7 @@ object FMan {
         }
     }
 
-    private fun clearItems() {
+    public fun clearItems() {
         ITEMS.clear()
     }
 
