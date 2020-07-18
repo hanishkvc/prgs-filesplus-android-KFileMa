@@ -1,6 +1,7 @@
 package india.hanishkvc.filesharelocal.fman
 
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.ArrayList
 
@@ -20,24 +21,27 @@ object FMan {
     /**
      * the current path
      */
-    var curPath = "/"
+    var curPath: Path? = null
 
     init {
-        // Start at the root dir
-        var iCur = 0
-        for (de in Files.list(Paths.get(curPath))) {
-            var sType = if (Files.isDirectory(de)) "Dir" else "File"
-            createFManItem(iCur, de.normalize(), sType)
-            iCur += 1
-        }
+        // Do nothing for now
     }
 
     private fun addItem(item: FManItem) {
         ITEMS.add(item)
     }
 
-    public fun loadPath(path: String) {
-
+    /**
+     * First time when called, it should be non null
+     */
+    public fun loadPath(path: String? = null) {
+        if (path != null) curPath = Paths.get(path)
+        var iCur = 0
+        for (de in Files.list(curPath)) {
+            var sType = if (Files.isDirectory(de)) "Dir" else "File"
+            createFManItem(iCur, de.normalize().toString(), sType)
+            iCur += 1
+        }
     }
 
     private fun createFManItem(position: Int, path: String, type: String): FManItem {
