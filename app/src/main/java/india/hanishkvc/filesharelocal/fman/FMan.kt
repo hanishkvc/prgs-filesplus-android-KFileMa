@@ -48,17 +48,24 @@ object FMan {
     /**
      * First time when called, it should be non null
      */
-    public fun loadPath(path: String? = null, clear: Boolean = true) {
+    public fun loadPath(path: String? = null, clear: Boolean = true): Boolean {
+        var bDone: Boolean = false
         if (clear) clearItems()
         if (path != null) {
             curPath = Paths.get(path)
         }
-        var iCur = 0
-        for (de in Files.list(curPath)) {
-            var sType = if (Files.isDirectory(de)) "Dir" else "File"
-            addItem(createFManItem(iCur, de.normalize().toString(), sType))
-            iCur += 1
+        try {
+            var iCur = 0
+            for (de in Files.list(curPath)) {
+                var sType = if (Files.isDirectory(de)) "Dir" else "File"
+                addItem(createFManItem(iCur, de.normalize().toString(), sType))
+                iCur += 1
+            }
+            bDone = true
+        } catch (e: AccessDeniedException) {
+            Log.v(TAGME, "loadPath: failed for $curPath")
         }
+        return bDone
     }
 
     public fun backPath(): String {

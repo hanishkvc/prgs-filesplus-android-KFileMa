@@ -36,14 +36,12 @@ class MainActivity : AppCompatActivity() {
         var thePath = path
         var bLoaded: Boolean = false
         while (!bLoaded) {
-            try {
-                Log.v(TAGME,"loadPath:$thePath")
-                if (thePath != null) {
-                    tvPath?.text = thePath
-                }
-                FMan.loadPath(thePath, true)
-                bLoaded = true
-            } catch (e: RuntimeException) {
+            Log.v(TAGME,"loadPath:$thePath")
+            if (thePath != null) {
+                tvPath?.text = thePath
+            }
+            bLoaded = FMan.loadPath(thePath, true)
+            if (!bLoaded) {
                 thePath = getExternalFilesDir(null)?.absolutePath
             }
         }
