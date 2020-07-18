@@ -54,6 +54,7 @@ object FMan {
         if (path != null) {
             curPath = Paths.get(path)
         }
+        Log.v(TAGME, "loadPath: $curPath")
         try {
             var iCur = 0
             for (de in Files.list(curPath)) {
@@ -62,8 +63,8 @@ object FMan {
                 iCur += 1
             }
             bDone = true
-        } catch (e: AccessDeniedException) {
-            Log.v(TAGME, "loadPath: failed for $curPath")
+        } catch (e: Exception) {
+            Log.e(TAGME, "loadPath: failed for $curPath")
         }
         return bDone
     }
