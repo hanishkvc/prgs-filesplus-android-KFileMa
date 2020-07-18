@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     private fun backPath() {
         val path = FMan.backPath()
         tvPath?.text = path
-        //Log.v(TAGME,"backPath: $path")
+        Log.v(TAGME,"backPath: $path")
         loadPath()
     }
 
