@@ -27,6 +27,10 @@ object FMan {
         // Do nothing for now
     }
 
+    private fun clearItems() {
+        ITEMS.clear()
+    }
+
     private fun addItem(item: FManItem) {
         ITEMS.add(item)
     }
@@ -35,11 +39,14 @@ object FMan {
      * First time when called, it should be non null
      */
     public fun loadPath(path: String? = null) {
-        if (path != null) curPath = Paths.get(path)
+        if (path != null) {
+            clearItems()
+            curPath = Paths.get(path)
+        }
         var iCur = 0
         for (de in Files.list(curPath)) {
             var sType = if (Files.isDirectory(de)) "Dir" else "File"
-            createFManItem(iCur, de.normalize().toString(), sType)
+            addItem(createFManItem(iCur, de.normalize().toString(), sType))
             iCur += 1
         }
     }
