@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import india.hanishkvc.filesharelocal.fman.FMan
 
@@ -26,9 +27,8 @@ class MainActivity : AppCompatActivity() {
         btnUp = findViewById<Button>(R.id.btnUp)
         btnUp?.setOnClickListener {
             backPath()
-            val fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
-            fragMain.updateFrag()
             Log.v(TAGME, "btnUp: items ${FMan.ITEMS.size}")
+            Toast.makeText(applicationContext,"Items ${FMan.ITEMS.size}", Toast.LENGTH_LONG)
         }
     }
 
@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
                 thePath = getExternalFilesDir(null)?.absolutePath
             }
         }
+        val fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
+        fragMain.updateFrag()
     }
 
     private fun backPath() {
