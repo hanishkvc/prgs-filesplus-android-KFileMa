@@ -70,9 +70,9 @@ object FMan {
     }
 
     public fun backPath(): String {
-        Log.v(TAGME, "curPath:In:$curPath")
+        Log.v(TAGME, "backPath:I: $curPath")
         curPath = curPath?.subpath(0, curPath?.nameCount?.minus(1)!!)
-        Log.v(TAGME, "curPath:Out:$curPath")
+        Log.v(TAGME, "backPath:O: $curPath")
         return curPath?.toAbsolutePath().toString()
     }
 

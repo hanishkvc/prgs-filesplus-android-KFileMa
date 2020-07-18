@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             backPath()
             val fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
             fragMain.updateFrag()
-            Log.v(TAGME, "caught you button up, ${FMan.ITEMS.size}")
+            Log.v(TAGME, "btnUp: items ${FMan.ITEMS.size}")
         }
     }
 
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         var thePath = path
         var bLoaded: Boolean = false
         while (!bLoaded) {
-            Log.v(TAGME,"loadPath:$thePath")
+            Log.v(TAGME,"loadPath: $thePath")
             if (thePath != null) {
                 tvPath?.text = thePath
             }
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     private fun backPath() {
         val path = FMan.backPath()
         tvPath?.text = path
-        Log.v(TAGME,"backPath:$path")
+        //Log.v(TAGME,"backPath: $path")
         loadPath()
     }
 
