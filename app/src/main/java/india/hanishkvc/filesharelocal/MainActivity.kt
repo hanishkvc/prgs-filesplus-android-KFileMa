@@ -33,14 +33,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadPath(path: String? = null) {
-        Log.v(TAGME,"loadPath:$path")
-        if (path != null) {
-            tvPath?.text = path
-        }
-        try {
-            FMan.loadPath(path, true)
-        } catch (e: AccessDeniedException) {
-            loadPath(getExternalFilesDir(null)?.absolutePath)
+        var thePath = path
+        var bLoaded: Boolean = false
+        while (!bLoaded) {
+            try {
+                Log.v(TAGME,"loadPath:$thePath")
+                if (thePath != null) {
+                    tvPath?.text = thePath
+                }
+                FMan.loadPath(thePath, true)
+                bLoaded = true
+            } catch (e: RuntimeException) {
+                thePath = getExternalFilesDir(null)?.absolutePath
+            }
         }
     }
 
