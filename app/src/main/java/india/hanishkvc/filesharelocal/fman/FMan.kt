@@ -1,9 +1,10 @@
 package india.hanishkvc.filesharelocal.fman
 
+import android.util.Log
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -12,6 +13,8 @@ import java.util.ArrayList
  * TODO: Replace all uses of this class before publishing your app.
  */
 object FMan {
+
+    val TAGME = "FSLFMan"
 
     /**
      * An array of sample (fman) items.
@@ -45,9 +48,9 @@ object FMan {
     /**
      * First time when called, it should be non null
      */
-    public fun loadPath(path: String? = null) {
+    public fun loadPath(path: String? = null, clear: Boolean = true) {
+        if (clear) clearItems()
         if (path != null) {
-            clearItems()
             curPath = Paths.get(path)
         }
         var iCur = 0
@@ -56,7 +59,13 @@ object FMan {
             addItem(createFManItem(iCur, de.normalize().toString(), sType))
             iCur += 1
         }
-        dummyItems(10,15)
+    }
+
+    public fun backPath(): String {
+        Log.v(TAGME, "curPath:In:$curPath")
+        curPath = curPath?.subpath(0, curPath?.nameCount?.minus(1)!!)
+        Log.v(TAGME, "curPath:Out:$curPath")
+        return curPath?.toAbsolutePath().toString()
     }
 
     private fun createFManItem(position: Int, path: String, type: String): FManItem {

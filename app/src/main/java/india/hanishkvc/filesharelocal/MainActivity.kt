@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
         tvPath?.text = filesDir.absolutePath
         btnUp = findViewById<Button>(R.id.btnUp)
         btnUp?.setOnClickListener {
-            FMan.clearItems()
-            FMan.dummyItems(1,20)
+            tvPath?.text = FMan.backPath()
+            FMan.loadPath()
             val fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
             fragMain.updateFrag()
             Log.v(TAGME, "caught you button up, ${FMan.ITEMS.size}")
