@@ -16,6 +16,7 @@ import india.hanishkvc.filesharelocal.fman.FMan
 class FManFragment : Fragment() {
 
     private var columnCount = 1
+    private var recyclerView: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,19 +30,23 @@ class FManFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_fman_list, container, false)
+        recyclerView = inflater.inflate(R.layout.fragment_fman_list, container, false) as RecyclerView?
 
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
+        if (recyclerView is RecyclerView) {
+            with(recyclerView) {
+                this?.layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = FManRecyclerViewAdapter(FMan.ITEMS)
+                this?.adapter = FManRecyclerViewAdapter(FMan.ITEMS)
             }
         }
-        return view
+        return recyclerView
+    }
+
+    public fun updateFrag() {
+        recyclerView?.adapter?.notifyDataSetChanged()
     }
 
     companion object {

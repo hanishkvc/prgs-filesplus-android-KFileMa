@@ -47,7 +47,7 @@ object FMan {
      */
     public fun loadPath(path: String? = null) {
         if (path != null) {
-            //clearItems()
+            clearItems()
             curPath = Paths.get(path)
         }
         var iCur = 0

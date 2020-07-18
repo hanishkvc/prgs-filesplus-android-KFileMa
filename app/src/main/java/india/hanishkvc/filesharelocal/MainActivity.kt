@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         tvPath?.text = filesDir.absolutePath
         btnUp = findViewById<Button>(R.id.btnUp)
         btnUp?.setOnClickListener {
-            FMan.dummyItems(100,110)
+            FMan.dummyItems(1,20)
             Log.v(TAGME, "caught you button up, ${FMan.ITEMS.size}")
         }
     }
