@@ -25,6 +25,13 @@ object FMan {
 
     init {
         // Do nothing for now
+        dummyItems(0,5)
+    }
+
+    private fun dummyItems(start: Int, end: Int) {
+        for (i in start..end) {
+            addItem(createFManItem(i, "path$i", "test"))
+        }
     }
 
     private fun clearItems() {
@@ -40,7 +47,7 @@ object FMan {
      */
     public fun loadPath(path: String? = null) {
         if (path != null) {
-            clearItems()
+            //clearItems()
             curPath = Paths.get(path)
         }
         var iCur = 0
@@ -49,6 +56,7 @@ object FMan {
             addItem(createFManItem(iCur, de.normalize().toString(), sType))
             iCur += 1
         }
+        dummyItems(10,15)
     }
 
     private fun createFManItem(position: Int, path: String, type: String): FManItem {
