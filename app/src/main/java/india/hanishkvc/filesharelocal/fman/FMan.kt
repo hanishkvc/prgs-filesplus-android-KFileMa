@@ -28,7 +28,7 @@ object FMan {
         dummyItems(0,5)
     }
 
-    private fun dummyItems(start: Int, end: Int) {
+    public fun dummyItems(start: Int, end: Int) {
         for (i in start..end) {
             addItem(createFManItem(i, "path$i", "test"))
         }
