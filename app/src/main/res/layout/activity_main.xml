@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -16,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Up" />
+            android:text="@string/Up" />
 
         <TextView
             android:id="@+id/tvPath"
@@ -26,10 +27,17 @@
             android:text="Hello World!" />
     </LinearLayout>
 
-    <fragment
-        android:id="@+id/fragMain"
-        android:name="india.hanishkvc.filesharelocal.FManFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <fragment
+            android:id="@+id/fragMain"
+            android:name="india.hanishkvc.filesharelocal.FManFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_fman_list" />
+    </LinearLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
