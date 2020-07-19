@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         btnUp?.setOnClickListener {
             backPath()
             Log.v(TAGME, "btnUp: items ${FMan.ITEMS.size}")
-            Toast.makeText(applicationContext,"Items ${FMan.ITEMS.size}", Toast.LENGTH_LONG)
+            Toast.makeText(this,"Items ${FMan.ITEMS.size}", Toast.LENGTH_SHORT).show()
         }
         checkPermissions()
     }
@@ -94,6 +94,9 @@ class MainActivity : AppCompatActivity() {
             if (!bLoaded) {
                 val appExt = getExternalFilesDir(null)?.absolutePath
                 val sysRoot = Environment.getRootDirectory().absolutePath
+                /* API Lvl 30
+                val sysMnt = Environment.getStorageDirectory().absolutePath
+                 */
                 val sysExt = Environment.getExternalStorageDirectory().absolutePath // Using deprecated
                 val storageManager: StorageManager = getSystemService(Context.STORAGE_SERVICE) as StorageManager
                 for (storageVolume in storageManager.storageVolumes) {
