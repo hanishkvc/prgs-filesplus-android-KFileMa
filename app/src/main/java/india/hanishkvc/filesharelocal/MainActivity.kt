@@ -35,9 +35,14 @@ class MainActivity : AppCompatActivity() {
             Log.v(TAGME, "btnUp: items ${FMan.ITEMS.size}")
             Toast.makeText(applicationContext,"Items ${FMan.ITEMS.size}", Toast.LENGTH_LONG)
         }
-        if (!permissionsOk()) {
-            Log.e(TAGME, "Not enough permissions, quiting...")
-            finish()
+        for (i in 0..2) {
+            if (permissionsOk()) break
+            if (i == 2) {
+                Log.e(TAGME, "Not enough permissions, quiting...")
+                finish()
+            } else {
+                Log.w(TAGME, "Not enough permissions, trying again...")
+            }
         }
     }
 
