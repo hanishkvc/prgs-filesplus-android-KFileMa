@@ -64,7 +64,8 @@ object FMan {
             }
             bDone = true
         } catch (e: Exception) {
-            Log.e(TAGME, "loadPath: failed for $curPath")
+            Log.e(TAGME, "loadPath:Failed: $curPath")
+            Log.e(TAGME, "${e.toString()}")
         }
         return bDone
     }
