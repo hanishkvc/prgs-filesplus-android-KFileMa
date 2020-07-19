@@ -7,6 +7,7 @@ package india.hanishkvc.filesharelocal
 
 import android.Manifest
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
@@ -15,6 +16,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import india.hanishkvc.filesharelocal.fman.FMan
 
@@ -109,10 +111,23 @@ class MainActivity : AppCompatActivity() {
                 Log.v(TAGME, "sysRoot:$sysRoot")
                 Log.v(TAGME, "sysExt:$sysExt")
                 thePath = sysExt
+                volumeSelector(arrayOf(appExt, sysRoot, sysExt))
             }
         }
         val fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
         fragMain.updateFrag()
+    }
+
+    private fun volumeSelector(sPaths: Array<String?>) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select Volume")
+        builder.setItems(sPaths,
+            DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
+                FMan.volId = i
+                Log.v(TAGME, "SelVolDlg:$i")
+            })
+        val dlg = builder.create()
+        dlg.show()
     }
 
     private fun backPath() {

@@ -16,6 +16,8 @@ object FMan {
 
     val TAGME = "FSLFMan"
 
+    var volId: Int = -1
+
     /**
      * An array of sample (fman) items.
      */
