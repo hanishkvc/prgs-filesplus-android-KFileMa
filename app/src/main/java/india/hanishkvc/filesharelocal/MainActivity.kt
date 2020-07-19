@@ -6,9 +6,11 @@
 package india.hanishkvc.filesharelocal
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
+import android.os.storage.StorageManager
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -92,7 +94,14 @@ class MainActivity : AppCompatActivity() {
             if (!bLoaded) {
                 val appExt = getExternalFilesDir(null)?.absolutePath
                 val sysRoot = Environment.getRootDirectory().absolutePath
-                val sysExt = Environment.getExternalStorageDirectory().absolutePath
+                val sysExt = Environment.getExternalStorageDirectory().absolutePath // Using deprecated
+                val storageManager: StorageManager = getSystemService(Context.STORAGE_SERVICE) as StorageManager
+                for (storageVolume in storageManager.storageVolumes) {
+                    val svGetPath = storageVolume.javaClass.getMethod("getPath") // Using hidden func
+                    val sDesc = storageVolume.getDescription(this) // applicationContext will also do
+                    val sPath = svGetPath.invoke(storageVolume)
+                    Log.v(TAGME, "strMgr:$sDesc:$sPath")
+                }
                 Log.v(TAGME, "appExt:$appExt")
                 Log.v(TAGME, "sysRoot:$sysRoot")
                 Log.v(TAGME, "sysExt:$sysExt")
