@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_EXTERNAL_STORAGE)
             Log.w(TAGME, "ChkPerm:NO: ${Manifest.permission.WRITE_EXTERNAL_STORAGE}")
         } else {
+            bPermWriteExternalStorage = true
             Log.v(TAGME, "ChkPerm:OK: ${Manifest.permission.WRITE_EXTERNAL_STORAGE}")
         }
         if (!bPermWriteExternalStorage) return false
