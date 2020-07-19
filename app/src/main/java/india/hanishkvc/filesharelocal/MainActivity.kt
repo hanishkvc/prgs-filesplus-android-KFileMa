@@ -14,6 +14,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import india.hanishkvc.filesharelocal.fman.FMan
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private val REQUEST_WRITE_EXTERNAL_STORAGE = 0x1001
     private var bPermWriteExternalStorage = false
+    private var bPermissionsOk = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +38,16 @@ class MainActivity : AppCompatActivity() {
             Log.v(TAGME, "btnUp: items ${FMan.ITEMS.size}")
             Toast.makeText(applicationContext,"Items ${FMan.ITEMS.size}", Toast.LENGTH_LONG)
         }
-        for (i in 0..2) {
-            if (permissionsOk()) break
-            if (i == 2) {
-                Log.e(TAGME, "Not enough permissions, quiting...")
-                finish()
-            } else {
-                Log.w(TAGME, "Not enough permissions, trying again...")
+        runBlocking {
+            for (i in 0..2) {
+                if (permissionsOk()) break
+                delay(5000)
+                if (i == 2) {
+                    Log.e(TAGME, "Not enough permissions, quiting...")
+                    finish()
+                } else {
+                    Log.w(TAGME, "Not enough permissions, trying again...")
+                }
             }
         }
     }
