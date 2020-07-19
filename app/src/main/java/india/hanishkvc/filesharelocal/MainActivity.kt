@@ -8,6 +8,7 @@ package india.hanishkvc.filesharelocal
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -89,7 +90,13 @@ class MainActivity : AppCompatActivity() {
             }
             bLoaded = FMan.loadPath(thePath, true)
             if (!bLoaded) {
-                thePath = getExternalFilesDir(null)?.absolutePath
+                val appExt = getExternalFilesDir(null)?.absolutePath
+                val sysRoot = Environment.getRootDirectory().absolutePath
+                val sysExt = Environment.getExternalStorageDirectory().absolutePath
+                Log.v(TAGME, "appExt:$appExt")
+                Log.v(TAGME, "sysRoot:$sysRoot")
+                Log.v(TAGME, "sysExt:$sysExt")
+                thePath = sysExt
             }
         }
         val fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
