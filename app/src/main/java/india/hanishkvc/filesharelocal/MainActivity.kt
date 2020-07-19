@@ -5,6 +5,8 @@
  */
 package india.hanishkvc.filesharelocal
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -19,6 +21,9 @@ class MainActivity : AppCompatActivity() {
     private var btnUp: Button? = null
     private var tvPath: TextView? = null
 
+    private val REQUEST_WRITE_EXTERNAL_STORAGE = 0x1001
+    private var bPermWriteExternalStorage = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,6 +35,37 @@ class MainActivity : AppCompatActivity() {
             Log.v(TAGME, "btnUp: items ${FMan.ITEMS.size}")
             Toast.makeText(applicationContext,"Items ${FMan.ITEMS.size}", Toast.LENGTH_LONG)
         }
+        if (!permissionsOk()) {
+            Log.e(TAGME, "Not enough permissions, quiting...")
+            finish()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAGME, "ReqPerm:OK: ${Manifest.permission.WRITE_EXTERNAL_STORAGE}")
+                bPermWriteExternalStorage = true
+            } else {
+                Log.e(TAGME, "ReqPerm:NO: ${Manifest.permission.WRITE_EXTERNAL_STORAGE}")
+                bPermWriteExternalStorage = false
+            }
+        }
+    }
+
+    private fun permissionsOk(): Boolean {
+        if (checkCallingOrSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_EXTERNAL_STORAGE)
+            Log.w(TAGME, "ChkPerm:NO: ${Manifest.permission.WRITE_EXTERNAL_STORAGE}")
+        } else {
+            Log.v(TAGME, "ChkPerm:OK: ${Manifest.permission.WRITE_EXTERNAL_STORAGE}")
+        }
+        if (!bPermWriteExternalStorage) return false
+        return true
     }
 
     private fun loadPath(path: String? = null) {
