@@ -119,13 +119,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun volumeSelector(sPaths: Array<String?>) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Select Volume")
-        builder.setItems(sPaths,
-            DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
-                FMan.volId = i
-                Log.v(TAGME, "SelVolDlg:$i")
-            })
+        val builder = AlertDialog.Builder(this).also {
+            it.setTitle("Select Volume")
+            it.setItems(sPaths,
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
+                    FMan.volId = i
+                    Log.v(TAGME, "SelVolDlg:$i")
+                })
+        }
         val dlg = builder.create()
         dlg.show()
     }
