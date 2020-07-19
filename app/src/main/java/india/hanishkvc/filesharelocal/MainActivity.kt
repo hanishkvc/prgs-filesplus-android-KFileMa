@@ -14,8 +14,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import india.hanishkvc.filesharelocal.fman.FMan
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     private var btnUp: Button? = null
     private var tvPath: TextView? = null
 
+    private val CHECKPERMISSIONS_MAXCNT = 3
+    private var checkPermissionsCnt = 0
     private val REQUEST_WRITE_EXTERNAL_STORAGE = 0x1001
     private var bPermWriteExternalStorage = false
     private var bPermissionsOk = false
@@ -38,18 +38,7 @@ class MainActivity : AppCompatActivity() {
             Log.v(TAGME, "btnUp: items ${FMan.ITEMS.size}")
             Toast.makeText(applicationContext,"Items ${FMan.ITEMS.size}", Toast.LENGTH_LONG)
         }
-        runBlocking {
-            for (i in 0..2) {
-                if (permissionsOk()) break
-                delay(5000)
-                if (i == 2) {
-                    Log.e(TAGME, "Not enough permissions, quiting...")
-                    finish()
-                } else {
-                    Log.w(TAGME, "Not enough permissions, trying again...")
-                }
-            }
-        }
+        checkPermissions()
     }
 
     override fun onRequestPermissionsResult(
@@ -66,9 +55,18 @@ class MainActivity : AppCompatActivity() {
                 bPermWriteExternalStorage = false
             }
         }
+        checkPermissions()
     }
 
-    private fun permissionsOk(): Boolean {
+    private fun checkPermissions() {
+        if (bPermissionsOk) return
+        checkPermissionsCnt += 1
+        if (checkPermissionsCnt > CHECKPERMISSIONS_MAXCNT) {
+            Log.w(TAGME, "ChkPerm:$checkPermissionsCnt: Not enough permissions, quiting...")
+            finish()
+            return
+        }
+        Log.w(TAGME, "ChkPerm:$checkPermissionsCnt: Not enough permissions, asking user...")
         if (checkCallingOrSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_EXTERNAL_STORAGE)
             Log.w(TAGME, "ChkPerm:NO: ${Manifest.permission.WRITE_EXTERNAL_STORAGE}")
@@ -76,8 +74,9 @@ class MainActivity : AppCompatActivity() {
             bPermWriteExternalStorage = true
             Log.v(TAGME, "ChkPerm:OK: ${Manifest.permission.WRITE_EXTERNAL_STORAGE}")
         }
-        if (!bPermWriteExternalStorage) return false
-        return true
+        if (bPermWriteExternalStorage) {
+            bPermissionsOk = true
+        }
     }
 
     private fun loadPath(path: String? = null) {
