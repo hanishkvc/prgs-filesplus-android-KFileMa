@@ -93,14 +93,14 @@ class MainActivity : AppCompatActivity() {
             if (!bLoaded) {
                 val vols = FMan.getVolumes(this)
                 thePath = vols[0]
-                volumeSelector(vols)
+                volumeSelector(vols.toTypedArray())
             }
         }
         val fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
         fragMain.updateFrag()
     }
 
-    private fun volumeSelector(sPaths: Array<String?>) {
+    private fun volumeSelector(sPaths: Array<String>) {
         val builder = AlertDialog.Builder(this).also {
             it.setTitle("Select Volume")
             it.setItems(sPaths,

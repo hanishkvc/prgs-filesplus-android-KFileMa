@@ -7,7 +7,6 @@ import android.util.Log
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.*
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -50,17 +49,45 @@ object FMan {
         ITEMS.add(item)
     }
 
+    private fun getBasePath(inPath: Path, marker: String): Path? {
+        var nP = inPath.root
+        for (cP in inPath) {
+            if (cP.startsWith("Android"))
+                break
+            nP = nP.resolve(cP)
+        }
+        return nP
+    }
+
     /**
      * Return a array of root storage paths
      */
 
-    fun getVolumes(context: Context): Array<String?> {
-        val appExt = context.getExternalFilesDir(null)?.absolutePath
+    fun getVolumes(context: Context): ArrayList<String> {
+        val vols = ArrayList<String>()
+
+        val appInt = context.filesDir.toPath().toRealPath()
+        Log.v(TAGME, "getVol:appInt: $appInt")
+        vols.add(appInt.toString())
+
+        //val appExt = context.getExternalFilesDir(null)?.absolutePath
+        val appExts = context.getExternalFilesDirs(null)
+        for (appExt in appExts) {
+            Log.v(TAGME, "getVol:appExt: ${appExt.absolutePath}")
+            vols.add(getBasePath(appExt.toPath().toRealPath(),"Android").toString())
+        }
+
         val sysRoot = Environment.getRootDirectory().absolutePath
+        Log.v(TAGME, "getVol:sysRoot: $sysRoot")
+        vols.add(sysRoot)
+
         /* API Lvl 30
         val sysMnt = Environment.getStorageDirectory().absolutePath
         */
         val sysExt = Environment.getExternalStorageDirectory().absolutePath // Using deprecated
+        Log.v(TAGME, "getVol:sysExt: $sysExt")
+        vols.add(sysExt)
+
         val storageManager: StorageManager = context.getSystemService(Context.STORAGE_SERVICE) as StorageManager
         for (storageVolume in storageManager.storageVolumes) {
             val svGetPath = storageVolume.javaClass.getMethod("getPath") // Using hidden func
@@ -68,10 +95,7 @@ object FMan {
             val sPath = svGetPath.invoke(storageVolume)
             Log.v(TAGME, "strMgr:$sDesc:$sPath")
         }
-        Log.v(TAGME, "appExt:$appExt")
-        Log.v(TAGME, "sysRoot:$sysRoot")
-        Log.v(TAGME, "sysExt:$sysExt")
-        return arrayOf(appExt, sysRoot, sysExt)
+        return vols
     }
 
     /**
