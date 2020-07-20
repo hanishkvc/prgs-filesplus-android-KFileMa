@@ -119,7 +119,8 @@ object FMan {
     }
 
     /**
-     * First time when called, it should be non null
+     * Fetch the directory entries for the specified path
+     * NOTE: First time when called, it should be non null
      */
     public fun loadPath(path: String? = null, clear: Boolean = true): Boolean {
         var bDone: Boolean = false
@@ -143,12 +144,15 @@ object FMan {
         return bDone
     }
 
+    /**
+     * Go back one step in the current Path
+     */
     public fun backPath(): String {
         Log.v(TAGME, "backPath:I: $curPath")
         if (curPath?.count() == 1) {
             curPath = curPath?.root
         } else {
-            curPath = curPath?.subpath(0, curPath?.nameCount?.minus(1)!!)?.toAbsolutePath()
+            curPath = curPath?.subpath(0, curPath?.nameCount?.minus(1)!!)
         }
         Log.v(TAGME, "backPath:O: $curPath")
         return curPath?.toAbsolutePath().toString()
