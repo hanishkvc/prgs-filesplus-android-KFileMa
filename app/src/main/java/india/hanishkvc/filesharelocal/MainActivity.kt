@@ -105,8 +105,9 @@ class MainActivity : AppCompatActivity() {
             it.setTitle("Select Volume")
             it.setItems(sPaths,
                 DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
-                    FMan.volId = i
+                    FMan.volIndex = i
                     Log.v(TAGME, "SelVolDlg:$i")
+                    loadPath(FMan.volBasePathStrs[i])
                 })
         }
         val dlg = builder.create()
