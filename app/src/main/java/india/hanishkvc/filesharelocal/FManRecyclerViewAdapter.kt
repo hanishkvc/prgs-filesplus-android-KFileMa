@@ -38,8 +38,8 @@ class FManRecyclerViewAdapter(
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var id: Int = -1
-        val typeView: TextView = view.findViewById(R.id.item_number)
-        val pathView: TextView = view.findViewById(R.id.content)
+        val typeView: TextView = view.findViewById(R.id.item_type)
+        val pathView: TextView = view.findViewById(R.id.item_path)
 
         init {
             view.setOnClickListener {
