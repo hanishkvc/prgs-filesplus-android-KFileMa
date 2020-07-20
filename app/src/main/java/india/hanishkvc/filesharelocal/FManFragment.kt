@@ -1,13 +1,14 @@
 package india.hanishkvc.filesharelocal
 
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import india.hanishkvc.filesharelocal.fman.FMan
 
 /**
@@ -15,6 +16,7 @@ import india.hanishkvc.filesharelocal.fman.FMan
  */
 class FManFragment : Fragment() {
 
+    val TAGME = "FManFrag"
     private var columnCount = 1
     private var recyclerView: RecyclerView? = null
 
@@ -42,6 +44,13 @@ class FManFragment : Fragment() {
                 this?.adapter = FManRecyclerViewAdapter(FMan.ITEMS)
             }
         }
+
+        recyclerView?.setOnClickListener {
+            val rv = it as RecyclerView
+            val vh = rv.getChildViewHolder(rv) as FManRecyclerViewAdapter.ViewHolder
+            Log.v(TAGME, "RVOnClick:${vh.id}, ${vh.pathView}")
+        }
+
         return recyclerView
     }
 
