@@ -41,7 +41,19 @@ object FMan {
             }
         }
 
+    /**
+     * Hold a reference to a class/object implementing the FManItemSelectIF
+     */
     var fManItemSelectIF: FManItemSelectIF? = null
+
+    /**
+     * Enum for directory entry types
+     */
+    enum class FManItemType(val shortDesc: String) {
+        DIR("D"),
+        FILE("F"),
+        NONE_TEST("T")
+    }
 
     init {
         // Do nothing for now
@@ -49,7 +61,7 @@ object FMan {
 
     public fun dummyItems(start: Int, end: Int) {
         for (i in start..end) {
-            addItem(createFManItem(i, "path$i", "test"))
+            addItem(createFManItem(i, "path$i", FManItemType.NONE_TEST))
         }
     }
 
@@ -134,7 +146,7 @@ object FMan {
         try {
             var iCur = 0
             for (de in Files.list(curPath)) {
-                var sType = if (Files.isDirectory(de)) "D" else "f"
+                var sType = if (Files.isDirectory(de)) FManItemType.DIR else FManItemType.FILE
                 addItem(createFManItem(iCur, de.normalize().toString(), sType))
                 iCur += 1
             }
@@ -160,14 +172,14 @@ object FMan {
         return curPath?.toAbsolutePath().toString()
     }
 
-    private fun createFManItem(position: Int, path: String, type: String): FManItem {
+    private fun createFManItem(position: Int, path: String, type: FManItemType): FManItem {
         return FManItem(position, path, type)
     }
 
     /**
      * A fman item representing a piece of content.
      */
-    data class FManItem(val id: Int, val path: String, val type: String) {
+    data class FManItem(val id: Int, val path: String, val type: FManItemType) {
         override fun toString(): String = path
     }
 

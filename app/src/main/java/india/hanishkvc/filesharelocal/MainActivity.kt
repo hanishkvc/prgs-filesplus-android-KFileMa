@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         FMan.fManItemSelectIF = object : FManItemSelectIF {
             override fun onSelectListener(itemId: Int) {
                 Log.v(TAGME, "FManISIF: $itemId, ${FMan.ITEMS[itemId]}")
-                if (FMan.ITEMS[itemId].type == "D") {
+                if (FMan.ITEMS[itemId].type == FMan.FManItemType.DIR) {
                     loadPath(FMan.ITEMS[itemId].path)
                 }
             }

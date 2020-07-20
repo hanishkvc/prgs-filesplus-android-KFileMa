@@ -29,7 +29,7 @@ class FManRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.id = item.id
-        holder.typeView.text = item.type
+        holder.typeView.text = item.type.shortDesc
         holder.pathView.text = item.path.substringAfterLast(File.separator)
         //Log.v(TAGME, "onBindVH:[${File.pathSeparator},${File.separator}]: in[${item.path}], out[${holder.pathView.text}]")
     }
