@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private val TAGME = "FSLMain"
     private var btnUp: Button? = null
     private var tvPath: TextView? = null
+    private var fragMain: FManFragment? = null
 
     private val CHECKPERMISSIONS_MAXCNT = 3
     private var checkPermissionsCnt = 0
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         tvPath = findViewById<TextView>(R.id.tvPath)
+        fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
         loadPath(filesDir.absolutePath)
         btnUp = findViewById<Button>(R.id.btnUp)
         btnUp?.setOnClickListener {
@@ -96,8 +98,7 @@ class MainActivity : AppCompatActivity() {
                 volumeSelector(vols.toTypedArray())
             }
         }
-        val fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
-        fragMain.updateFrag()
+        fragMain?.updateFrag()
     }
 
     private fun volumeSelector(sPaths: Array<String>) {
