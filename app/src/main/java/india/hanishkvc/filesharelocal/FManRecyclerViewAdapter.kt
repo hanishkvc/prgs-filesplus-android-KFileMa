@@ -26,6 +26,7 @@ class FManRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
+        holder.id = item.id
         holder.typeView.text = item.type
         holder.pathView.text = item.path.substringAfterLast(File.separator)
         //Log.v(TAGME, "onBindVH:[${File.pathSeparator},${File.separator}]: in[${item.path}], out[${holder.pathView.text}]")
@@ -34,6 +35,7 @@ class FManRecyclerViewAdapter(
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var id: Int = -1
         val typeView: TextView = view.findViewById(R.id.item_number)
         val pathView: TextView = view.findViewById(R.id.content)
 

@@ -159,13 +159,13 @@ object FMan {
     }
 
     private fun createFManItem(position: Int, path: String, type: String): FManItem {
-        return FManItem(position.toString(), path, type)
+        return FManItem(position, path, type)
     }
 
     /**
      * A fman item representing a piece of content.
      */
-    data class FManItem(val id: String, val path: String, val type: String) {
+    data class FManItem(val id: Int, val path: String, val type: String) {
         override fun toString(): String = path
     }
 }
