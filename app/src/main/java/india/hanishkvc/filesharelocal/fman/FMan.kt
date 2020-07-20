@@ -132,7 +132,7 @@ object FMan {
         try {
             var iCur = 0
             for (de in Files.list(curPath)) {
-                var sType = if (Files.isDirectory(de)) "Dir" else "File"
+                var sType = if (Files.isDirectory(de)) "D" else "f"
                 addItem(createFManItem(iCur, de.normalize().toString(), sType))
                 iCur += 1
             }
