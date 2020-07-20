@@ -59,42 +59,48 @@ object FMan {
         return nP
     }
 
-    /**
-     * Return a array of root storage paths
-     */
-
-    fun getVolumes(context: Context): ArrayList<String> {
+    private fun getVolumesSM(context: Context): ArrayList<String> {
         val vols = ArrayList<String>()
-
-        val appInt = context.filesDir.toPath().toRealPath()
-        Log.v(TAGME, "getVol:appInt: $appInt")
-        vols.add(appInt.toString())
-
-        //val appExt = context.getExternalFilesDir(null)?.absolutePath
-        val appExts = context.getExternalFilesDirs(null)
-        for (appExt in appExts) {
-            Log.v(TAGME, "getVol:appExt: ${appExt.absolutePath}")
-            vols.add(getBasePath(appExt.toPath().toRealPath(),"Android").toString())
-        }
-
-        val sysRoot = Environment.getRootDirectory().absolutePath
-        Log.v(TAGME, "getVol:sysRoot: $sysRoot")
-        vols.add(sysRoot)
-
-        /* API Lvl 30
-        val sysMnt = Environment.getStorageDirectory().absolutePath
-        */
-        val sysExt = Environment.getExternalStorageDirectory().absolutePath // Using deprecated
-        Log.v(TAGME, "getVol:sysExt: $sysExt")
-        vols.add(sysExt)
-
         val storageManager: StorageManager = context.getSystemService(Context.STORAGE_SERVICE) as StorageManager
         for (storageVolume in storageManager.storageVolumes) {
             val svGetPath = storageVolume.javaClass.getMethod("getPath") // Using hidden func
             val sDesc = storageVolume.getDescription(context) // applicationContext will also do
             val sPath = svGetPath.invoke(storageVolume)
             Log.v(TAGME, "strMgr:$sDesc:$sPath")
+            vols.add(sPath)
         }
+        return vols
+    }
+
+    /**
+     * Return a array of root storage paths
+     */
+
+    fun getVolumes(context: Context): ArrayList<String> {
+        val vols = ArrayList<String>()
+        // Get External storage paths usable by the App
+        val appExts = context.getExternalFilesDirs(null)
+        for (appExt in appExts) {
+            Log.v(TAGME, "getVol:appExt: ${appExt.absolutePath}")
+            vols.add(getBasePath(appExt.toPath().toRealPath(),"Android").toString())
+        }
+        // Get Android System's root directory
+        val sysRoot = Environment.getRootDirectory().absolutePath
+        Log.v(TAGME, "getVol:sysRoot: $sysRoot")
+        vols.add(sysRoot)
+        // Get Apps internal storage directory
+        val appInt = context.filesDir.toPath().toRealPath()
+        Log.v(TAGME, "getVol:appInt: $appInt")
+        vols.add(appInt.toString())
+
+        /* API Lvl 30
+        val sysMnt = Environment.getStorageDirectory().absolutePath
+        */
+        /* getBasePath on 0th getExternalFilesDirs should give same info
+        val sysExt = Environment.getExternalStorageDirectory().absolutePath // Using deprecated
+        Log.v(TAGME, "getVol:sysExt: $sysExt")
+        vols.add(sysExt)
+         */
         return vols
     }
 
