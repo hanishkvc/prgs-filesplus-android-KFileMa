@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import india.hanishkvc.filesharelocal.fman.FMan
+import india.hanishkvc.filesharelocal.fman.FMan.FManItemSelectIF
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,6 +44,13 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Items ${FMan.ITEMS.size}", Toast.LENGTH_SHORT).show()
         }
         checkPermissions()
+        val fmanItemSelectIF = object :
+            FManItemSelectIF {
+            override fun onSelectListener(itemId: Int) {
+                Log.v(TAGME, "FManISIF: $itemId, ${FMan.ITEMS[itemId]}")
+            }
+        }
+        FMan.fManItemSelectIF = fmanItemSelectIF
     }
 
     override fun onRequestPermissionsResult(

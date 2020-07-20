@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import india.hanishkvc.filesharelocal.fman.FMan
 import india.hanishkvc.filesharelocal.fman.FMan.FManItem
 import java.io.File
 
@@ -42,7 +43,8 @@ class FManRecyclerViewAdapter(
 
         init {
             view.setOnClickListener {
-                Log.v(TAGME, "VHOnClick:${id}, ${pathView.text}")
+                Log.v(TAGME, "VHOnClick:${id}, ${pathView.text}, ${FMan.ITEMS[id]}")
+                FMan.fManItemSelectIF?.onSelectListener(id)
             }
         }
 

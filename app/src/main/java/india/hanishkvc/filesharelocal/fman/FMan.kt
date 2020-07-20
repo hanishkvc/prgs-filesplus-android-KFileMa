@@ -41,6 +41,8 @@ object FMan {
             }
         }
 
+    var fManItemSelectIF: FManItemSelectIF? = null
+
     init {
         // Do nothing for now
     }
@@ -167,5 +169,9 @@ object FMan {
      */
     data class FManItem(val id: Int, val path: String, val type: String) {
         override fun toString(): String = path
+    }
+
+    interface FManItemSelectIF {
+        abstract fun onSelectListener(itemId: Int)
     }
 }
