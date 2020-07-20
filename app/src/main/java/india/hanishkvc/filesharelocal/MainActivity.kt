@@ -17,7 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import india.hanishkvc.filesharelocal.fman.FMan
 
-class MainActivity : AppCompatActivity(), DialogInterface.OnClickListener {
+class MainActivity : AppCompatActivity() {
 
     private val TAGME = "FSLMain"
     private var btnUp: Button? = null
@@ -100,16 +100,15 @@ class MainActivity : AppCompatActivity(), DialogInterface.OnClickListener {
         fragMain.updateFrag()
     }
 
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-        FMan.volIndex = which
-        Log.v(TAGME, "SelVolDlg:$which")
-        loadPath(FMan.volBasePathStrs[which])
-    }
-
     private fun volumeSelector(sPaths: Array<String>) {
         val builder = AlertDialog.Builder(this).also {
             it.setTitle("Select Volume")
-            it.setItems(sPaths, this)
+            it.setItems(sPaths,
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
+                    FMan.volIndex = i
+                    Log.v(TAGME, "SelVolDlg:$i")
+                    loadPath(FMan.volBasePathStrs[i])
+                })
         }
         val dlg = builder.create()
         dlg.show()
@@ -121,6 +120,5 @@ class MainActivity : AppCompatActivity(), DialogInterface.OnClickListener {
         Log.v(TAGME,"backPath: $path")
         loadPath()
     }
-
 
 }
