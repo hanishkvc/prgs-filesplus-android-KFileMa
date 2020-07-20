@@ -18,7 +18,8 @@ object FMan {
 
     val TAGME = "FSLFMan"
 
-    var volId: Int = -1
+    var volIndex: Int = -1
+    var volBasePathStrs = ArrayList<String>()
 
     /**
      * An array of sample (fman) items.
@@ -52,20 +53,23 @@ object FMan {
     private fun getBasePath(inPath: Path, marker: String): Path? {
         var nP = inPath.root
         for (cP in inPath) {
-            if (cP.startsWith("Android"))
+            if (cP.startsWith(marker))
                 break
             nP = nP.resolve(cP)
         }
         return nP
     }
 
+    /**
+     * Get Storage Volumes using Storage Manager
+     */
     private fun getVolumesSM(context: Context): ArrayList<String> {
         val vols = ArrayList<String>()
         val storageManager: StorageManager = context.getSystemService(Context.STORAGE_SERVICE) as StorageManager
         for (storageVolume in storageManager.storageVolumes) {
             val svGetPath = storageVolume.javaClass.getMethod("getPath") // Using hidden func
             val sDesc = storageVolume.getDescription(context) // applicationContext will also do
-            val sPath = svGetPath.invoke(storageVolume)
+            val sPath = svGetPath.invoke(storageVolume) as String
             Log.v(TAGME, "strMgr:$sDesc:$sPath")
             vols.add(sPath)
         }
@@ -101,6 +105,7 @@ object FMan {
         Log.v(TAGME, "getVol:sysExt: $sysExt")
         vols.add(sysExt)
          */
+        volBasePathStrs = vols
         return vols
     }
 
