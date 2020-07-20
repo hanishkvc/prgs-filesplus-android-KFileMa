@@ -18,11 +18,14 @@ object FMan {
 
     val TAGME = "FSLFMan"
 
+    /**
+     * Maintain a list of storage base paths (as strings)
+     */
     var volIndex: Int = -1
     var volBasePathStrs = ArrayList<String>()
 
     /**
-     * An array of sample (fman) items.
+     * An array of fman items.
      */
     val ITEMS: MutableList<FManItem> = ArrayList()
 
@@ -30,10 +33,16 @@ object FMan {
      * the current path
      */
     var curPath: Path? = null
+        set(value) {
+            if (value != null) {
+                field = value.toRealPath()
+            } else {
+                field = null
+            }
+        }
 
     init {
         // Do nothing for now
-        dummyItems(0,5)
     }
 
     public fun dummyItems(start: Int, end: Int) {
