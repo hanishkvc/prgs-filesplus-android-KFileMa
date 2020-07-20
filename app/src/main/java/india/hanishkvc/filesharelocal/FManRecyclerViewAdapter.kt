@@ -41,8 +41,8 @@ class FManRecyclerViewAdapter(
         val pathView: TextView = view.findViewById(R.id.content)
 
         init {
-            pathView.setOnClickListener {
-                Log.v(TAGME, "VHTVOnClick:${id}, ${pathView.text}")
+            view.setOnClickListener {
+                Log.v(TAGME, "VHOnClick:${id}, ${pathView.text}")
             }
         }
 
