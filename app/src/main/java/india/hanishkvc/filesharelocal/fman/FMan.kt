@@ -1,5 +1,8 @@
 package india.hanishkvc.filesharelocal.fman
 
+import android.content.Context
+import android.os.Environment
+import android.os.storage.StorageManager
 import android.util.Log
 import java.nio.file.Files
 import java.nio.file.Path
@@ -45,6 +48,30 @@ object FMan {
 
     private fun addItem(item: FManItem) {
         ITEMS.add(item)
+    }
+
+    /**
+     * Return a array of root storage paths
+     */
+
+    fun getVolumes(context: Context): Array<String?> {
+        val appExt = context.getExternalFilesDir(null)?.absolutePath
+        val sysRoot = Environment.getRootDirectory().absolutePath
+        /* API Lvl 30
+        val sysMnt = Environment.getStorageDirectory().absolutePath
+        */
+        val sysExt = Environment.getExternalStorageDirectory().absolutePath // Using deprecated
+        val storageManager: StorageManager = context.getSystemService(Context.STORAGE_SERVICE) as StorageManager
+        for (storageVolume in storageManager.storageVolumes) {
+            val svGetPath = storageVolume.javaClass.getMethod("getPath") // Using hidden func
+            val sDesc = storageVolume.getDescription(context) // applicationContext will also do
+            val sPath = svGetPath.invoke(storageVolume)
+            Log.v(TAGME, "strMgr:$sDesc:$sPath")
+        }
+        Log.v(TAGME, "appExt:$appExt")
+        Log.v(TAGME, "sysRoot:$sysRoot")
+        Log.v(TAGME, "sysExt:$sysExt")
+        return arrayOf(appExt, sysRoot, sysExt)
     }
 
     /**
