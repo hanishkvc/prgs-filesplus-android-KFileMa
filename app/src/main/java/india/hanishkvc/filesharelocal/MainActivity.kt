@@ -21,6 +21,8 @@ import india.hanishkvc.filesharelocal.fman.FMan.FManItemSelectIF
 class MainActivity : AppCompatActivity() {
 
     private val TAGME = "FSLMain"
+    private val BID_SAVEPATH = "BID_SAVEPATH"
+
     private var btnUp: Button? = null
     private var tvPath: TextView? = null
     private var fragMain: FManFragment? = null
@@ -36,7 +38,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         tvPath = findViewById<TextView>(R.id.tvPath)
         fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
-        loadPath(filesDir.absolutePath)
+        var sPath = savedInstanceState?.getCharSequence(BID_SAVEPATH)
+        if (sPath == null) {
+            sPath = filesDir.absolutePath
+            Log.v(TAGME,"FreshState: $sPath")
+        } else {
+            Log.v(TAGME,"LoadState: $sPath")
+        }
+        loadPath(sPath.toString())
         btnUp = findViewById<Button>(R.id.btnUp)
         btnUp?.setOnClickListener {
             backPath()
@@ -129,6 +138,12 @@ class MainActivity : AppCompatActivity() {
         tvPath?.text = path
         Log.v(TAGME,"backPath: $path")
         loadPath()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putCharSequence(BID_SAVEPATH,FMan.curPath.toString())
+        Log.v(TAGME,"SaveState: ${outState.getCharSequence(BID_SAVEPATH)}")
+        super.onSaveInstanceState(outState)
     }
 
 }
