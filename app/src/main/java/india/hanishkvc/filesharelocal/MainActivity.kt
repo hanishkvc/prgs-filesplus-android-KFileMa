@@ -94,28 +94,34 @@ class MainActivity : AppCompatActivity() {
             }
             bLoaded = FMan.loadPath(thePath, true)
             if (!bLoaded) {
-                val appExt = getExternalFilesDir(null)?.absolutePath
-                val sysRoot = Environment.getRootDirectory().absolutePath
-                /* API Lvl 30
-                val sysMnt = Environment.getStorageDirectory().absolutePath
-                 */
-                val sysExt = Environment.getExternalStorageDirectory().absolutePath // Using deprecated
-                val storageManager: StorageManager = getSystemService(Context.STORAGE_SERVICE) as StorageManager
-                for (storageVolume in storageManager.storageVolumes) {
-                    val svGetPath = storageVolume.javaClass.getMethod("getPath") // Using hidden func
-                    val sDesc = storageVolume.getDescription(this) // applicationContext will also do
-                    val sPath = svGetPath.invoke(storageVolume)
-                    Log.v(TAGME, "strMgr:$sDesc:$sPath")
-                }
-                Log.v(TAGME, "appExt:$appExt")
-                Log.v(TAGME, "sysRoot:$sysRoot")
-                Log.v(TAGME, "sysExt:$sysExt")
-                thePath = sysExt
-                volumeSelector(arrayOf(appExt, sysRoot, sysExt))
+                val vols = getVolumes()
+                thePath = vols[0]
+                volumeSelector(vols)
             }
         }
         val fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
         fragMain.updateFrag()
+    }
+
+    fun getVolumes(): Array<String?> {
+        val appExt = getExternalFilesDir(null)?.absolutePath
+        val sysRoot = Environment.getRootDirectory().absolutePath
+        /* API Lvl 30
+        val sysMnt = Environment.getStorageDirectory().absolutePath
+        */
+        val sysExt = Environment.getExternalStorageDirectory().absolutePath // Using deprecated
+        val storageManager: StorageManager =
+            getSystemService(Context.STORAGE_SERVICE) as StorageManager
+        for (storageVolume in storageManager.storageVolumes) {
+            val svGetPath = storageVolume.javaClass.getMethod("getPath") // Using hidden func
+            val sDesc = storageVolume.getDescription(this) // applicationContext will also do
+            val sPath = svGetPath.invoke(storageVolume)
+            Log.v(TAGME, "strMgr:$sDesc:$sPath")
+        }
+        Log.v(TAGME, "appExt:$appExt")
+        Log.v(TAGME, "sysRoot:$sysRoot")
+        Log.v(TAGME, "sysExt:$sysExt")
+        return arrayOf(appExt, sysRoot, sysExt)
     }
 
     private fun volumeSelector(sPaths: Array<String?>) {
