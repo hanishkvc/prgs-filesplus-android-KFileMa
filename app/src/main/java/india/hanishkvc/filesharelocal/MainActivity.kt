@@ -44,13 +44,11 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Items ${FMan.ITEMS.size}", Toast.LENGTH_SHORT).show()
         }
         checkPermissions()
-        val fmanItemSelectIF = object :
-            FManItemSelectIF {
+        FMan.fManItemSelectIF = object : FManItemSelectIF {
             override fun onSelectListener(itemId: Int) {
                 Log.v(TAGME, "FManISIF: $itemId, ${FMan.ITEMS[itemId]}")
             }
         }
-        FMan.fManItemSelectIF = fmanItemSelectIF
     }
 
     override fun onRequestPermissionsResult(
