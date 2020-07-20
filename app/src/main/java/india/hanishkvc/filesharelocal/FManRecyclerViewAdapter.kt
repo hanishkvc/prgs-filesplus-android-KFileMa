@@ -1,6 +1,5 @@
 package india.hanishkvc.filesharelocal
 
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -44,10 +43,8 @@ class FManRecyclerViewAdapter(
 
         init {
             view.setOnClickListener {
-                pathView.setBackgroundColor(Color.GRAY)
                 Log.v(TAGME, "VHOnClick:${id}, ${pathView.text}, ${FMan.ITEMS[id]}")
                 FMan.fManItemSelectIF?.onSelectListener(id)
-                pathView.setBackgroundColor(Color.LTGRAY)
             }
         }
 
