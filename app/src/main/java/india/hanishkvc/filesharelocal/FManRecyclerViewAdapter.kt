@@ -1,5 +1,6 @@
 package india.hanishkvc.filesharelocal
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,12 @@ class FManRecyclerViewAdapter(
         var id: Int = -1
         val typeView: TextView = view.findViewById(R.id.item_number)
         val pathView: TextView = view.findViewById(R.id.content)
+
+        init {
+            pathView.setOnClickListener {
+                Log.v(TAGME, "VHTVOnClick:${id}, ${pathView.text}")
+            }
+        }
 
         override fun toString(): String {
             return super.toString() + " '" + pathView.text + "'"
