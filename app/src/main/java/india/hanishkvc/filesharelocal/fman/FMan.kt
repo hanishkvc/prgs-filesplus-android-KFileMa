@@ -73,11 +73,12 @@ object FMan {
 
     private fun getBasePath(inPath: File, marker: String): File? {
         var basePath = inPath
+        var exitNext = false
         while(basePath != null) {
             basePath = basePath.parentFile
+            if (exitNext) break
             val name = basePath.name
-            if (name.startsWith(marker))
-                break
+            if (name.startsWith(marker)) exitNext = true
         }
         return basePath
     }
