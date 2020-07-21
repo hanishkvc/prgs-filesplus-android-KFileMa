@@ -32,7 +32,7 @@ object FMan {
      */
     var curPath: File? = null
         set(value) {
-            field = if (value != null) value.canonicalFile else null
+            field = value?.canonicalFile
         }
 
     /**
