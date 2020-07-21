@@ -66,11 +66,19 @@ class FManFragment : Fragment() {
             }
             if (bAct) {
                 Log.v(TAGME, "OnKey:${listIndex}: $i, ${keyEvent.action}")
-                recyclerView?.getChildAt(prevIndex)?.let {
+                /*
+                 * get(index), here index seems to represent index of list of viewholders
+                 * getChildAt(index), index seems to belong to some internal list,
+                 *      which we dont have info about
+                 * findViewByPosition(index), index seems to represent actual list order,
+                 *      but there seems to be some racing issue. Maybe I have to let scroll
+                 *      finish before doing this? Maybe??
+                 */
+                recyclerView?.layoutManager?.findViewByPosition(prevIndex)?.let {
                     val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
                     vh.pathView.setBackgroundColor(Color.WHITE)
                 }
-                recyclerView?.getChildAt(listIndex)?.let {
+                recyclerView?.layoutManager?.findViewByPosition(listIndex)?.let {
                     val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
                     vh.pathView.setBackgroundColor(Color.LTGRAY)
                 }
