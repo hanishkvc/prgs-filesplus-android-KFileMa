@@ -55,8 +55,8 @@ class MainActivity : AppCompatActivity() {
         checkPermissions()
         FMan.fManItemSelectIF = object : FManItemSelectIF {
             override fun onSelectListener(itemId: Int) {
-                if (itemId >= FMan.ITEMS.size) {
-                    Log.v(TAGME, "FManISIF:Ignoring bcas $itemId >=  ${FMan.ITEMS.size}")
+                if ((itemId < 0) || (itemId >= FMan.ITEMS.size)) {
+                    Log.v(TAGME, "FManISIF:Ignoring invalid $itemId/${FMan.ITEMS.size}")
                     return
                 }
                 Log.v(TAGME, "FManISIF: $itemId, ${FMan.ITEMS[itemId]}")
