@@ -67,14 +67,14 @@ object FMan {
         ITEMS.add(item)
     }
 
-    private fun getBasePath(inPath: File, marker: String): File? {
+    private fun String.getBasePath(inPath: File): File? {
         var basePath = inPath
         var exitNext = false
         while(basePath != null) {
             basePath = basePath.parentFile
             if (exitNext) break
             val name = basePath.name
-            if (name.startsWith(marker)) exitNext = true
+            if (name.startsWith(this)) exitNext = true
         }
         return basePath
     }
@@ -105,7 +105,7 @@ object FMan {
         val appExts = context.getExternalFilesDirs(null)
         for (appExt in appExts) {
             Log.v(TAGME, "getVol:appExt: ${appExt.absolutePath}")
-            vols.add(getBasePath(appExt,"Android").toString())
+            vols.add("Android".getBasePath(appExt).toString())
         }
         // Get Android System's root directory
         val sysRoot = Environment.getRootDirectory().absolutePath
