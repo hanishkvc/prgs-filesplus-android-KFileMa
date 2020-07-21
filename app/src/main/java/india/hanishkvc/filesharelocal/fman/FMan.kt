@@ -5,9 +5,6 @@ import android.os.Environment
 import android.os.storage.StorageManager
 import android.util.Log
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -74,14 +71,15 @@ object FMan {
         ITEMS.add(item)
     }
 
-    private fun getBasePath(inPath: Path, marker: String): Path? {
-        var nP = inPath.root
-        for (cP in inPath) {
-            if (cP.startsWith(marker))
+    private fun getBasePath(inPath: File, marker: String): File? {
+        var basePath = inPath
+        while(basePath != null) {
+            basePath = basePath.parentFile
+            val name = basePath.name
+            if (name.startsWith(marker))
                 break
-            nP = nP.resolve(cP)
         }
-        return nP
+        return basePath
     }
 
     /**
@@ -110,14 +108,14 @@ object FMan {
         val appExts = context.getExternalFilesDirs(null)
         for (appExt in appExts) {
             Log.v(TAGME, "getVol:appExt: ${appExt.absolutePath}")
-            vols.add(getBasePath(appExt.toPath().toRealPath(),"Android").toString())
+            vols.add(getBasePath(appExt,"Android").toString())
         }
         // Get Android System's root directory
         val sysRoot = Environment.getRootDirectory().absolutePath
         Log.v(TAGME, "getVol:sysRoot: $sysRoot")
         vols.add(sysRoot)
         // Get Apps internal storage directory
-        val appInt = context.filesDir.toPath().toRealPath()
+        val appInt = context.filesDir.canonicalPath
         Log.v(TAGME, "getVol:appInt: $appInt")
         vols.add(appInt.toString())
 
