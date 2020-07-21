@@ -51,12 +51,18 @@ class FManFragment : Fragment() {
         recyclerView?.setOnKeyListener({ view: View, i: Int, keyEvent: KeyEvent ->
             val prevIndex = listIndex
             var bAct = false
-            if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_DOWN)
-                    && (keyEvent.action == KeyEvent.ACTION_UP) ) {
-                listIndex += 1
-                if (listIndex >= FMan.ITEMS.size) listIndex = 0
-                bAct = true
-                recyclerView?.smoothScrollToPosition(listIndex)
+
+            if (keyEvent.action == KeyEvent.ACTION_UP) {
+                if (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    listIndex += 1
+                    if (listIndex >= FMan.ITEMS.size) listIndex = 0
+                    bAct = true
+                    recyclerView?.smoothScrollToPosition(listIndex)
+                }
+                if (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+                    FMan.fManItemSelectIF?.onSelectListener(listIndex)
+                    return@setOnKeyListener true
+                }
             }
             if (bAct) {
                 Log.v(TAGME, "OnKey:${listIndex}: $i, ${keyEvent.action}")

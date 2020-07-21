@@ -55,6 +55,10 @@ class MainActivity : AppCompatActivity() {
         checkPermissions()
         FMan.fManItemSelectIF = object : FManItemSelectIF {
             override fun onSelectListener(itemId: Int) {
+                if (itemId >= FMan.ITEMS.size) {
+                    Log.v(TAGME, "FManISIF:Ignoring bcas $itemId >=  ${FMan.ITEMS.size}")
+                    return
+                }
                 Log.v(TAGME, "FManISIF: $itemId, ${FMan.ITEMS[itemId]}")
                 if (FMan.ITEMS[itemId].type == FMan.FManItemType.DIR) {
                     loadPath(FMan.ITEMS[itemId].path)
