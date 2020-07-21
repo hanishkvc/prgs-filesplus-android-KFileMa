@@ -34,7 +34,7 @@ class FManFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        recyclerView = inflater.inflate(R.layout.fragment_fman_list, container, false) as RecyclerView?
+        recyclerView = inflater.inflate(R.layout.fragment_fman_list, container, false) as RecyclerView
 
         // Set the adapter
         if (recyclerView is RecyclerView) {
@@ -48,23 +48,8 @@ class FManFragment : Fragment() {
         }
 
         recyclerView?.setOnKeyListener({ view: View, i: Int, keyEvent: KeyEvent ->
+            Log.v(TAGME, "OnKey: ${view.javaClass}, ${keyEvent.action}")
             false // The last line / expression is the return value of the lambda fun
-        })
-
-        recyclerView?.setOnClickListener({
-            Log.v(TAGME, "RVOnClick:DBG: ${it.javaClass}")
-            if (it is RecyclerView) {
-                Log.v(TAGME, "RVOnClick:DBG: ${it.javaClass}")
-                if (it.focusedChild != null) {
-                    Log.v(TAGME, "RVOnClick:DBG: ${it.focusedChild?.javaClass}")
-                    val vh = it.getChildViewHolder(it.focusedChild)
-                    if (vh is FManRecyclerViewAdapter.ViewHolder) {
-                        Log.v(TAGME, "RVOnClick: ${vh.id}, ${vh.pathView}")
-                    }
-                }
-            } else {
-                Log.v(TAGME, "RVOnClick:DBG: ${it.javaClass}")
-            }
         })
 
         return recyclerView
