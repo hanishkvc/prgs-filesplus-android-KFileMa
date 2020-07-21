@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadPath(path: String? = null) {
         var thePath = path
-        var bLoaded: Boolean = false
+        var bLoaded = false
         while (!bLoaded) {
             Log.v(TAGME,"loadPath: $thePath")
             if (thePath != null) {
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this).also {
             it.setTitle("Select Volume")
             it.setItems(sPaths,
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
+                { dialogInterface: DialogInterface, i: Int ->
                     FMan.volIndex = i
                     Log.v(TAGME, "SelVolDlg:$i")
                     loadPath(FMan.volBasePathStrs[i])

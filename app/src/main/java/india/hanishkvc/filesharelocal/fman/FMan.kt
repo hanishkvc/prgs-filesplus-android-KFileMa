@@ -137,7 +137,7 @@ object FMan {
      * NOTE: First time when called, it should be non null
      */
     fun loadPath(path: String? = null, clear: Boolean = true): Boolean {
-        var bDone: Boolean = false
+        var bDone = false
         if (clear) clearItems()
         if (path != null) {
             curPath = Paths.get(path)
@@ -153,7 +153,7 @@ object FMan {
             bDone = true
         } catch (e: Exception) {
             Log.e(TAGME, "loadPath:Failed: $curPath")
-            Log.e(TAGME, "${e.toString()}")
+            Log.e(TAGME, "$e")
         }
         return bDone
     }
