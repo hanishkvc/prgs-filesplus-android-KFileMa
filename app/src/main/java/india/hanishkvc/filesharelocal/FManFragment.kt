@@ -46,9 +46,19 @@ class FManFragment : Fragment() {
         }
 
         recyclerView?.setOnClickListener {
-            val rv = it as RecyclerView
-            val vh = rv.getChildViewHolder(rv) as FManRecyclerViewAdapter.ViewHolder
-            Log.v(TAGME, "RVOnClick:${vh.id}, ${vh.pathView}")
+            Log.v(TAGME, "RVOnClick:DBG: ${it.javaClass}")
+            if (it is RecyclerView) {
+                Log.v(TAGME, "RVOnClick:DBG: ${it.javaClass}")
+                if (it.focusedChild != null) {
+                    Log.v(TAGME, "RVOnClick:DBG: ${it.focusedChild?.javaClass}")
+                    val vh = it.getChildViewHolder(it.focusedChild)
+                    if (vh is FManRecyclerViewAdapter.ViewHolder) {
+                        Log.v(TAGME, "RVOnClick: ${vh.id}, ${vh.pathView}")
+                    }
+                }
+            } else {
+                Log.v(TAGME, "RVOnClick:DBG: ${it.javaClass}")
+            }
         }
 
         return recyclerView
