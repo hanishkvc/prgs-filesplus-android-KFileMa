@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Environment
 import android.os.storage.StorageManager
 import android.util.Log
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -32,10 +33,10 @@ object FMan {
     /**
      * the current path
      */
-    var curPath: Path? = null
+    var curPath: File? = null
         set(value) {
             if (value != null) {
-                field = value.toRealPath()
+                field = value.canonicalFile
             } else {
                 field = null
             }
@@ -140,13 +141,13 @@ object FMan {
         var bDone = false
         if (clear) clearItems()
         if (path != null) {
-            curPath = Paths.get(path)
+            curPath = File(path)
         }
         Log.v(TAGME, "loadPath: $curPath")
         try {
             var iCur = 0
-            for (de in Files.list(curPath)) {
-                val sType = if (Files.isDirectory(de)) FManItemType.DIR else FManItemType.FILE
+            for (de in curPath!!.listFiles()) {
+                val sType = if (de.isDirectory) FManItemType.DIR else FManItemType.FILE
                 addItem(createFManItem(iCur, de.normalize().toString(), sType))
                 iCur += 1
             }
@@ -163,13 +164,12 @@ object FMan {
      */
     fun backPath(): String {
         Log.v(TAGME, "backPath:I: $curPath")
-        if (curPath?.count() == 1) {
-            curPath = curPath?.root
-        } else {
-            curPath = curPath?.subpath(0, curPath?.nameCount?.minus(1)!!)
+        curPath = curPath?.parentFile
+        if (curPath == null) {
+            curPath = File("/")
         }
         Log.v(TAGME, "backPath:O: $curPath")
-        return curPath?.toAbsolutePath().toString()
+        return curPath.toString()
     }
 
     private fun createFManItem(position: Int, path: String, type: FManItemType): FManItem {
