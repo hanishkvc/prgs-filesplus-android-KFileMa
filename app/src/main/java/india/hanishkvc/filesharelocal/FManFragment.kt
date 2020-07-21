@@ -16,7 +16,7 @@ import india.hanishkvc.filesharelocal.fman.FMan
  */
 class FManFragment : Fragment() {
 
-    val TAGME = "FManFrag"
+    private val TAGME = "FManFrag"
     private var columnCount = 1
     private var recyclerView: RecyclerView? = null
 
@@ -54,7 +54,7 @@ class FManFragment : Fragment() {
         return recyclerView
     }
 
-    public fun updateFrag() {
+    fun updateFrag() {
         recyclerView?.adapter?.notifyDataSetChanged()
     }
 

@@ -16,7 +16,7 @@ import java.nio.file.Paths
  */
 object FMan {
 
-    val TAGME = "FSLFMan"
+    private const val TAGME = "FSLFMan"
 
     /**
      * Maintain a list of storage base paths (as strings)
@@ -59,13 +59,13 @@ object FMan {
         // Do nothing for now
     }
 
-    public fun dummyItems(start: Int, end: Int) {
+    fun dummyItems(start: Int, end: Int) {
         for (i in start..end) {
             addItem(createFManItem(i, "path$i", FManItemType.NONE_TEST))
         }
     }
 
-    public fun clearItems() {
+    private fun clearItems() {
         ITEMS.clear()
     }
 
@@ -136,7 +136,7 @@ object FMan {
      * Fetch the directory entries for the specified path
      * NOTE: First time when called, it should be non null
      */
-    public fun loadPath(path: String? = null, clear: Boolean = true): Boolean {
+    fun loadPath(path: String? = null, clear: Boolean = true): Boolean {
         var bDone: Boolean = false
         if (clear) clearItems()
         if (path != null) {
@@ -146,7 +146,7 @@ object FMan {
         try {
             var iCur = 0
             for (de in Files.list(curPath)) {
-                var sType = if (Files.isDirectory(de)) FManItemType.DIR else FManItemType.FILE
+                val sType = if (Files.isDirectory(de)) FManItemType.DIR else FManItemType.FILE
                 addItem(createFManItem(iCur, de.normalize().toString(), sType))
                 iCur += 1
             }
@@ -161,7 +161,7 @@ object FMan {
     /**
      * Go back one step in the current Path
      */
-    public fun backPath(): String {
+    fun backPath(): String {
         Log.v(TAGME, "backPath:I: $curPath")
         if (curPath?.count() == 1) {
             curPath = curPath?.root
@@ -184,6 +184,6 @@ object FMan {
     }
 
     interface FManItemSelectIF {
-        abstract fun onSelectListener(itemId: Int)
+        fun onSelectListener(itemId: Int)
     }
 }
