@@ -67,7 +67,7 @@ object FMan {
         ITEMS.add(item)
     }
 
-    private fun getBasePath(inPath: File, marker: String): File? {
+    private fun getBasePath(inPath: File?, marker: String): File? {
         var basePath = inPath
         var exitNext = false
         while(basePath != null) {
