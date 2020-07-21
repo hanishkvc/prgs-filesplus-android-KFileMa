@@ -57,6 +57,7 @@ class FManFragment : Fragment() {
                 listIndex += 1
                 if (listIndex > FMan.ITEMS.size) listIndex = 0
                 bAct = true
+                recyclerView?.smoothScrollToPosition(listIndex)
             }
             if (bAct) {
                 recyclerView?.getChildAt(listIndex)?.let {
