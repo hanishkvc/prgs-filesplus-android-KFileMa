@@ -2,6 +2,7 @@ package india.hanishkvc.filesharelocal
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import india.hanishkvc.filesharelocal.fman.FMan
 /**
  * A fragment representing a list of Items.
  */
+@Suppress("MoveLambdaOutsideParentheses")
 class FManFragment : Fragment() {
 
     private val TAGME = "FManFrag"
@@ -45,7 +47,11 @@ class FManFragment : Fragment() {
             }
         }
 
-        recyclerView?.setOnClickListener {
+        recyclerView?.setOnKeyListener({ view: View, i: Int, keyEvent: KeyEvent ->
+            false // The last line / expression is the return value of the lambda fun
+        })
+
+        recyclerView?.setOnClickListener({
             Log.v(TAGME, "RVOnClick:DBG: ${it.javaClass}")
             if (it is RecyclerView) {
                 Log.v(TAGME, "RVOnClick:DBG: ${it.javaClass}")
@@ -59,7 +65,7 @@ class FManFragment : Fragment() {
             } else {
                 Log.v(TAGME, "RVOnClick:DBG: ${it.javaClass}")
             }
-        }
+        })
 
         return recyclerView
     }
