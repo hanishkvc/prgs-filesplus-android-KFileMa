@@ -83,7 +83,7 @@ class FManFragment : Fragment() {
 
     companion object {
 
-        var listIndex: Int = 0
+        var listIndex: Int = -1
 
         // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
