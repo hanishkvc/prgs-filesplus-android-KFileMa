@@ -49,17 +49,17 @@ class FManFragment : Fragment() {
         }
 
         recyclerView?.setOnKeyListener({ view: View, i: Int, keyEvent: KeyEvent ->
-            Log.v(TAGME, "OnKey: ${view.javaClass}, $i, ${keyEvent.action}")
             val prevIndex = listIndex
             var bAct = false
             if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_DOWN)
                     && (keyEvent.action == KeyEvent.ACTION_UP) ) {
                 listIndex += 1
-                if (listIndex > FMan.ITEMS.size) listIndex = 0
+                if (listIndex >= FMan.ITEMS.size) listIndex = 0
                 bAct = true
                 recyclerView?.smoothScrollToPosition(listIndex)
             }
             if (bAct) {
+                Log.v(TAGME, "OnKey:${listIndex}: $i, ${keyEvent.action}")
                 recyclerView?.getChildAt(listIndex)?.let {
                     val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
                     vh.pathView.setBackgroundColor(Color.LTGRAY)
