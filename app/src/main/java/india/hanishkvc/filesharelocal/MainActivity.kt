@@ -114,6 +114,8 @@ class MainActivity : AppCompatActivity() {
                 val vols = FMan.getVolumes(this)
                 thePath = vols[0]
                 volumeSelector(vols.toTypedArray())
+            } else {
+                FManFragment.listIndex = -1
             }
         }
         fragMain?.updateFrag()
