@@ -66,13 +66,13 @@ class FManFragment : Fragment() {
             }
             if (bAct) {
                 Log.v(TAGME, "OnKey:${listIndex}: $i, ${keyEvent.action}")
-                recyclerView?.getChildAt(listIndex)?.let {
-                    val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
-                    vh.pathView.setBackgroundColor(Color.LTGRAY)
-                }
                 recyclerView?.getChildAt(prevIndex)?.let {
                     val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
                     vh.pathView.setBackgroundColor(Color.WHITE)
+                }
+                recyclerView?.getChildAt(listIndex)?.let {
+                    val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
+                    vh.pathView.setBackgroundColor(Color.LTGRAY)
                 }
                 return@setOnKeyListener true
             } else {
