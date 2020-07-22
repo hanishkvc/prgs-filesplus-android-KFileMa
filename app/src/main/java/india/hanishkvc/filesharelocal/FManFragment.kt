@@ -113,15 +113,7 @@ class FManFragment : Fragment() {
     }
 
     fun updateFrag() {
-        highlightRecyclerItem(listIndex, false)
-        recyclerView?.removeAllViews()
-        //recyclerView?.Recycler()?.clear()
         recyclerView?.adapter?.notifyDataSetChanged()
-        /*
-        recyclerView?.post {
-            recyclerView?.scrollToPosition(0)
-        }
-        */
     }
 
     companion object {
