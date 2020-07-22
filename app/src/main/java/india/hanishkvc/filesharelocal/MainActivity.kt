@@ -128,13 +128,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun volumeSelector(sPaths: Array<String>) {
+        val sPathsPlus = sPaths + "Exit"
         val builder = AlertDialog.Builder(this).also {
             it.setTitle("Select Volume")
-            it.setItems(sPaths,
+            it.setItems(sPathsPlus,
                 { dialogInterface: DialogInterface, i: Int ->
-                    FMan.volIndex = i
-                    Log.v(TAGME, "SelVolDlg:$i")
-                    loadPath(FMan.volBasePathStrs[i])
+                    if (i >= FMan.volBasePathStrs.size) {
+                        finish()
+                    } else {
+                        FMan.volIndex = i
+                        Log.v(TAGME, "SelVolDlg:$i")
+                        loadPath(FMan.volBasePathStrs[i])
+                    }
                 })
         }
         val dlg = builder.create()
