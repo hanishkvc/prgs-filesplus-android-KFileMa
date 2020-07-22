@@ -108,6 +108,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadPath(path: String? = null) {
         var thePath = path
         var bLoaded = false
+        fragMain?.clearHighlights()
         while (!bLoaded) {
             Log.v(TAGME,"loadPath: $thePath")
             if (thePath != null) {
