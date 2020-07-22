@@ -6,10 +6,14 @@
 package india.hanishkvc.filesharelocal
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -17,6 +21,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import india.hanishkvc.filesharelocal.fman.FMan
 import india.hanishkvc.filesharelocal.fman.FMan.FManItemSelectIF
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -62,10 +67,25 @@ class MainActivity : AppCompatActivity() {
                 Log.v(TAGME, "FManISIF: $itemId, ${FMan.ITEMS[itemId]}")
                 if (FMan.ITEMS[itemId].type == FMan.FManItemType.DIR) {
                     loadPath(FMan.ITEMS[itemId].path)
+                } else {
+                    viewFile(FMan.ITEMS[itemId].path)
                 }
             }
         }
 
+    }
+
+    private fun viewFile(path: String) {
+        val intent = Intent()
+        intent.action = Intent.ACTION_VIEW
+        intent.data = Uri.fromFile(File(path))
+        intent.type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(File(path).extension)
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+
+            Toast.makeText(this, "Android didnt find any Viewer",Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onBackPressed() {
