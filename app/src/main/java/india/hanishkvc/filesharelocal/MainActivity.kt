@@ -76,14 +76,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun viewFile(path: String) {
-        val intent = Intent()
-        intent.action = Intent.ACTION_VIEW
-        intent.data = Uri.fromFile(File(path))
-        intent.type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(File(path).extension)
+        val file = File(path)
+        val uri = Uri.fromFile(file)
+        val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(File(path).extension)
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        intent.setDataAndType(uri,mime)
         try {
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-
+            Log.v(TAGME, "$intent, $e")
             Toast.makeText(this, "Android didnt find any Viewer",Toast.LENGTH_SHORT).show()
         }
     }
