@@ -67,9 +67,9 @@ class FManFragment : Fragment() {
             }
             if (bAct) {
                 Log.v(TAGME, "OnKey:${listIndex}: $i, ${keyEvent.action}")
+                highlightRecyclerItem(prevIndex, false)
                 recyclerView?.post {
                     highlightRecyclerItem(listIndex, true)
-                    highlightRecyclerItem(prevIndex, false)
                 }
                 return@setOnKeyListener true
             } else {
@@ -114,6 +114,7 @@ class FManFragment : Fragment() {
 
     fun updateFrag() {
         recyclerView?.adapter?.notifyDataSetChanged()
+        recyclerView?.scrollToPosition(0)
     }
 
     companion object {
