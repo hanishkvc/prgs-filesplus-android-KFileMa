@@ -12,6 +12,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.FileUriExposedException
 import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.Button
@@ -83,9 +84,14 @@ class MainActivity : AppCompatActivity() {
         intent.setDataAndType(uri,mime)
         try {
             startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
+        } catch (e: Exception) {
             Log.v(TAGME, "$intent, $e")
-            Toast.makeText(this, "Android didnt find any Viewer",Toast.LENGTH_SHORT).show()
+            var msg = "Exception occured"
+            when(e) {
+                is ActivityNotFoundException -> msg = "Didnt find any Viewer"
+                is FileUriExposedException -> msg = "Cant share with other app"
+            }
+            Toast.makeText(this, "Android:$msg",Toast.LENGTH_SHORT).show()
         }
     }
 
