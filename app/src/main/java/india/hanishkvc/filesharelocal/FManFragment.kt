@@ -1,7 +1,6 @@
 package india.hanishkvc.filesharelocal
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -69,8 +68,8 @@ class FManFragment : Fragment() {
             if (bAct) {
                 Log.v(TAGME, "OnKey:${listIndex}: $i, ${keyEvent.action}")
                 recyclerView?.post {
-                    colorRecyclerItem(prevIndex, Color.WHITE)
-                    colorRecyclerItem(listIndex, Color.LTGRAY)
+                    highlightRecyclerItem(listIndex, true)
+                    highlightRecyclerItem(prevIndex, false)
                 }
                 return@setOnKeyListener true
             } else {
@@ -101,7 +100,7 @@ class FManFragment : Fragment() {
             val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
             var color = vh.pathView.highlightColor
             if (highlight) {
-                colorBackground = (vh.pathView.background as ColorDrawable).color
+                colorBackground = vh.pathView.backgroundTintList?.defaultColor ?: Color.WHITE
             } else {
                 color = colorBackground
             }
@@ -110,7 +109,7 @@ class FManFragment : Fragment() {
     }
 
     fun clearHighlights() {
-        colorRecyclerItem(listIndex, Color.WHITE)
+        highlightRecyclerItem(listIndex, false)
     }
 
     fun updateFrag() {
