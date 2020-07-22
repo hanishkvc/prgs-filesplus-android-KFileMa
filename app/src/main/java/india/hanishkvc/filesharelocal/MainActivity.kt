@@ -84,8 +84,9 @@ class MainActivity : AppCompatActivity() {
         intent.setDataAndType(uri,mime)
         try {
             startActivity(intent)
+            Log.v(TAGME, "$intent")
         } catch (e: Exception) {
-            Log.v(TAGME, "$intent, $e")
+            Log.e(TAGME, "$intent, $e")
             var msg = "Exception occured"
             when(e) {
                 is ActivityNotFoundException -> msg = "Didnt find any Viewer"
