@@ -61,7 +61,6 @@ class FManFragment : Fragment() {
                 }
                 if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
                     (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ) {
-                    colorRecyclerItem(listIndex, Color.WHITE)
                     FMan.fManItemSelectIF?.onSelectListener(listIndex)
                     return@setOnKeyListener true
                 }
@@ -94,6 +93,10 @@ class FManFragment : Fragment() {
             val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
             vh.pathView.setBackgroundColor(color)
         }
+    }
+
+    fun clearHighlights() {
+        colorRecyclerItem(listIndex, Color.WHITE)
     }
 
     fun updateFrag() {

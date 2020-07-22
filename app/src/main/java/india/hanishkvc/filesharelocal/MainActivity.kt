@@ -119,6 +119,7 @@ class MainActivity : AppCompatActivity() {
                 thePath = vols[0]
                 volumeSelector(vols.toTypedArray())
             } else {
+                fragMain?.clearHighlights()
                 FManFragment.listIndex = -1
             }
         }
