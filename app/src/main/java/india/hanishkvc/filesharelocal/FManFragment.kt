@@ -57,7 +57,7 @@ class FManFragment : Fragment() {
                     listIndex += 1
                     if (listIndex >= FMan.ITEMS.size) listIndex = 0
                     bAct = true
-                    recyclerView?.smoothScrollToPosition(listIndex)
+                    recyclerView?.scrollToPosition(listIndex)
                 }
                 if (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
                     FMan.fManItemSelectIF?.onSelectListener(listIndex)
@@ -74,13 +74,15 @@ class FManFragment : Fragment() {
                  *      but there seems to be some racing issue. Maybe I have to let scroll
                  *      finish before doing this? Maybe??
                  */
-                recyclerView?.layoutManager?.findViewByPosition(prevIndex)?.let {
-                    val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
-                    vh.pathView.setBackgroundColor(Color.WHITE)
-                }
-                recyclerView?.layoutManager?.findViewByPosition(listIndex)?.let {
-                    val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
-                    vh.pathView.setBackgroundColor(Color.LTGRAY)
+                recyclerView?.post {
+                    recyclerView?.layoutManager?.findViewByPosition(prevIndex)?.let {
+                        val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
+                        vh.pathView.setBackgroundColor(Color.WHITE)
+                    }
+                    recyclerView?.layoutManager?.findViewByPosition(listIndex)?.let {
+                        val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
+                        vh.pathView.setBackgroundColor(Color.LTGRAY)
+                    }
                 }
                 return@setOnKeyListener true
             } else {
