@@ -59,7 +59,8 @@ class FManFragment : Fragment() {
                     bAct = true
                     recyclerView?.scrollToPosition(listIndex)
                 }
-                if (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+                if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
+                    (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ) {
                     FMan.fManItemSelectIF?.onSelectListener(listIndex)
                     return@setOnKeyListener true
                 }
