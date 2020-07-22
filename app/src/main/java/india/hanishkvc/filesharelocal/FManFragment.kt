@@ -61,29 +61,16 @@ class FManFragment : Fragment() {
                 }
                 if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
                     (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ) {
+                    colorRecyclerItem(listIndex, Color.WHITE)
                     FMan.fManItemSelectIF?.onSelectListener(listIndex)
                     return@setOnKeyListener true
                 }
             }
             if (bAct) {
                 Log.v(TAGME, "OnKey:${listIndex}: $i, ${keyEvent.action}")
-                /*
-                 * get(index), here index seems to represent index of list of viewholders
-                 * getChildAt(index), index seems to belong to some internal list,
-                 *      which we dont have info about
-                 * findViewByPosition(index), index seems to represent actual list order,
-                 *      but there seems to be some racing issue. Maybe I have to let scroll
-                 *      finish before doing this? Maybe??
-                 */
                 recyclerView?.post {
-                    recyclerView?.layoutManager?.findViewByPosition(prevIndex)?.let {
-                        val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
-                        vh.pathView.setBackgroundColor(Color.WHITE)
-                    }
-                    recyclerView?.layoutManager?.findViewByPosition(listIndex)?.let {
-                        val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
-                        vh.pathView.setBackgroundColor(Color.LTGRAY)
-                    }
+                    colorRecyclerItem(prevIndex, Color.WHITE)
+                    colorRecyclerItem(listIndex, Color.LTGRAY)
                 }
                 return@setOnKeyListener true
             } else {
@@ -92,6 +79,21 @@ class FManFragment : Fragment() {
         })
 
         return recyclerView
+    }
+
+    private fun colorRecyclerItem(position: Int, color: Int) {
+        /*
+         * get(index), here index seems to represent index of list of viewholders
+         * getChildAt(index), index seems to belong to some internal list,
+         *      which we dont have info about
+         * findViewByPosition(index), index seems to represent actual list order,
+         *      but there seems to be some racing issue. Maybe I have to let scroll
+         *      finish before doing this? Maybe?? Update: Yes that was right.
+         */
+        recyclerView?.layoutManager?.findViewByPosition(position)?.let {
+            val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
+            vh.pathView.setBackgroundColor(color)
+        }
     }
 
     fun updateFrag() {
