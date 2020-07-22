@@ -1,6 +1,7 @@
 package india.hanishkvc.filesharelocal
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -95,6 +96,19 @@ class FManFragment : Fragment() {
         }
     }
 
+    private fun highlightRecyclerItem(position: Int, highlight: Boolean = true) {
+        recyclerView?.layoutManager?.findViewByPosition(position)?.let {
+            val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
+            var color = vh.pathView.highlightColor
+            if (highlight) {
+                colorBackground = (vh.pathView.background as ColorDrawable).color
+            } else {
+                color = colorBackground
+            }
+            vh.pathView.setBackgroundColor(color)
+        }
+    }
+
     fun clearHighlights() {
         colorRecyclerItem(listIndex, Color.WHITE)
     }
@@ -106,6 +120,7 @@ class FManFragment : Fragment() {
     companion object {
 
         var listIndex: Int = -1
+        var colorBackground: Int = Color.WHITE
 
         // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
