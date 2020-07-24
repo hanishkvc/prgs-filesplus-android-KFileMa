@@ -180,5 +180,7 @@ object FMan {
 
     interface FManItemInteractionIF {
         fun doNavigate(itemId: Int)
+        fun doSelect(itemId: Int): Boolean
     }
+
 }

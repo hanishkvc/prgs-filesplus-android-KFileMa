@@ -72,6 +72,10 @@ class MainActivity : AppCompatActivity() {
                     viewFile(FMan.ITEMS[itemId].path)
                 }
             }
+
+            override fun doSelect(itemId: Int): Boolean {
+                TODO("Not yet implemented")
+            }
         }
 
     }
