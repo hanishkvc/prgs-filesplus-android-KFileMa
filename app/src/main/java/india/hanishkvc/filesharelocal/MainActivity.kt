@@ -23,7 +23,9 @@ import androidx.appcompat.app.AppCompatActivity
 import india.hanishkvc.filesharelocal.fman.FMan
 import india.hanishkvc.filesharelocal.fman.FMan.FManItemInteractionIF
 import java.io.File
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 class MainActivity : AppCompatActivity() {
 
     private val TAGME = "FSLMain"
@@ -74,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun doSelect(itemId: Int): Boolean {
-                TODO("Not yet implemented")
+                return true
             }
         }
 

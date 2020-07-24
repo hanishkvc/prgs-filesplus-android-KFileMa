@@ -12,10 +12,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import india.hanishkvc.filesharelocal.fman.FMan
+import kotlin.time.ExperimentalTime
+import kotlin.time.TimeMark
+import kotlin.time.TimeSource
 
 /**
  * A fragment representing a list of Items.
  */
+@ExperimentalTime
 @Suppress("MoveLambdaOutsideParentheses")
 class FManFragment : Fragment() {
 
@@ -61,9 +65,13 @@ class FManFragment : Fragment() {
                 }
                 if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
                     (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ) {
+                    Log.v(TAGME, "TimeElapsed: timeMark?.elapsedNow().inMilliseconds")
                     FMan.fManItemInteractionIF?.doNavigate(listIndex)
                     return@setOnKeyListener true
                 }
+            }
+            if (keyEvent.action == KeyEvent.ACTION_DOWN) {
+                timeMark = TimeSource.Monotonic.markNow()
             }
             if (bAct) {
                 Log.v(TAGME, "OnKey:${listIndex}: $i, ${keyEvent.action}")
@@ -121,6 +129,7 @@ class FManFragment : Fragment() {
 
         var listIndex: Int = -1
         var colorBackground: Int = Color.WHITE
+        var timeMark: TimeMark? = null
 
         // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
