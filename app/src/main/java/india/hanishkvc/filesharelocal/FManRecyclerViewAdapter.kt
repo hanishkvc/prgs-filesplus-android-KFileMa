@@ -46,6 +46,11 @@ class FManRecyclerViewAdapter(
                 Log.v(TAGME, "VHOnClick:${id}, ${pathView.text}, ${FMan.ITEMS[id]}")
                 FMan.fManItemSelectIF?.onSelectListener(id)
             }
+
+            view.setOnLongClickListener {
+                Log.v(TAGME, "VHOnClick:${id}, ${pathView.text}, ${FMan.ITEMS[id]}")
+                FMan.fManItemSelectIF?.onLongClickListener(id)
+            }
         }
 
         override fun toString(): String {
