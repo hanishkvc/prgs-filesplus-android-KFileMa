@@ -65,13 +65,16 @@ class FManFragment : Fragment() {
                 }
                 if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
                     (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ) {
-                    Log.v(TAGME, "TimeElapsed: timeMark?.elapsedNow().inMilliseconds")
+                    Log.v(TAGME, "TimeElapsed: ${timeMark?.elapsedNow()?.inMilliseconds}")
+                    if (timeMark != null) timeMark = null
                     FMan.fManItemInteractionIF?.doNavigate(listIndex)
                     return@setOnKeyListener true
                 }
             }
             if (keyEvent.action == KeyEvent.ACTION_DOWN) {
-                timeMark = TimeSource.Monotonic.markNow()
+                if (timeMark == null) {
+                    timeMark = TimeSource.Monotonic.markNow()
+                }
             }
             if (bAct) {
                 Log.v(TAGME, "OnKey:${listIndex}: $i, ${keyEvent.action}")
