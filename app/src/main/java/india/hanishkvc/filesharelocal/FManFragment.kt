@@ -51,6 +51,7 @@ class FManFragment : Fragment() {
                 this?.adapter = FManRecyclerViewAdapter(FMan.ITEMS)
             }
         }
+        recyclerView?.preserveFocusAfterLayout = true
 
         recyclerView?.setOnKeyListener({ view: View, i: Int, keyEvent: KeyEvent ->
             val prevIndex = listIndex
@@ -122,7 +123,8 @@ class FManFragment : Fragment() {
             vh.pathView.setBackgroundColor(color)
              */
             if (highlight) {
-                vh.itemView.setActivated(true)
+                //vh.itemView.setActivated(true)
+                vh.itemView.requestFocus()
             } else {
                 vh.itemView.setActivated(false)
             }
