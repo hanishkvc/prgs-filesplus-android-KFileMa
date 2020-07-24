@@ -48,7 +48,7 @@ class FManRecyclerViewAdapter(
             }
 
             view.setOnLongClickListener {
-                Log.v(TAGME, "VHOnClick:${id}, ${pathView.text}, ${FMan.ITEMS[id]}")
+                Log.v(TAGME, "VHOnLongClick:${id}, ${pathView.text}, ${FMan.ITEMS[id]}")
                 FMan.fManItemInteractionIF?.doSelect(id)!!
             }
         }

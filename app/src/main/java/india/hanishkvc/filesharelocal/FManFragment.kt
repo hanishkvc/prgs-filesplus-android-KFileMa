@@ -151,6 +151,3 @@ class FManFragment : Fragment() {
     }
 }
 
-private fun RecyclerView.onKeyDown(keyCode: Int, keyEvent: KeyEvent) {
-    Log.v("SPECIAL", "OnKeyDown")
-}
