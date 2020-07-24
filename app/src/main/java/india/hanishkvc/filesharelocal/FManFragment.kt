@@ -64,6 +64,13 @@ class FManFragment : Fragment() {
                     bAct = true
                     recyclerView?.scrollToPosition(listIndex)
                 }
+                if (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                    listIndex -= 1
+                    if (listIndex >= 0) {
+                        bAct = true
+                        recyclerView?.scrollToPosition(listIndex)
+                    }
+                }
                 if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
                     (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ) {
                     Log.v(TAGME, "TimeElapsed: ${timeMark?.elapsedNow()?.inMilliseconds}")
@@ -123,7 +130,7 @@ class FManFragment : Fragment() {
             vh.pathView.setBackgroundColor(color)
              */
             if (highlight) {
-                //vh.itemView.setActivated(true)
+                vh.itemView.setActivated(true)
                 vh.itemView.requestFocus()
             } else {
                 vh.itemView.setActivated(false)
