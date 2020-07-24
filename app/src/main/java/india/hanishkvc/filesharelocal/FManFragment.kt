@@ -112,6 +112,7 @@ class FManFragment : Fragment() {
     private fun highlightRecyclerItem(position: Int, highlight: Boolean = true) {
         recyclerView?.layoutManager?.findViewByPosition(position)?.let {
             val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
+            /*
             var color = vh.pathView.highlightColor
             if (highlight) {
                 colorBackground = vh.pathView.backgroundTintList?.defaultColor ?: Color.WHITE
@@ -119,6 +120,12 @@ class FManFragment : Fragment() {
                 color = colorBackground
             }
             vh.pathView.setBackgroundColor(color)
+             */
+            if (highlight) {
+                vh.itemView.requestFocus()
+            } else {
+                vh.itemView.clearFocus()
+            }
         }
     }
 
