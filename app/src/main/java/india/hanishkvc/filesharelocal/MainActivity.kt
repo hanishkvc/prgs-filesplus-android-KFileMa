@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
         checkPermissions()
         FMan.fManItemInteractionIF = object : FManItemInteractionIF {
-            override fun onSelectListener(itemId: Int) {
+            override fun doNavigate(itemId: Int) {
                 if ((itemId < 0) || (itemId >= FMan.ITEMS.size)) {
                     Log.v(TAGME, "FManISIF:Ignoring invalid $itemId/${FMan.ITEMS.size}")
                     return

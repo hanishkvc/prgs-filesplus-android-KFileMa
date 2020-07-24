@@ -179,6 +179,6 @@ object FMan {
     }
 
     interface FManItemInteractionIF {
-        fun onSelectListener(itemId: Int)
+        fun doNavigate(itemId: Int)
     }
 }

@@ -61,7 +61,7 @@ class FManFragment : Fragment() {
                 }
                 if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
                     (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ) {
-                    FMan.fManItemInteractionIF?.onSelectListener(listIndex)
+                    FMan.fManItemInteractionIF?.doNavigate(listIndex)
                     return@setOnKeyListener true
                 }
             }
