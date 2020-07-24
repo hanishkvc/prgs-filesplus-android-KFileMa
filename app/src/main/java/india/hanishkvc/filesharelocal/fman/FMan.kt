@@ -36,9 +36,9 @@ object FMan {
         }
 
     /**
-     * Hold a reference to a class/object implementing the FManItemSelectIF
+     * Hold a reference to a class/object implementing the FManItemInteractionIF
      */
-    var fManItemSelectIF: FManItemSelectIF? = null
+    var fManItemInteractionIF: FManItemInteractionIF? = null
 
     /**
      * Enum for directory entry types
@@ -178,7 +178,7 @@ object FMan {
         override fun toString(): String = path
     }
 
-    interface FManItemSelectIF {
+    interface FManItemInteractionIF {
         fun onSelectListener(itemId: Int)
     }
 }

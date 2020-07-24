@@ -21,7 +21,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import india.hanishkvc.filesharelocal.fman.FMan
-import india.hanishkvc.filesharelocal.fman.FMan.FManItemSelectIF
+import india.hanishkvc.filesharelocal.fman.FMan.FManItemInteractionIF
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Items ${FMan.ITEMS.size}", Toast.LENGTH_SHORT).show()
         }
         checkPermissions()
-        FMan.fManItemSelectIF = object : FManItemSelectIF {
+        FMan.fManItemInteractionIF = object : FManItemInteractionIF {
             override fun onSelectListener(itemId: Int) {
                 if ((itemId < 0) || (itemId >= FMan.ITEMS.size)) {
                     Log.v(TAGME, "FManISIF:Ignoring invalid $itemId/${FMan.ITEMS.size}")
