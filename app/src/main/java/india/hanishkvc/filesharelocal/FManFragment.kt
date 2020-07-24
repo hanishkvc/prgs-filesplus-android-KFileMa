@@ -72,8 +72,11 @@ class FManFragment : Fragment() {
                 }
             }
             if (keyEvent.action == KeyEvent.ACTION_DOWN) {
-                if (timeMark == null) {
-                    timeMark = TimeSource.Monotonic.markNow()
+                if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
+                    (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ) {
+                    if (timeMark == null) {
+                        timeMark = TimeSource.Monotonic.markNow()
+                    }
                 }
             }
             if (bAct) {
