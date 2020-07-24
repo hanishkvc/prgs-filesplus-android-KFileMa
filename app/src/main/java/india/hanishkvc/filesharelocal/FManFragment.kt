@@ -122,9 +122,9 @@ class FManFragment : Fragment() {
             vh.pathView.setBackgroundColor(color)
              */
             if (highlight) {
-                vh.itemView.requestFocus()
+                vh.itemView.setActivated(true)
             } else {
-                vh.itemView.clearFocus()
+                vh.itemView.setActivated(false)
             }
         }
     }
