@@ -16,7 +16,7 @@ import java.io.File
  * TODO: Replace the implementation with code for your data type.
  */
 class FManRecyclerViewAdapter(
-    private val values: List<FManItem>
+    private val fmd: FMan.FManData
 ) : RecyclerView.Adapter<FManRecyclerViewAdapter.ViewHolder>() {
 
     private val TAGME = "FManRVAdap"
@@ -29,7 +29,7 @@ class FManRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
+        val item = fmd.ITEMS[position]
         holder.id = item.id
         holder.typeView.text = item.type.shortDesc
         holder.pathView.text = item.path.substringAfterLast(File.separator)
@@ -48,7 +48,7 @@ class FManRecyclerViewAdapter(
         return FMan.fManItemInteractionIF?.doSelect(position)!!
     }
 
-    override fun getItemCount(): Int = values.size
+    override fun getItemCount(): Int = fmd.ITEMS.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var id: Int = -1
@@ -57,12 +57,12 @@ class FManRecyclerViewAdapter(
 
         init {
             view.setOnClickListener {
-                Log.v(TAGME, "VHOnClick:${id}, ${pathView.text}, ${values[id]}")
+                Log.v(TAGME, "VHOnClick:${id}, ${pathView.text}, ${fmd.ITEMS[id]}")
                 FMan.fManItemInteractionIF?.doNavigate(id)
             }
 
             view.setOnLongClickListener {
-                Log.v(TAGME, "VHOnLongClick:${it.javaClass}:${id}, ${pathView.text}, ${values[id]}")
+                Log.v(TAGME, "VHOnLongClick:${it.javaClass}:${id}, ${pathView.text}, ${fmd.ITEMS[id]}")
                 handleSelect(id, it)
             }
 
@@ -70,7 +70,7 @@ class FManRecyclerViewAdapter(
                 if (event != null) {
                     if ( (keyCode == KeyEvent.KEYCODE_SPACE) &&
                         (event.action == KeyEvent.ACTION_DOWN) ) {
-                        Log.v(TAGME, "VHOnKey:${v.javaClass}:SPACE:${id}, ${pathView.text}, ${values[id]}")
+                        Log.v(TAGME, "VHOnKey:${v.javaClass}:SPACE:${id}, ${pathView.text}, ${fmd.ITEMS[id]}")
                         return@setOnKeyListener handleSelect(id, v)
                     }
                 }
