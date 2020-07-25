@@ -159,8 +159,10 @@ object FMan {
                         iCur += 1
                     }
                 }
+                bDone = true
+            } else {
+                Log.w(TAGME, "loadPath:Failed:Null: $curPath")
             }
-            bDone = true
         } catch (e: Exception) {
             Log.e(TAGME, "loadPath:Failed: $curPath")
             Log.e(TAGME, "$e")
