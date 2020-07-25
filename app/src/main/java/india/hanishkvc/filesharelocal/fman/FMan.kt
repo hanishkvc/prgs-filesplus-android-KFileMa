@@ -142,21 +142,28 @@ object FMan {
         try {
             var iCur = 0
             val dEntries = curPath?.listFiles()
-            val dEntriesGrouped = dEntries?.groupBy {
-                if (it.isDirectory) FManItemType.DIR else FManItemType.FILE
-            }
-            for (de in dEntriesGrouped?.get(FManItemType.DIR)!!) {
-                addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.DIR))
-                iCur += 1
-            }
-            for (de in dEntriesGrouped?.get(FManItemType.FILE)!!) {
-                addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.FILE))
-                iCur += 1
+            if (dEntries != null) {
+                val dEntriesGrouped = dEntries.groupBy {
+                    if (it.isDirectory) FManItemType.DIR else FManItemType.FILE
+                }
+                if (dEntriesGrouped[FManItemType.DIR] != null) {
+                    for (de in dEntriesGrouped.get(FManItemType.DIR)!!) {
+                        addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.DIR))
+                        iCur += 1
+                    }
+                }
+                for (de in dEntriesGrouped.get(FManItemType.FILE)!!) {
+                    addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.FILE))
+                    iCur += 1
+                }
             }
             bDone = true
         } catch (e: Exception) {
             Log.e(TAGME, "loadPath:Failed: $curPath")
             Log.e(TAGME, "$e")
+            for (s in e.stackTrace) {
+                Log.e(TAGME, "${s.toString()}")
+            }
         }
         return bDone
     }
