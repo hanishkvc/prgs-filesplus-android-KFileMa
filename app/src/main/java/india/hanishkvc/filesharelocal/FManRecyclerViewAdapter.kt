@@ -37,11 +37,13 @@ class FManRecyclerViewAdapter(
         //Log.v(TAGME, "onBindVH:[${File.pathSeparator},${File.separator}]: in[${item.path}], out[${holder.pathView.text}]")
     }
 
-    fun handleSelect(position: Int): Boolean {
+    fun handleSelect(position: Int, view: View): Boolean {
         if (selected.contains(position)) {
             selected.remove(position)
+            view.isActivated = false
         } else {
             selected.add(position)
+            view.isActivated = true
         }
         return FMan.fManItemInteractionIF?.doSelect(position)!!
     }
@@ -60,16 +62,16 @@ class FManRecyclerViewAdapter(
             }
 
             view.setOnLongClickListener {
-                Log.v(TAGME, "VHOnLongClick:${id}, ${pathView.text}, ${values[id]}")
-                handleSelect(id)
+                Log.v(TAGME, "VHOnLongClick:${it.javaClass}:${id}, ${pathView.text}, ${values[id]}")
+                handleSelect(id, it)
             }
 
             view.setOnKeyListener { v, keyCode, event ->
                 if (event != null) {
                     if ( (keyCode == KeyEvent.KEYCODE_SPACE) &&
                         (event.action == KeyEvent.ACTION_DOWN) ) {
-                        Log.v(TAGME, "VHOnKey:SPACE:${id}, ${pathView.text}, ${values[id]}")
-                        return@setOnKeyListener handleSelect(id)
+                        Log.v(TAGME, "VHOnKey:${v.javaClass}:SPACE:${id}, ${pathView.text}, ${values[id]}")
+                        return@setOnKeyListener handleSelect(id, v)
                     }
                 }
                 false
