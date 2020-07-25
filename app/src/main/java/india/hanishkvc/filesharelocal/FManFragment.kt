@@ -2,8 +2,6 @@ package india.hanishkvc.filesharelocal
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import india.hanishkvc.filesharelocal.fman.FMan
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimeMark
-import kotlin.time.TimeSource
 
 /**
  * A fragment representing a list of Items.
@@ -52,53 +49,6 @@ class FManFragment : Fragment() {
             }
         }
         recyclerView?.preserveFocusAfterLayout = true
-
-        recyclerView?.setOnKeyListener({ view: View, i: Int, keyEvent: KeyEvent ->
-            val prevIndex = listIndex
-            var bAct = false
-
-            if (keyEvent.action == KeyEvent.ACTION_UP) {
-                if (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                    listIndex += 1
-                    if (listIndex >= FMan.ITEMS.size) listIndex = 0
-                    bAct = true
-                    recyclerView?.scrollToPosition(listIndex)
-                }
-                if (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-                    listIndex -= 1
-                    if (listIndex >= 0) {
-                        bAct = true
-                        recyclerView?.scrollToPosition(listIndex)
-                    }
-                }
-                if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
-                    (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ) {
-                    Log.v(TAGME, "TimeElapsed: ${timeMark?.elapsedNow()?.inMilliseconds}")
-                    if (timeMark != null) timeMark = null
-                    FMan.fManItemInteractionIF?.doNavigate(listIndex)
-                    return@setOnKeyListener true
-                }
-            }
-            if (keyEvent.action == KeyEvent.ACTION_DOWN) {
-                if ( (keyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
-                    (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ) {
-                    if (timeMark == null) {
-                        timeMark = TimeSource.Monotonic.markNow()
-                    }
-                }
-            }
-            if (bAct) {
-                Log.v(TAGME, "OnKey:${listIndex}: $i, ${keyEvent.action}")
-                highlightRecyclerItem(prevIndex, false)
-                recyclerView?.post {
-                    highlightRecyclerItem(listIndex, true)
-                }
-                return@setOnKeyListener true
-            } else {
-                false // The last line / expression is the return value of the lambda fun
-            }
-        })
-
         return recyclerView
     }
 
