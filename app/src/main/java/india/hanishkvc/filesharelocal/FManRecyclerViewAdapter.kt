@@ -20,6 +20,7 @@ class FManRecyclerViewAdapter(
 ) : RecyclerView.Adapter<FManRecyclerViewAdapter.ViewHolder>() {
 
     private val TAGME = "FManRVAdap"
+    val selected: ArrayList<Int> = ArrayList<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -32,7 +33,17 @@ class FManRecyclerViewAdapter(
         holder.id = item.id
         holder.typeView.text = item.type.shortDesc
         holder.pathView.text = item.path.substringAfterLast(File.separator)
+        if (selected.contains(position)) holder.itemView.setActivated(true) else holder.itemView.isActivated = false
         //Log.v(TAGME, "onBindVH:[${File.pathSeparator},${File.separator}]: in[${item.path}], out[${holder.pathView.text}]")
+    }
+
+    fun handleSelect(position: Int): Boolean {
+        if (selected.contains(position)) {
+            selected.remove(position)
+        } else {
+            selected.add(position)
+        }
+        return FMan.fManItemInteractionIF?.doSelect(position)!!
     }
 
     override fun getItemCount(): Int = values.size
@@ -50,7 +61,7 @@ class FManRecyclerViewAdapter(
 
             view.setOnLongClickListener {
                 Log.v(TAGME, "VHOnLongClick:${id}, ${pathView.text}, ${values[id]}")
-                FMan.fManItemInteractionIF?.doSelect(id)!!
+                handleSelect(id)
             }
 
             view.setOnKeyListener { v, keyCode, event ->
@@ -58,7 +69,7 @@ class FManRecyclerViewAdapter(
                     if ( (keyCode == KeyEvent.KEYCODE_SPACE) &&
                         (event.action == KeyEvent.ACTION_DOWN) ) {
                         Log.v(TAGME, "VHOnKey:SPACE:${id}, ${pathView.text}, ${values[id]}")
-                        return@setOnKeyListener FMan.fManItemInteractionIF?.doSelect(id)!!
+                        return@setOnKeyListener handleSelect(id)
                     }
                 }
                 false
