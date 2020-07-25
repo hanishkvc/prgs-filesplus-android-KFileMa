@@ -152,9 +152,12 @@ object FMan {
                         iCur += 1
                     }
                 }
-                for (de in dEntriesGrouped.get(FManItemType.FILE)!!) {
-                    addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.FILE))
-                    iCur += 1
+                val lFiles = dEntriesGrouped.get(FManItemType.FILE)
+                if (lFiles != null) {
+                    for (de in lFiles) {
+                        addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.FILE))
+                        iCur += 1
+                    }
                 }
             }
             bDone = true
