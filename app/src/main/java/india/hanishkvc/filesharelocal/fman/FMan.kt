@@ -23,19 +23,6 @@ object FMan {
     var volBasePathStrs = ArrayList<String>()
 
     /**
-     * An array of fman items.
-     */
-    val ITEMS: MutableList<FManItem> = ArrayList()
-
-    /**
-     * the current path
-     */
-    var curPath: File? = null
-        set(value) {
-            field = value?.canonicalFile
-        }
-
-    /**
      * Hold a reference to a class/object implementing the FManItemInteractionIF
      */
     var fManItemInteractionIF: FManItemInteractionIF? = null
@@ -51,20 +38,6 @@ object FMan {
 
     init {
         // Do nothing for now
-    }
-
-    fun dummyItems(start: Int, end: Int) {
-        for (i in start..end) {
-            addItem(createFManItem(i, "path$i", FManItemType.NONE_TEST))
-        }
-    }
-
-    private fun clearItems() {
-        ITEMS.clear()
-    }
-
-    private fun addItem(item: FManItem) {
-        ITEMS.add(item)
     }
 
     private fun getBasePath(inPath: File?, marker: String): File? {
@@ -98,7 +71,6 @@ object FMan {
     /**
      * Return a array of root storage paths
      */
-
     fun getVolumes(context: Context): ArrayList<String> {
         val vols = ArrayList<String>()
         // Get External storage paths usable by the App
@@ -128,71 +100,102 @@ object FMan {
         return vols
     }
 
-    /**
-     * Fetch the directory entries for the specified path
-     * NOTE: First time when called, it should be non null
-     */
-    fun loadPath(path: String? = null, clear: Boolean = true): Boolean {
-        var bDone = false
-        if (clear) clearItems()
-        if (path != null) {
-            curPath = File(path)
-        }
-        Log.v(TAGME, "loadPath: $curPath")
-        try {
-            var iCur = 0
-            val dEntries = curPath?.listFiles()
-            if (dEntries != null) {
-                val dEntriesGrouped = dEntries.groupBy {
-                    if (it.isDirectory) FManItemType.DIR else FManItemType.FILE
-                }
-                if (dEntriesGrouped[FManItemType.DIR] != null) {
-                    for (de in dEntriesGrouped.get(FManItemType.DIR)!!) {
-                        addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.DIR))
-                        iCur += 1
-                    }
-                }
-                val lFiles = dEntriesGrouped.get(FManItemType.FILE)
-                if (lFiles != null) {
-                    for (de in lFiles) {
-                        addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.FILE))
-                        iCur += 1
-                    }
-                }
-                bDone = true
-            } else {
-                Log.w(TAGME, "loadPath:Failed:Null: $curPath")
-            }
-        } catch (e: Exception) {
-            Log.e(TAGME, "loadPath:Failed: $curPath")
-            Log.e(TAGME, "$e")
-            for (s in e.stackTrace) {
-                Log.e(TAGME, "${s.toString()}")
-            }
-        }
-        return bDone
-    }
 
-    /**
-     * Go back one step in the current Path
-     */
-    fun backPath(): String {
-        Log.v(TAGME, "backPath:I: $curPath")
-        curPath = curPath?.parentFile
-        if (curPath == null) {
-            curPath = File("/")
-        }
-        Log.v(TAGME, "backPath:O: $curPath")
-        return curPath.toString()
-    }
+    class FManData {
+        /**
+         * An array of fman items.
+         */
+        val ITEMS: MutableList<FManItem> = ArrayList()
 
-    fun indexOf(path: String): Int {
-        for (i in ITEMS.indices) {
-            if (ITEMS[i].path == path) {
-                return i
+        /**
+         * the current path
+         */
+        var curPath: File? = null
+            set(value) {
+                field = value?.canonicalFile
+            }
+
+        fun clearItems() {
+            ITEMS.clear()
+        }
+
+        fun addItem(item: FManItem) {
+            ITEMS.add(item)
+        }
+
+        fun dummyItems(start: Int, end: Int) {
+            for (i in start..end) {
+                addItem(createFManItem(i, "path$i", FManItemType.NONE_TEST))
             }
         }
-        return -1
+
+        /**
+         * Fetch the directory entries for the specified path
+         * NOTE: First time when called, it should be non null
+         */
+        fun loadPath(path: String? = null, clear: Boolean = true): Boolean {
+            var bDone = false
+            if (clear) clearItems()
+            if (path != null) {
+                curPath = File(path)
+            }
+            Log.v(TAGME, "loadPath: $curPath")
+            try {
+                var iCur = 0
+                val dEntries = curPath?.listFiles()
+                if (dEntries != null) {
+                    val dEntriesGrouped = dEntries.groupBy {
+                        if (it.isDirectory) FManItemType.DIR else FManItemType.FILE
+                    }
+                    if (dEntriesGrouped[FManItemType.DIR] != null) {
+                        for (de in dEntriesGrouped.get(FManItemType.DIR)!!) {
+                            addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.DIR))
+                            iCur += 1
+                        }
+                    }
+                    val lFiles = dEntriesGrouped.get(FManItemType.FILE)
+                    if (lFiles != null) {
+                        for (de in lFiles) {
+                            addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.FILE))
+                            iCur += 1
+                        }
+                    }
+                    bDone = true
+                } else {
+                    Log.w(TAGME, "loadPath:Failed:Null: $curPath")
+                }
+            } catch (e: Exception) {
+                Log.e(TAGME, "loadPath:Failed: $curPath")
+                Log.e(TAGME, "$e")
+                for (s in e.stackTrace) {
+                    Log.e(TAGME, "${s.toString()}")
+                }
+            }
+            return bDone
+        }
+
+        /**
+         * Go back one step in the current Path
+         */
+        fun backPath(): String {
+            Log.v(TAGME, "backPath:I: $curPath")
+            curPath = curPath?.parentFile
+            if (curPath == null) {
+                curPath = File("/")
+            }
+            Log.v(TAGME, "backPath:O: $curPath")
+            return curPath.toString()
+        }
+
+        fun indexOf(path: String): Int {
+            for (i in ITEMS.indices) {
+                if (ITEMS[i].path == path) {
+                    return i
+                }
+            }
+            return -1
+        }
+
     }
 
     private fun createFManItem(position: Int, path: String, type: FManItemType): FManItem {
