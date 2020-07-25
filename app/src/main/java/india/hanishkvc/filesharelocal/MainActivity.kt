@@ -57,21 +57,21 @@ class MainActivity : AppCompatActivity() {
         btnUp = findViewById<Button>(R.id.btnUp)
         btnUp?.setOnClickListener {
             backPath()
-            Log.v(TAGME, "btnUp: items ${FMan.ITEMS.size}")
-            Toast.makeText(this,"Items ${FMan.ITEMS.size}", Toast.LENGTH_SHORT).show()
+            Log.v(TAGME, "btnUp: items ${fragMain!!.fmd?.ITEMS?.size}")
+            Toast.makeText(this,"Items ${fragMain?.fmd?.ITEMS?.size}", Toast.LENGTH_SHORT).show()
         }
         checkPermissions()
         FMan.fManItemInteractionIF = object : FManItemInteractionIF {
             override fun doNavigate(itemId: Int) {
-                if ((itemId < 0) || (itemId >= FMan.ITEMS.size)) {
-                    Log.v(TAGME, "FManISIF:Ignoring invalid $itemId/${FMan.ITEMS.size}")
+                if ((itemId < 0) || (itemId >= fragMain?.fmd?.ITEMS?.size!!)) {
+                    Log.v(TAGME, "FManISIF:Ignoring invalid $itemId/${fragMain?.fmd?.ITEMS?.size}")
                     return
                 }
-                Log.v(TAGME, "FManISIF: $itemId, ${FMan.ITEMS[itemId]}")
-                if (FMan.ITEMS[itemId].type == FMan.FManItemType.DIR) {
-                    loadPath(FMan.ITEMS[itemId].path)
+                Log.v(TAGME, "FManISIF: $itemId, ${fragMain?.fmd?.ITEMS!![itemId]}")
+                if (fragMain?.fmd?.ITEMS!![itemId].type == FMan.FManItemType.DIR) {
+                    loadPath(fragMain?.fmd?.ITEMS!![itemId].path)
                 } else {
-                    viewFile(FMan.ITEMS[itemId].path)
+                    viewFile(fragMain?.fmd?.ITEMS!![itemId].path)
                 }
             }
 
@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
             if (thePath != null) {
                 tvPath?.text = thePath
             }
-            bLoaded = FMan.loadPath(thePath, true)
+            bLoaded = fragMain?.fmd?.loadPath(thePath, true)!!
             if (!bLoaded) {
                 val vols = FMan.getVolumes(this)
                 thePath = vols[0]
@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         }
         var initialPosition = 0
         if (defEntry != null) {
-            initialPosition = FMan.indexOf(defEntry)
+            initialPosition = fragMain?.fmd?.indexOf(defEntry)!!
         }
         fragMain?.updateFrag(initialPosition=initialPosition)
     }
@@ -189,15 +189,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun backPath() {
-        val back = FMan.curPath.toString()
-        val path = FMan.backPath()
+        val back = fragMain?.fmd?.curPath.toString()
+        val path = fragMain?.fmd?.backPath()
         tvPath?.text = path
         Log.v(TAGME,"backPath: $path")
         loadPath(defEntry = back)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putCharSequence(BID_SAVEPATH,FMan.curPath.toString())
+        outState.putCharSequence(BID_SAVEPATH,fragMain?.fmd?.curPath.toString())
         Log.v(TAGME,"SaveState: ${outState.getCharSequence(BID_SAVEPATH)}")
         super.onSaveInstanceState(outState)
     }

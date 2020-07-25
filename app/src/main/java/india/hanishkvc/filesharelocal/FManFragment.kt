@@ -21,6 +21,7 @@ class FManFragment : Fragment() {
     private val TAGME = "FManFrag"
     private var columnCount = 1
     private var recyclerView: RecyclerView? = null
+    var fmd: FMan.FManData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,9 +44,9 @@ class FManFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                val fmd = FMan.FManData()
-                fmd.loadPath(context?.let { FMan.getDefaultVolume(it) })
-                this?.adapter = FManRecyclerViewAdapter(fmd)
+                fmd = FMan.FManData()
+                fmd!!.loadPath(context?.let { FMan.getDefaultVolume(it) })
+                this?.adapter = FManRecyclerViewAdapter(fmd!!)
             }
         }
         recyclerView?.preserveFocusAfterLayout = true
