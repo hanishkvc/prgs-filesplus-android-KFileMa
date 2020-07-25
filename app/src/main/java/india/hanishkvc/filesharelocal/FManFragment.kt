@@ -69,6 +69,10 @@ class FManFragment : Fragment() {
         recyclerView?.adapter?.notifyDataSetChanged()
         if (initialPosition >= 0) {
             recyclerView?.scrollToPosition(initialPosition)
+            recyclerView?.post {
+                val initialView = recyclerView?.layoutManager?.findViewByPosition(initialPosition)
+                initialView?.requestFocus()
+            }
         }
     }
 
