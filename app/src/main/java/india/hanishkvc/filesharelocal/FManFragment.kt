@@ -43,7 +43,9 @@ class FManFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                this?.adapter = FManRecyclerViewAdapter(FMan.ITEMS)
+                val fmd = FMan.FManData()
+                fmd.loadPath(context?.let { FMan.getDefaultVolume(it) })
+                this?.adapter = FManRecyclerViewAdapter(fmd)
             }
         }
         recyclerView?.preserveFocusAfterLayout = true

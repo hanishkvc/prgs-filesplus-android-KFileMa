@@ -68,6 +68,10 @@ object FMan {
         return vols
     }
 
+    fun getDefaultVolume(context: Context): String {
+        return context.filesDir.canonicalPath
+    }
+
     /**
      * Return a array of root storage paths
      */
