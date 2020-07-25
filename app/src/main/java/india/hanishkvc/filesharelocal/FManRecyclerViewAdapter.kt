@@ -22,7 +22,7 @@ class FManRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_fman, parent, false)
+            .inflate(R.layout.fragment_fman_item, parent, false)
         return ViewHolder(view)
     }
 

@@ -10,4 +10,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".FManFragment"
-    tools:listitem="@layout/fragment_fman" />
+    tools:listitem="@layout/fragment_fman_item" />
