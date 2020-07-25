@@ -65,9 +65,11 @@ class FManFragment : Fragment() {
         highlightRecyclerItem(listIndex, false)
     }
 
-    fun updateFrag() {
+    fun updateFrag(initialPosition: Int = -1) {
         recyclerView?.adapter?.notifyDataSetChanged()
-        recyclerView?.scrollToPosition(0)
+        if (initialPosition >= 0) {
+            recyclerView?.scrollToPosition(initialPosition)
+        }
     }
 
     companion object {
