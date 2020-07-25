@@ -54,12 +54,16 @@ class FManRecyclerViewAdapter(
             }
 
             view.setOnKeyListener { v, keyCode, event ->
-                if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                    Log.v(TAGME, "VHOnKey:DPAD_LEFT:${id}")
-                    return@setOnKeyListener true
+                if (event != null) {
+                    if ( (keyCode == KeyEvent.KEYCODE_SPACE) &&
+                        (event.action == KeyEvent.ACTION_DOWN) ) {
+                        Log.v(TAGME, "VHOnKey:SPACE:${id}, ${pathView.text}, ${FMan.ITEMS[id]}")
+                        return@setOnKeyListener FMan.fManItemInteractionIF?.doSelect(id)!!
+                    }
                 }
                 false
             }
+
         }
 
         override fun toString(): String {
