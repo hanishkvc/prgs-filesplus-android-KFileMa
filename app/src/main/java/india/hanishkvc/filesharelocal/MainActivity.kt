@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadPath(path: String? = null) {
+    private fun loadPath(path: String? = null, defEntry: String? = null) {
         var thePath = path
         var bLoaded = false
         fragMain?.clearHighlights()
@@ -163,7 +163,11 @@ class MainActivity : AppCompatActivity() {
                 FManFragment.listIndex = -1
             }
         }
-        fragMain?.updateFrag()
+        var initialPosition = 0
+        if (defEntry != null) {
+            initialPosition = FMan.indexOf(defEntry)
+        }
+        fragMain?.updateFrag(initialPosition=initialPosition)
     }
 
     private fun volumeSelector(sPaths: Array<String>) {
@@ -186,10 +190,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun backPath() {
+        val back = FMan.curPath.toString()
         val path = FMan.backPath()
         tvPath?.text = path
         Log.v(TAGME,"backPath: $path")
-        loadPath()
+        loadPath(defEntry = back)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

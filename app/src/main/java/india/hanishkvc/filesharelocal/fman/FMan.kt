@@ -167,6 +167,15 @@ object FMan {
         return curPath.toString()
     }
 
+    fun indexOf(path: String): Int {
+        for (i in ITEMS.indices) {
+            if (ITEMS[i].path == path) {
+                return i
+            }
+        }
+        return -1
+    }
+
     private fun createFManItem(position: Int, path: String, type: FManItemType): FManItem {
         return FManItem(position, path, type)
     }
