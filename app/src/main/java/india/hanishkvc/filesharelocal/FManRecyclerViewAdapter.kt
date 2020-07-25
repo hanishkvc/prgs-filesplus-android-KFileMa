@@ -1,7 +1,6 @@
 package india.hanishkvc.filesharelocal
 
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,14 +50,6 @@ class FManRecyclerViewAdapter(
             view.setOnLongClickListener {
                 Log.v(TAGME, "VHOnLongClick:${id}, ${pathView.text}, ${FMan.ITEMS[id]}")
                 FMan.fManItemInteractionIF?.doSelect(id)!!
-            }
-
-            view.setOnKeyListener { v, keyCode, event ->
-                if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                    Log.v(TAGME, "VHOnKey:DPAD_LEFT:${id}")
-                    return@setOnKeyListener true
-                }
-                false
             }
         }
 
