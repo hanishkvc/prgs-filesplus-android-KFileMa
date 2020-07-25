@@ -160,7 +160,6 @@ class MainActivity : AppCompatActivity() {
                 volumeSelector(vols.toTypedArray())
             } else {
                 fragMain?.clearHighlights()
-                FManFragment.listIndex = -1
             }
         }
         var initialPosition = 0
