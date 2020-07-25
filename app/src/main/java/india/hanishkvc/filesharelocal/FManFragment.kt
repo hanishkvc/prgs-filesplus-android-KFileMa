@@ -52,11 +52,19 @@ class FManFragment : Fragment() {
 
     private fun highlightRecyclerItem(position: Int, highlight: Boolean = true) {
         recyclerView?.layoutManager?.findViewByPosition(position)?.let {
+            /*
+            Log.v(TAGME, "highlightRecycItem: pos[{$position}], view[${it.javaClass}], vh[${recyclerView?.getChildViewHolder(it)}]")
             val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
             if (highlight) {
                 vh.itemView.requestFocus()
             } else {
                 vh.itemView.clearFocus()
+            }
+             */
+            if (highlight) {
+                it.requestFocus()
+            } else {
+                it.clearFocus()
             }
         }
     }
@@ -69,8 +77,7 @@ class FManFragment : Fragment() {
         if (initialPosition >= 0) {
             recyclerView?.scrollToPosition(initialPosition)
             recyclerView?.post {
-                val initialView = recyclerView?.layoutManager?.findViewByPosition(initialPosition)
-                initialView?.requestFocus()
+                highlightRecyclerItem(initialPosition, true)
             }
         }
     }
