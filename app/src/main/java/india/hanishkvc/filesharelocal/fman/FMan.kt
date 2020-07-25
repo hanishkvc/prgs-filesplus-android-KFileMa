@@ -141,9 +141,16 @@ object FMan {
         Log.v(TAGME, "loadPath: $curPath")
         try {
             var iCur = 0
-            for (de in curPath!!.listFiles()) {
-                val sType = if (de.isDirectory) FManItemType.DIR else FManItemType.FILE
-                addItem(createFManItem(iCur, de.normalize().toString(), sType))
+            val dEntries = curPath?.listFiles()
+            val dEntriesGrouped = dEntries?.groupBy {
+                if (it.isDirectory) FManItemType.DIR else FManItemType.FILE
+            }
+            for (de in dEntriesGrouped?.get(FManItemType.DIR)!!) {
+                addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.DIR))
+                iCur += 1
+            }
+            for (de in dEntriesGrouped?.get(FManItemType.FILE)!!) {
+                addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.FILE))
                 iCur += 1
             }
             bDone = true
