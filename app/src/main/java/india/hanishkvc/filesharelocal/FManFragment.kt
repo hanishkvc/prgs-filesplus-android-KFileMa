@@ -52,38 +52,12 @@ class FManFragment : Fragment() {
         return recyclerView
     }
 
-    private fun colorRecyclerItem(position: Int, color: Int) {
-        /*
-         * get(index), here index seems to represent index of list of viewholders
-         * getChildAt(index), index seems to belong to some internal list,
-         *      which we dont have info about
-         * findViewByPosition(index), index seems to represent actual list order,
-         *      but there seems to be some racing issue. Maybe I have to let scroll
-         *      finish before doing this? Maybe?? Update: Yes that was right.
-         */
-        recyclerView?.layoutManager?.findViewByPosition(position)?.let {
-            val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
-            vh.pathView.setBackgroundColor(color)
-        }
-    }
-
     private fun highlightRecyclerItem(position: Int, highlight: Boolean = true) {
         recyclerView?.layoutManager?.findViewByPosition(position)?.let {
             val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
-            /*
-            var color = vh.pathView.highlightColor
             if (highlight) {
-                colorBackground = vh.pathView.backgroundTintList?.defaultColor ?: Color.WHITE
-            } else {
-                color = colorBackground
-            }
-            vh.pathView.setBackgroundColor(color)
-             */
-            if (highlight) {
-                //vh.itemView.setActivated(true)
                 vh.itemView.requestFocus()
             } else {
-                //vh.itemView.setActivated(false)
                 vh.itemView.clearFocus()
             }
         }
