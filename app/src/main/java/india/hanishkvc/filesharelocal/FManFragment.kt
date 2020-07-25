@@ -1,6 +1,7 @@
 package india.hanishkvc.filesharelocal
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,6 +85,21 @@ class FManFragment : Fragment() {
                 highlightRecyclerItem(initialPosition, true)
             }
         }
+    }
+
+    fun loadPath(path: String? = null, defEntry: String? = null): Boolean {
+        val curFMD = fmd ?: return false
+        clearHighlights()
+        Log.v(TAGME,"loadPath: $path")
+        val bLoaded = curFMD.loadPath(path, true)
+        if (bLoaded) {
+            var initialPosition = 0
+            if (defEntry != null) {
+                initialPosition = curFMD.indexOf(defEntry)
+            }
+            updateFrag(initialPosition=initialPosition)
+        }
+        return bLoaded
     }
 
     companion object {

@@ -147,26 +147,18 @@ class MainActivity : AppCompatActivity() {
     private fun loadPath(path: String? = null, defEntry: String? = null) {
         var thePath = path
         var bLoaded = false
-        fragMain?.clearHighlights()
         while (!bLoaded) {
             Log.v(TAGME,"loadPath: $thePath")
             if (thePath != null) {
                 tvPath?.text = thePath
             }
-            bLoaded = fragMain?.fmd?.loadPath(thePath, true)!!
+            bLoaded = fragMain?.loadPath(thePath, defEntry)!!
             if (!bLoaded) {
                 val vols = FMan.getVolumes(this)
                 thePath = vols[0]
                 volumeSelector(vols.toTypedArray())
-            } else {
-                fragMain?.clearHighlights()
             }
         }
-        var initialPosition = 0
-        if (defEntry != null) {
-            initialPosition = fragMain?.fmd?.indexOf(defEntry)!!
-        }
-        fragMain?.updateFrag(initialPosition=initialPosition)
     }
 
     private fun volumeSelector(sPaths: Array<String>) {
