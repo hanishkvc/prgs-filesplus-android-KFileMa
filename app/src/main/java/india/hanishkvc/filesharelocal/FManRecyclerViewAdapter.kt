@@ -44,12 +44,12 @@ class FManRecyclerViewAdapter(
 
         init {
             view.setOnClickListener {
-                Log.v(TAGME, "VHOnClick:${id}, ${pathView.text}, ${FMan.ITEMS[id]}")
+                Log.v(TAGME, "VHOnClick:${id}, ${pathView.text}, ${values[id]}")
                 FMan.fManItemInteractionIF?.doNavigate(id)
             }
 
             view.setOnLongClickListener {
-                Log.v(TAGME, "VHOnLongClick:${id}, ${pathView.text}, ${FMan.ITEMS[id]}")
+                Log.v(TAGME, "VHOnLongClick:${id}, ${pathView.text}, ${values[id]}")
                 FMan.fManItemInteractionIF?.doSelect(id)!!
             }
 
@@ -57,7 +57,7 @@ class FManRecyclerViewAdapter(
                 if (event != null) {
                     if ( (keyCode == KeyEvent.KEYCODE_SPACE) &&
                         (event.action == KeyEvent.ACTION_DOWN) ) {
-                        Log.v(TAGME, "VHOnKey:SPACE:${id}, ${pathView.text}, ${FMan.ITEMS[id]}")
+                        Log.v(TAGME, "VHOnKey:SPACE:${id}, ${pathView.text}, ${values[id]}")
                         return@setOnKeyListener FMan.fManItemInteractionIF?.doSelect(id)!!
                     }
                 }
