@@ -1,6 +1,5 @@
 package india.hanishkvc.filesharelocal
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import india.hanishkvc.filesharelocal.fman.FMan
 import kotlin.time.ExperimentalTime
-import kotlin.time.TimeMark
 
 /**
  * A fragment representing a list of Items.
@@ -75,8 +73,6 @@ class FManFragment : Fragment() {
     companion object {
 
         var listIndex: Int = -1
-        var colorBackground: Int = Color.WHITE
-        var timeMark: TimeMark? = null
 
         // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
