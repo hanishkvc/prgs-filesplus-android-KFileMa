@@ -7,10 +7,7 @@ package india.hanishkvc.filesharelocal
 
 import android.Manifest
 import android.app.UiModeManager
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
@@ -116,9 +113,11 @@ class MainActivity : AppCompatActivity() {
         val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(File(path).extension)
         val intent = Intent(Intent.ACTION_VIEW, uri)
         intent.setDataAndType(uri,mime)
+        var bActivityStarted = false
         try {
             startActivity(intent)
             Log.v(TAGME, "$intent")
+            bActivityStarted = true
         } catch (e: Exception) {
             Log.e(TAGME, "$intent, $e")
             var msg = "Exception occured"
@@ -127,6 +126,17 @@ class MainActivity : AppCompatActivity() {
                 is FileUriExposedException -> msg = "Cant share with other app"
             }
             Toast.makeText(this, "Android:$msg",Toast.LENGTH_SHORT).show()
+        }
+        if (!bActivityStarted) {
+            val intent2 = Intent(Intent.ACTION_VIEW, uri)
+            intent2.setDataAndType(uri,mime)
+            //intent2.setComponent(ComponentName(this, "india.hanishkvc.filesharelocal.ViewerActivity"))
+            intent2.component = ComponentName(this, ViewerActivity::class.java)
+            try {
+                startActivityForResult(intent2,202)
+            } catch (e: java.lang.Exception) {
+                Log.e(TAGME, "$intent, $e")
+            }
         }
     }
 
