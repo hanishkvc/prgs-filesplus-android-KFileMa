@@ -35,7 +35,7 @@ class ViewerActivity : AppCompatActivity() {
         webv?.settings?.builtInZoomControls = true
          */
         webv?.setDownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
-            Log.w(TAGME, "onCreate: Cant handle $mimetype, $url")
+            Log.e(TAGME, "onCreate: Cant handle $mimetype, $url")
         }
         webv?.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
@@ -53,7 +53,7 @@ class ViewerActivity : AppCompatActivity() {
                 error: WebResourceError?
             ) {
                 super.onReceivedError(view, request, error)
-                Log.v(TAGME, "webv:onRcvdErr: req[$request], err[$error]")
+                Log.e(TAGME, "webv:onRcvdErr: req[${request?.url}], err[${error?.errorCode}:${error?.description}]")
             }
 
         }
