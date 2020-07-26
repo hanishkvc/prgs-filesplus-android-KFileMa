@@ -39,7 +39,7 @@ class ViewerActivity : AppCompatActivity() {
         videov?.visibility = View.GONE
 
         setResult(Activity.RESULT_OK)
-        if (intent.type?.startsWith("video")!!) {
+        if ( (intent.type != null) && intent.type!!.startsWith("video") ) {
             useVideoV()
         } else {
             useWebV()
