@@ -41,6 +41,9 @@ class MainActivity : AppCompatActivity() {
     private var bPermWriteExternalStorage = false
     private var bPermissionsOk = false
 
+    private val REQUESTCODE_VIEWFILEINT = 0x5a52
+    private val REQUESTCODE_VIEWFILEEXT = 0x5a53
+
     private fun setupStartState(savedInstanceState: Bundle?) {
         // Handle initial path
         var sPath = savedInstanceState?.getCharSequence(BID_SAVEPATH)
@@ -107,16 +110,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun viewFile(path: String) {
-        val file = File(path)
-        val uri = Uri.fromFile(file)
-        val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(File(path).extension)
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        intent.setDataAndType(uri,mime)
+    private fun viewFileExt(uri: Uri, mime: String?): Boolean {
         var bActivityStarted = false
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        if (mime != null) {
+            intent.setDataAndType(uri,mime)
+        }
         try {
             Log.v(TAGME, "viewFile:External: $intent")
-            startActivity(intent)
+            startActivityForResult(intent, REQUESTCODE_VIEWFILEEXT)
             bActivityStarted = true
         } catch (e: Exception) {
             Log.e(TAGME, "viewFile:External: $intent, $e")
@@ -127,18 +129,35 @@ class MainActivity : AppCompatActivity() {
             }
             Toast.makeText(this, "Android:$msg",Toast.LENGTH_SHORT).show()
         }
+        return bActivityStarted
+    }
+
+    private fun viewFileInt(uri: Uri, mime: String?): Boolean {
+        var bActivityStarted = false
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        if (mime != null) {
+            intent.setDataAndType(uri,mime)
+        }
+        //intent.setComponent(ComponentName(this, "india.hanishkvc.filesharelocal.ViewerActivity"))
+        intent.component = ComponentName(this, ViewerActivity::class.java)
+        try {
+            Log.v(TAGME, "viewFile:Internal: $intent")
+            startActivityForResult(intent, REQUESTCODE_VIEWFILEINT)
+            bActivityStarted = true
+        } catch (e: java.lang.Exception) {
+            Log.e(TAGME, "viewFile:Internal: $intent, $e")
+            Toast.makeText(this, "Android:${e.localizedMessage}",Toast.LENGTH_SHORT).show()
+        }
+        return bActivityStarted
+    }
+
+    private fun viewFile(path: String) {
+        val file = File(path)
+        val uri = Uri.fromFile(file)
+        val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(File(path).extension)
+        val bActivityStarted = viewFileExt(uri, mime)
         if (!bActivityStarted) {
-            val intent2 = Intent(Intent.ACTION_VIEW, uri)
-            intent2.setDataAndType(uri,mime)
-            //intent2.setComponent(ComponentName(this, "india.hanishkvc.filesharelocal.ViewerActivity"))
-            intent2.component = ComponentName(this, ViewerActivity::class.java)
-            try {
-                Log.v(TAGME, "viewFile:Internal: $intent")
-                startActivityForResult(intent2,202)
-            } catch (e: java.lang.Exception) {
-                Log.e(TAGME, "viewFile:Internal: $intent, $e")
-                Toast.makeText(this, "Android:${e.localizedMessage}",Toast.LENGTH_SHORT).show()
-            }
+            viewFileInt(uri, mime)
         }
     }
 
