@@ -7,6 +7,7 @@
 
 package india.hanishkvc.filesharelocal
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebResourceError
@@ -34,9 +35,13 @@ class ViewerActivity : AppCompatActivity() {
         webv?.settings?.setSupportZoom(true)
         webv?.settings?.builtInZoomControls = true
          */
+
         webv?.setDownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
             Log.e(TAGME, "onCreate: Cant handle $mimetype, $url")
+            setResult(Activity.RESULT_CANCELED)
+            finish()
         }
+
         webv?.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 Log.v(TAGME, "webv:onPgFin: H[${webv?.contentHeight}, ${webv?.height}], W[${webv?.width}]")
@@ -54,9 +59,12 @@ class ViewerActivity : AppCompatActivity() {
             ) {
                 super.onReceivedError(view, request, error)
                 Log.e(TAGME, "webv:onRcvdErr: req[${request?.url}], err[${error?.errorCode}:${error?.description}]")
+                setResult(Activity.RESULT_CANCELED)
+                finish()
             }
 
         }
         webv?.loadUrl(intent.data.toString())
+        setResult(Activity.RESULT_OK)
     }
 }
