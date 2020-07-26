@@ -88,6 +88,12 @@ class ViewerActivity : AppCompatActivity() {
     fun useVideoV() {
         Log.v(TAGME, "useVideoV")
         videov?.isEnabled = true
+
+        videov?.setOnErrorListener { mp, what, extra ->
+            Log.e(TAGME, "useVideoV: Error playing")
+            false
+        }
+
         videov?.setVideoURI(intent.data)
         videov?.start()
     }
