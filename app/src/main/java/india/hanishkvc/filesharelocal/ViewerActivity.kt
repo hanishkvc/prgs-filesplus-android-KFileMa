@@ -20,7 +20,6 @@ class ViewerActivity : AppCompatActivity() {
     val TAGME = "FSLViewer"
 
     private var webv: WebView? = null
-    private var bNotYetScaled: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +30,10 @@ class ViewerActivity : AppCompatActivity() {
         webv = findViewById<WebView>(R.id.webv)
         webv?.settings?.loadWithOverviewMode = true
         webv?.settings?.useWideViewPort = true
+        /*
         webv?.settings?.setSupportZoom(true)
         webv?.settings?.builtInZoomControls = true
+         */
         webv?.setDownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
             Log.w(TAGME, "onCreate: Cant handle $mimetype, $url")
         }
@@ -44,10 +45,6 @@ class ViewerActivity : AppCompatActivity() {
             override fun onScaleChanged(view: WebView?, oldScale: Float, newScale: Float) {
                 super.onScaleChanged(view, oldScale, newScale)
                 Log.v(TAGME, "webv:onScaleChg: oldScale[$oldScale] newScale[$newScale]")
-                if (bNotYetScaled) {
-                    bNotYetScaled = false
-                    webv?.zoomBy(1/newScale)
-                }
             }
 
             override fun onReceivedError(
