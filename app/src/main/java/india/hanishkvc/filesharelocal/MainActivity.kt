@@ -81,7 +81,6 @@ class MainActivity : AppCompatActivity() {
         tvPath = findViewById<TextView>(R.id.tvPath)
         tvPath?.text = FManFragment.defaultPathStr
         fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
-        //loadPath(sPath.toString())
         btnUp = findViewById<Button>(R.id.btnUp)
         btnUp?.setOnClickListener {
             backPath()
