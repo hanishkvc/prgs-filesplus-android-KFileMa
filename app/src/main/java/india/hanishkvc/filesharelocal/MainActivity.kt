@@ -6,6 +6,7 @@
 package india.hanishkvc.filesharelocal
 
 import android.Manifest
+import android.app.Activity
 import android.app.UiModeManager
 import android.content.*
 import android.content.pm.PackageManager
@@ -43,6 +44,9 @@ class MainActivity : AppCompatActivity() {
 
     private val REQUESTCODE_VIEWFILEINT = 0x5a52
     private val REQUESTCODE_VIEWFILEEXT = 0x5a53
+    private val bViewFileInt2Ext: Boolean = true
+    private var vfUri: Uri? = null
+    private var vfMime: String? = null
 
     private fun setupStartState(savedInstanceState: Bundle?) {
         // Handle initial path
@@ -112,6 +116,13 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.v(TAGME, "onActRes: rc[$requestCode], r[$resultCode], d[$data]")
+        if ((requestCode == REQUESTCODE_VIEWFILEINT) && (resultCode == Activity.RESULT_CANCELED)) {
+            if (bViewFileInt2Ext) {
+                if ((vfUri != null) && (vfMime != null)) {
+                        viewFileExt(vfUri!!, vfMime)
+                }
+            }
+        }
     }
 
     private fun viewFileExt(uri: Uri, mime: String?): Boolean {
@@ -158,13 +169,21 @@ class MainActivity : AppCompatActivity() {
     private fun viewFile(path: String) {
         var bActivityStarted = false
         val file = File(path)
-        val uri = Uri.fromFile(file)
-        val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(File(path).extension)
-        if (mime != null) {
-            bActivityStarted = viewFileExt(uri, mime)
-        }
-        if (!bActivityStarted) {
-            viewFileInt(uri, mime)
+        vfUri = Uri.fromFile(file)
+        //if (vfUri == null) return
+        vfMime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(File(path).extension)
+        if (bViewFileInt2Ext) {
+            bActivityStarted = viewFileInt(vfUri!!, vfMime)
+            if (!bActivityStarted) {
+                viewFileExt(vfUri!!, vfMime)
+            }
+        } else {
+            if (vfMime != null) {
+                bActivityStarted = viewFileExt(vfUri!!, vfMime)
+            }
+            if (!bActivityStarted) {
+                viewFileInt(vfUri!!, vfMime)
+            }
         }
     }
 
