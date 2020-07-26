@@ -10,6 +10,7 @@ package india.hanishkvc.filesharelocal
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -32,8 +33,10 @@ class ViewerActivity : AppCompatActivity() {
         title = "Viewer:"+intent.dataString
         webv = findViewById<WebView>(R.id.webv)
         webv?.isEnabled = false
+        webv?.visibility = View.GONE
         videov = findViewById<VideoView>(R.id.videov)
         videov?.isEnabled = false
+        videov?.visibility = View.GONE
 
         setResult(Activity.RESULT_OK)
         if (intent.type?.startsWith("video")!!) {
@@ -45,6 +48,7 @@ class ViewerActivity : AppCompatActivity() {
 
     fun useWebV() {
         Log.v(TAGME, "useWebV")
+        webv?.visibility = View.VISIBLE
         webv?.isEnabled = true
         webv?.settings?.loadWithOverviewMode = true
         webv?.settings?.useWideViewPort = true
@@ -87,10 +91,12 @@ class ViewerActivity : AppCompatActivity() {
 
     fun useVideoV() {
         Log.v(TAGME, "useVideoV")
+        videov?.visibility = View.VISIBLE
         videov?.isEnabled = true
 
         videov?.setOnErrorListener { mp, what, extra ->
             Log.e(TAGME, "useVideoV: Error playing")
+            setResult(Activity.RESULT_CANCELED)
             false
         }
 
