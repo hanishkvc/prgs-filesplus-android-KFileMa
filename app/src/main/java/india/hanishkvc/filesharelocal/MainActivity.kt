@@ -6,10 +6,13 @@
 package india.hanishkvc.filesharelocal
 
 import android.Manifest
+import android.app.UiModeManager
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.os.FileUriExposedException
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     private var bPermissionsOk = false
 
     private fun setupStartState(savedInstanceState: Bundle?) {
+        // Handle initial path
         var sPath = savedInstanceState?.getCharSequence(BID_SAVEPATH)
         if (sPath == null) {
             sPath = FMan.getDefaultVolume(applicationContext)
@@ -50,6 +54,21 @@ class MainActivity : AppCompatActivity() {
             Log.v(TAGME,"LoadState: $sPath")
         }
         FManFragment.defaultPathStr = sPath as String
+        // Handle num of cols in View
+        var bModeGrid = false
+        val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+        if (uiModeManager.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION) {
+            bModeGrid = true
+        }
+        if (windowManager.defaultDisplay.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            bModeGrid = true
+        }
+        if (bModeGrid) {
+            FManFragment.defaultColCnt = 2
+        } else {
+            FManFragment.defaultColCnt = 1
+        }
+        // packageManager.hasSystemFeature
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -20,17 +20,18 @@ import kotlin.time.ExperimentalTime
 class FManFragment : Fragment() {
 
     private val TAGME = "FManFrag"
-    private var columnCount = 2
+    private var columnCount = defaultColCnt
     private var recyclerView: RecyclerView? = null
     var fmd: FMan.FManData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.v(TAGME, "onCreate: Entered")
+        Log.v(TAGME, "onCreate: Entered, colCnt[$columnCount]")
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+        Log.v(TAGME, "onCreate: argProcessed, colCnt[$columnCount]")
     }
 
     override fun onCreateView(
@@ -108,6 +109,7 @@ class FManFragment : Fragment() {
 
         // App specific
         var defaultPathStr: String? = null
+        var defaultColCnt: Int = 1
 
         // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
@@ -116,6 +118,7 @@ class FManFragment : Fragment() {
         @JvmStatic
         fun newInstance(columnCount: Int) =
             FManFragment().apply {
+                Log.v(TAGME, "newInstance: colCnt[$columnCount]")
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }
