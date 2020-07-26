@@ -150,7 +150,8 @@ object FMan {
             Log.v(TAGME, "loadPath: $curPath")
             try {
                 var iCur = 0
-                val dEntries = curPath?.listFiles()
+                val dEntriesTmp = curPath?.listFiles()
+                val dEntries = dEntriesTmp?.sorted()
                 if (dEntries != null) {
                     val dEntriesGrouped = dEntries.groupBy {
                         if (it.isDirectory) FManItemType.DIR else FManItemType.FILE
