@@ -29,6 +29,11 @@ class ViewerActivity : AppCompatActivity() {
 
         title = "Viewer:"+intent.dataString
         webv = findViewById<WebView>(R.id.webv)
+        setResult(Activity.RESULT_OK)
+        useWebV()
+    }
+
+    fun useWebV() {
         webv?.settings?.loadWithOverviewMode = true
         webv?.settings?.useWideViewPort = true
         /*
@@ -65,6 +70,8 @@ class ViewerActivity : AppCompatActivity() {
 
         }
         webv?.loadUrl(intent.data.toString())
-        setResult(Activity.RESULT_OK)
+
     }
+
+
 }
