@@ -48,7 +48,7 @@ class FManFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
                 fmd = FMan.FManData()
-                fmd!!.loadPath(context?.let { FMan.getDefaultVolume(it) })
+                fmd!!.loadPath(defaultPathStr)
                 this?.adapter = FManRecyclerViewAdapter(fmd!!)
             }
         }
@@ -105,6 +105,9 @@ class FManFragment : Fragment() {
     }
 
     companion object {
+
+        // App specific
+        var defaultPathStr: String? = null
 
         // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"

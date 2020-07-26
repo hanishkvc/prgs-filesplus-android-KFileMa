@@ -41,21 +41,27 @@ class MainActivity : AppCompatActivity() {
     private var bPermWriteExternalStorage = false
     private var bPermissionsOk = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.v(TAGME, "onCreate: Entered")
-        setContentView(R.layout.activity_main)
-        Log.v(TAGME, "onCreate: View inflated")
-        tvPath = findViewById<TextView>(R.id.tvPath)
-        fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
+    private fun setupStartState(savedInstanceState: Bundle?) {
         var sPath = savedInstanceState?.getCharSequence(BID_SAVEPATH)
         if (sPath == null) {
-            sPath = filesDir.absolutePath
+            sPath = FMan.getDefaultVolume(applicationContext)
             Log.v(TAGME,"FreshState: $sPath")
         } else {
             Log.v(TAGME,"LoadState: $sPath")
         }
-        loadPath(sPath.toString())
+        FManFragment.defaultPathStr = sPath as String
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.v(TAGME, "onCreate: Entered")
+        setupStartState(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        Log.v(TAGME, "onCreate: View inflated")
+        tvPath = findViewById<TextView>(R.id.tvPath)
+        tvPath?.text = FManFragment.defaultPathStr
+        fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
+        //loadPath(sPath.toString())
         btnUp = findViewById<Button>(R.id.btnUp)
         btnUp?.setOnClickListener {
             backPath()
