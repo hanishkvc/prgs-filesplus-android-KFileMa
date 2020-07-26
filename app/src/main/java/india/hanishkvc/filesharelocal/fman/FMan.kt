@@ -21,6 +21,7 @@ object FMan {
      */
     var volIndex: Int = -1
     var volBasePathStrs = ArrayList<String>()
+    private var volDefaultStr: String? = null
 
     /**
      * Hold a reference to a class/object implementing the FManItemInteractionIF
@@ -69,7 +70,10 @@ object FMan {
     }
 
     fun getDefaultVolume(context: Context): String {
-        return context.filesDir.canonicalPath
+        if (volDefaultStr == null) {
+            volDefaultStr = context.filesDir.canonicalPath.toString()
+        }
+        return volDefaultStr as String
     }
 
     /**
