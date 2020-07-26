@@ -157,10 +157,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun viewFile(path: String) {
+        var bActivityStarted = false
         val file = File(path)
         val uri = Uri.fromFile(file)
         val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(File(path).extension)
-        val bActivityStarted = viewFileExt(uri, mime)
+        if (mime != null) {
+            bActivityStarted = viewFileExt(uri, mime)
+        }
         if (!bActivityStarted) {
             viewFileInt(uri, mime)
         }
