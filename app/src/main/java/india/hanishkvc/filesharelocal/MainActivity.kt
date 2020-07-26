@@ -49,18 +49,18 @@ class MainActivity : AppCompatActivity() {
         var sPath = savedInstanceState?.getCharSequence(BID_SAVEPATH)
         if (sPath == null) {
             sPath = FMan.getDefaultVolume(applicationContext)
-            Log.v(TAGME,"FreshState: $sPath")
+            Log.v(TAGME,"Start:FreshState: $sPath")
         } else {
-            Log.v(TAGME,"LoadState: $sPath")
+            Log.v(TAGME,"Start:LoadState: $sPath")
         }
         FManFragment.defaultPathStr = sPath as String
         // Handle num of cols in View
         var bModeGrid = false
-        val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-        if (uiModeManager.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION) {
+        if (windowManager.defaultDisplay.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             bModeGrid = true
         }
-        if (windowManager.defaultDisplay.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+        if (uiModeManager.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION) {
             bModeGrid = true
         }
         if (bModeGrid) {
@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             FManFragment.defaultColCnt = 1
         }
+        Log.v(TAGME,"Start:ModeGrid: $bModeGrid")
         // packageManager.hasSystemFeature
     }
 
