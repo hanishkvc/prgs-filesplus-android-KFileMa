@@ -43,7 +43,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.v(TAGME, "onCreate: Entered")
         setContentView(R.layout.activity_main)
+        Log.v(TAGME, "onCreate: View inflated")
         tvPath = findViewById<TextView>(R.id.tvPath)
         fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
         var sPath = savedInstanceState?.getCharSequence(BID_SAVEPATH)

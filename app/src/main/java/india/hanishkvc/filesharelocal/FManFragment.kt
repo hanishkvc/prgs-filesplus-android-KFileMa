@@ -20,12 +20,13 @@ import kotlin.time.ExperimentalTime
 class FManFragment : Fragment() {
 
     private val TAGME = "FManFrag"
-    private var columnCount = 1
+    private var columnCount = 2
     private var recyclerView: RecyclerView? = null
     var fmd: FMan.FManData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.v(TAGME, "onCreate: Entered")
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
@@ -36,6 +37,7 @@ class FManFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.v(TAGME, "onCreateView: Entered")
         recyclerView = inflater.inflate(R.layout.fragment_fman_list, container, false) as RecyclerView
 
         // Set the adapter
