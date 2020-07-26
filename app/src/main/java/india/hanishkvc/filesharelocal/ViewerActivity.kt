@@ -27,10 +27,16 @@ class ViewerActivity : AppCompatActivity() {
         webv = findViewById<WebView>(R.id.webv)
         webv?.settings?.loadWithOverviewMode = true
         webv?.settings?.useWideViewPort = true
-        //webv.settings.setSupportZoom(true)
+        webv?.settings?.setSupportZoom(true)
+        webv?.settings?.builtInZoomControls = true
         webv?.setDownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
             Log.w(TAGME, "onCreate: Cant handle $mimetype, $url")
         }
         webv?.loadUrl(intent.data.toString())
+        webv?.post {
+            Log.v(TAGME, "webv: H[${webv?.contentHeight}, ${webv?.height}], W[${webv?.width}]")
+            webv?.zoomOut()
+            webv?.zoomOut()
+        }
     }
 }
