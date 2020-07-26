@@ -115,11 +115,11 @@ class MainActivity : AppCompatActivity() {
         intent.setDataAndType(uri,mime)
         var bActivityStarted = false
         try {
+            Log.v(TAGME, "viewFile:External: $intent")
             startActivity(intent)
-            Log.v(TAGME, "$intent")
             bActivityStarted = true
         } catch (e: Exception) {
-            Log.e(TAGME, "$intent, $e")
+            Log.e(TAGME, "viewFile:External: $intent, $e")
             var msg = "Exception occured"
             when(e) {
                 is ActivityNotFoundException -> msg = "Didnt find any Viewer"
@@ -133,9 +133,11 @@ class MainActivity : AppCompatActivity() {
             //intent2.setComponent(ComponentName(this, "india.hanishkvc.filesharelocal.ViewerActivity"))
             intent2.component = ComponentName(this, ViewerActivity::class.java)
             try {
+                Log.v(TAGME, "viewFile:Internal: $intent")
                 startActivityForResult(intent2,202)
             } catch (e: java.lang.Exception) {
-                Log.e(TAGME, "$intent, $e")
+                Log.e(TAGME, "viewFile:Internal: $intent, $e")
+                Toast.makeText(this, "Android:${e.localizedMessage}",Toast.LENGTH_SHORT).show()
             }
         }
     }
