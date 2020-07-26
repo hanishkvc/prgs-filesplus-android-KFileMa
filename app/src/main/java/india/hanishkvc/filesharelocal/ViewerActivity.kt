@@ -46,8 +46,7 @@ class ViewerActivity : AppCompatActivity() {
                 Log.v(TAGME, "webv:onScaleChg: oldScale[$oldScale] newScale[$newScale]")
                 if (bNotYetScaled) {
                     bNotYetScaled = false
-                    webv?.scaleX = 1 / newScale
-                    webv?.scaleY = 1 / newScale
+                    webv?.zoomBy(1/newScale)
                 }
             }
 
