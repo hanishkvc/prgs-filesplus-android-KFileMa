@@ -25,6 +25,12 @@ class ViewerActivity : AppCompatActivity() {
 
         title = "Viewer:"+intent.dataString
         webv = findViewById<WebView>(R.id.webv)
+        webv?.settings?.loadWithOverviewMode = true
+        webv?.settings?.useWideViewPort = true
+        //webv.settings.setSupportZoom(true)
+        webv?.setDownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
+            Log.w(TAGME, "onCreate: Cant handle $mimetype, $url")
+        }
         webv?.loadUrl(intent.data.toString())
     }
 }
