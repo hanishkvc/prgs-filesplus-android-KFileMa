@@ -14,6 +14,7 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 
 class ViewerActivity : AppCompatActivity() {
@@ -21,6 +22,7 @@ class ViewerActivity : AppCompatActivity() {
     val TAGME = "FSLViewer"
 
     private var webv: WebView? = null
+    private var videov: VideoView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +31,21 @@ class ViewerActivity : AppCompatActivity() {
 
         title = "Viewer:"+intent.dataString
         webv = findViewById<WebView>(R.id.webv)
+        webv?.isEnabled = false
+        videov = findViewById<VideoView>(R.id.videov)
+        videov?.isEnabled = false
+
         setResult(Activity.RESULT_OK)
-        useWebV()
+        if (intent.type?.startsWith("video")!!) {
+            useVideoV()
+        } else {
+            useWebV()
+        }
     }
 
     fun useWebV() {
+        Log.v(TAGME, "useWebV")
+        webv?.isEnabled = true
         webv?.settings?.loadWithOverviewMode = true
         webv?.settings?.useWideViewPort = true
         /*
@@ -73,5 +85,11 @@ class ViewerActivity : AppCompatActivity() {
 
     }
 
+    fun useVideoV() {
+        Log.v(TAGME, "useVideoV")
+        videov?.isEnabled = true
+        videov?.setVideoURI(intent.data)
+        videov?.start()
+    }
 
 }

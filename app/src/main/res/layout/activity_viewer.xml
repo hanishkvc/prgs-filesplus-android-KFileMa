@@ -12,4 +12,10 @@
         android:id="@+id/webv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <VideoView
+        android:id="@+id/videov"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>
