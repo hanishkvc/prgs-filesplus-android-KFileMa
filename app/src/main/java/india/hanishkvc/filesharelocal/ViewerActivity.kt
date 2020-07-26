@@ -20,6 +20,7 @@ class ViewerActivity : AppCompatActivity() {
     val TAGME = "FSLViewer"
 
     private var webv: WebView? = null
+    private var bNotYetScaled: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,11 @@ class ViewerActivity : AppCompatActivity() {
             override fun onScaleChanged(view: WebView?, oldScale: Float, newScale: Float) {
                 super.onScaleChanged(view, oldScale, newScale)
                 Log.v(TAGME, "webv:onScaleChg: oldScale[$oldScale] newScale[$newScale]")
+                if (bNotYetScaled) {
+                    bNotYetScaled = false
+                    webv?.scaleX = 1 / newScale
+                    webv?.scaleY = 1 / newScale
+                }
             }
 
             override fun onReceivedError(
