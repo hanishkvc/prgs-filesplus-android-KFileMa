@@ -23,6 +23,7 @@ class ViewerActivity : AppCompatActivity() {
         Log.v(TAGME, "onCreate: Entered, ${intent.data}")
         setContentView(R.layout.activity_viewer)
 
+        title = "Viewer:"+intent.dataString
         webv = findViewById<WebView>(R.id.webv)
         webv?.loadUrl(intent.data.toString())
     }
