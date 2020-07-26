@@ -110,6 +110,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.v(TAGME, "onActRes: rc[$requestCode], r[$resultCode], d[$data]")
+    }
+
     private fun viewFileExt(uri: Uri, mime: String?): Boolean {
         var bActivityStarted = false
         val intent = Intent(Intent.ACTION_VIEW, uri)
