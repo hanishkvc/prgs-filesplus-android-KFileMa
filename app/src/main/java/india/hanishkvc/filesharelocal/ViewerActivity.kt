@@ -100,12 +100,17 @@ class ViewerActivity : AppCompatActivity() {
         Log.v(TAGME, "useVideoV: Entered")
         videov?.visibility = View.VISIBLE
         videov?.isEnabled = true
-        videov?.setMediaController(MediaController(this).apply { setAnchorView(videov) })
+        videov?.setMediaController(MediaController(this).apply {
+            setAnchorView(videov)
+            keepScreenOn = true
+        })
 
         videov?.setOnErrorListener { mp, what, extra ->
             Log.e(TAGME, "useVideoV: Error playing")
             setResult(Activity.RESULT_CANCELED)
             bVideoFault = true
+            //videov?.stopPlayback()
+            finish()
             true
         }
 
