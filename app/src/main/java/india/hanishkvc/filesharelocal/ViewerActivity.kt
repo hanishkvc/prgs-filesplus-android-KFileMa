@@ -18,6 +18,7 @@ import android.webkit.WebViewClient
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
+import java.util.zip.ZipFile
 
 class ViewerActivity : AppCompatActivity() {
 
@@ -47,13 +48,13 @@ class ViewerActivity : AppCompatActivity() {
 
     fun handleContent() {
         if ( (intent.type != null) && intent.type!!.startsWith("video") ) {
-            useVideoV()
+            showVideo()
         } else {
-            useWebV()
+            showGeneralUseWebV()
         }
     }
 
-    fun useWebV() {
+    fun showGeneralUseWebV() {
         Log.v(TAGME, "useWebV: Entered")
         webv?.visibility = View.VISIBLE
         webv?.isEnabled = true
@@ -96,7 +97,7 @@ class ViewerActivity : AppCompatActivity() {
 
     }
 
-    fun useVideoV() {
+    fun showVideo() {
         Log.v(TAGME, "useVideoV: Entered")
         videov?.visibility = View.VISIBLE
         videov?.isEnabled = true
@@ -122,6 +123,14 @@ class ViewerActivity : AppCompatActivity() {
         bVideoFault = false
         videov?.setVideoURI(intent.data)
         videov?.start()
+    }
+
+    fun showZip() {
+        val zipFile = ZipFile(intent.dataString)
+        for (entry in zipFile.entries()) {
+            val type = if (entry.isDirectory) "[D]" else "[f]"
+            val sEntry = "$type ${entry.name}"
+        }
     }
 
 }
