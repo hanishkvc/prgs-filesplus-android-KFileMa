@@ -8,6 +8,7 @@
 package india.hanishkvc.filesharelocal
 
 import android.app.Activity
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -47,6 +48,7 @@ class ViewerActivity : AppCompatActivity() {
         mtextv = findViewById<EditText>(R.id.mtextv)
         mtextv?.isEnabled = false
         mtextv?.visibility = View.GONE
+        mtextv?.typeface = Typeface.MONOSPACE
 
         setResult(Activity.RESULT_OK)
         handleContent()
