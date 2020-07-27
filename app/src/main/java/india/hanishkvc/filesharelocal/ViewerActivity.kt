@@ -15,6 +15,7 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.MediaController
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -24,6 +25,8 @@ class ViewerActivity : AppCompatActivity() {
 
     private var webv: WebView? = null
     private var videov: VideoView? = null
+
+    var bVideoFault = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +42,10 @@ class ViewerActivity : AppCompatActivity() {
         videov?.visibility = View.GONE
 
         setResult(Activity.RESULT_OK)
+        handleContent()
+    }
+
+    fun handleContent() {
         if ( (intent.type != null) && intent.type!!.startsWith("video") ) {
             useVideoV()
         } else {
@@ -47,7 +54,7 @@ class ViewerActivity : AppCompatActivity() {
     }
 
     fun useWebV() {
-        Log.v(TAGME, "useWebV")
+        Log.v(TAGME, "useWebV: Entered")
         webv?.visibility = View.VISIBLE
         webv?.isEnabled = true
         webv?.settings?.loadWithOverviewMode = true
@@ -90,16 +97,24 @@ class ViewerActivity : AppCompatActivity() {
     }
 
     fun useVideoV() {
-        Log.v(TAGME, "useVideoV")
+        Log.v(TAGME, "useVideoV: Entered")
         videov?.visibility = View.VISIBLE
         videov?.isEnabled = true
+        videov?.setMediaController(MediaController(this).apply { setAnchorView(videov) })
 
         videov?.setOnErrorListener { mp, what, extra ->
             Log.e(TAGME, "useVideoV: Error playing")
             setResult(Activity.RESULT_CANCELED)
-            false
+            bVideoFault = true
+            true
         }
 
+        videov?.setOnCompletionListener {
+            Log.v(TAGME, "useVideoV: OnCompletion")
+            finish()
+        }
+
+        bVideoFault = false
         videov?.setVideoURI(intent.data)
         videov?.start()
     }
