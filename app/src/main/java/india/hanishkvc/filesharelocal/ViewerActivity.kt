@@ -19,6 +19,7 @@ import android.widget.EditText
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toFile
 import java.util.zip.ZipFile
 
 class ViewerActivity : AppCompatActivity() {
@@ -137,10 +138,10 @@ class ViewerActivity : AppCompatActivity() {
         Log.v(TAGME, "showZip: Entered")
         mtextv?.visibility = View.VISIBLE
         mtextv?.isEnabled = true
-        val zipFile = ZipFile(intent.dataString)
+        val zipFile = ZipFile(intent.data?.toFile())
         for (entry in zipFile.entries()) {
             val type = if (entry.isDirectory) "[D]" else "[f]"
-            val sEntry = "$type ${entry.name}"
+            val sEntry = "$type ${entry.name}\n"
             mtextv?.text?.append(sEntry)
         }
     }
