@@ -15,6 +15,7 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.EditText
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,7 @@ class ViewerActivity : AppCompatActivity() {
 
     private var webv: WebView? = null
     private var videov: VideoView? = null
+    private var mtextv: EditText? = null
 
     var bVideoFault = false
 
@@ -41,17 +43,23 @@ class ViewerActivity : AppCompatActivity() {
         videov = findViewById<VideoView>(R.id.videov)
         videov?.isEnabled = false
         videov?.visibility = View.GONE
+        mtextv = findViewById<EditText>(R.id.mtextv)
+        mtextv?.isEnabled = false
+        mtextv?.visibility = View.GONE
 
         setResult(Activity.RESULT_OK)
         handleContent()
     }
 
     fun handleContent() {
-        if ( (intent.type != null) && intent.type!!.startsWith("video") ) {
-            showVideo()
-        } else {
-            showGeneralUseWebV()
+        if (intent.type != null) {
+            if (intent.type!!.startsWith("video",true)) {
+                return showVideo()
+            } else if (intent.type!!.endsWith("/zip",true)) {
+                return showZip()
+            }
         }
+        showGeneralUseWebV()
     }
 
     fun showGeneralUseWebV() {
@@ -126,10 +134,14 @@ class ViewerActivity : AppCompatActivity() {
     }
 
     fun showZip() {
+        Log.v(TAGME, "showZip: Entered")
+        mtextv?.visibility = View.VISIBLE
+        mtextv?.isEnabled = true
         val zipFile = ZipFile(intent.dataString)
         for (entry in zipFile.entries()) {
             val type = if (entry.isDirectory) "[D]" else "[f]"
             val sEntry = "$type ${entry.name}"
+            mtextv?.text?.append(sEntry)
         }
     }
 
