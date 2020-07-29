@@ -16,13 +16,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class SimpRecycView(context: Context, dataList: ArrayList<String>) : RecyclerView(context) {
+class SimpRecycView(context: Context, val dataList: ArrayList<String>) : RecyclerView(context) {
+
     init {
         layoutManager = LinearLayoutManager(context)
-        adapter = SimpViewAdapter(dataList)
+        adapter = SimpViewAdapter()
     }
 
-    inner class SimpViewAdapter(val dataList: ArrayList<String>) : RecyclerView.Adapter<SimpViewAdapter.SimpViewHolder>() {
+    inner class SimpViewAdapter : RecyclerView.Adapter<SimpViewAdapter.SimpViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpViewHolder {
             val view = TextView(context)
@@ -43,4 +44,5 @@ class SimpRecycView(context: Context, dataList: ArrayList<String>) : RecyclerVie
         }
 
     }
+
 }
