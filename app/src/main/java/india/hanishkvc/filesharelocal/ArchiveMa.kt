@@ -27,7 +27,7 @@ class ArchiveMa {
         Log.v(TAGME, "listArchive: $sInFile")
         val fileList = ArrayList<String>()
         val inFile: InputStream = Files.newInputStream(Paths.get(sInFile))
-        val inFileA = ArchiveStreamFactory().createArchiveInputStream(inFile)
+        val inFileA = ArchiveStreamFactory().createArchiveInputStream(ArchiveStreamFactory.ZIP, inFile)
         while(true) {
             val entryA = inFileA.nextEntry
             if (entryA == null) break
