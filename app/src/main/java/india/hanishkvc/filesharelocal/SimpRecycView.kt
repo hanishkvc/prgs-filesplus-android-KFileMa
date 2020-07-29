@@ -10,8 +10,11 @@
 package india.hanishkvc.filesharelocal
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -55,6 +58,9 @@ class SimpRecycView : RecyclerView {
             view.isEnabled = true
             view.visibility = View.VISIBLE
             view.isFocusable = true
+            view.typeface = Typeface.MONOSPACE
+            view.gravity = Gravity.CENTER_VERTICAL
+            view.setTextColor(Color.BLACK)
             view.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             view.setBackgroundResource(R.drawable.list)
             return SimpViewHolder(view)
