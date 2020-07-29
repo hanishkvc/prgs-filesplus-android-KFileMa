@@ -7,13 +7,9 @@
 
 package india.hanishkvc.filesharelocal
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import org.apache.commons.compress.archivers.ArchiveStreamFactory
-import java.io.InputStream
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.FileInputStream
 
 class ArchiveMa {
 
@@ -22,11 +18,10 @@ class ArchiveMa {
     init {
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun listArchive(sInFile: String): ArrayList<String> {
         Log.v(TAGME, "listArchive: $sInFile")
         val fileList = ArrayList<String>()
-        val inFile: InputStream = Files.newInputStream(Paths.get(sInFile))
+        val inFile = FileInputStream(sInFile)
         val inFileA = ArchiveStreamFactory().createArchiveInputStream(ArchiveStreamFactory.ZIP, inFile)
         while(true) {
             val entryA = inFileA.nextEntry
