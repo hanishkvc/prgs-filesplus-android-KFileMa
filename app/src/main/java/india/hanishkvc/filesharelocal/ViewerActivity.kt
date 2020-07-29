@@ -143,18 +143,6 @@ class ViewerActivity : AppCompatActivity() {
         videov?.start()
     }
 
-    fun showZipOld() {
-        Log.v(TAGME, "showZip: Entered")
-        mtextv?.visibility = View.VISIBLE
-        mtextv?.isEnabled = true
-        val zipFile = ZipFile(intent.data?.toFile())
-        for (entry in zipFile.entries()) {
-            val type = if (entry.isDirectory) "[D]" else "[f]"
-            val sEntry = "$type ${entry.name}\n"
-            mtextv?.text?.append(sEntry)
-        }
-    }
-
     fun showZipJavaUtil() {
         Log.v(TAGME, "showZip: Entered")
         srcv?.visibility = View.VISIBLE
