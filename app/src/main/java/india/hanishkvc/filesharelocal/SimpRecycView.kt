@@ -54,6 +54,9 @@ class SimpRecycView : RecyclerView {
             val view = TextView(context)
             view.isEnabled = true
             view.visibility = View.VISIBLE
+            view.isFocusable = true
+            view.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            view.setBackgroundResource(R.drawable.list)
             return SimpViewHolder(view)
         }
 
