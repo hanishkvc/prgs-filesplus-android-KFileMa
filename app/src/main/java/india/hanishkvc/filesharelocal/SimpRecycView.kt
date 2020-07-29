@@ -3,8 +3,8 @@
  * view adaptor and holder classes within itself.
  * This is useful if one is working with simple list of strings or so. And just wants
  * to show the same on the screen without breaking head about too many things.
- * HanishKVC, 2020
- * GPL
+ * @author: C Hanish Menon <hanishkvc@gmail.com>, 2020
+ * @License: LGPL
  */
 
 package india.hanishkvc.filesharelocal
