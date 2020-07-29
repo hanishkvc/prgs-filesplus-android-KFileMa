@@ -63,7 +63,7 @@ class ViewerActivity : AppCompatActivity() {
             if (intent.type!!.startsWith("video",true)) {
                 return showVideo()
             } else if (intent.type!!.endsWith("/zip",true)) {
-                return showZip()
+                return showArchive()
             }
         }
         showGeneralUseWebV()
@@ -152,7 +152,7 @@ class ViewerActivity : AppCompatActivity() {
         }
     }
 
-    fun showZip() {
+    fun showZipJavaUtil() {
         Log.v(TAGME, "showZip: Entered")
         srcv?.visibility = View.VISIBLE
         srcv?.isEnabled = true
@@ -163,6 +163,14 @@ class ViewerActivity : AppCompatActivity() {
             val sEntry = "$type ${entry.name}\n"
             sFiles.add(sEntry)
         }
+        srcv?.assignDataList(sFiles)
+    }
+
+    fun showArchive() {
+        Log.v(TAGME, "showArchive: Entered")
+        srcv?.visibility = View.VISIBLE
+        srcv?.isEnabled = true
+        val sFiles = ArchiveMa().listArchive(intent.data?.toFile().toString())
         srcv?.assignDataList(sFiles)
     }
 

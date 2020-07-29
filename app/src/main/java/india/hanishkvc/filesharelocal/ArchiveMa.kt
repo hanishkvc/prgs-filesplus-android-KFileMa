@@ -21,6 +21,7 @@ class ArchiveMa {
     }
 
     fun listArchive(sInFile: String): ArrayList<String> {
+        Log.v(TAGME, "listArchive: $sInFile")
         val fileList = ArrayList<String>()
         val inFile: InputStream = FileInputStream(sInFile)
         var sType = "UNKNOWN"
