@@ -11,23 +11,26 @@ package india.hanishkvc.filesharelocal
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class SimpRecycView(context: Context) : RecyclerView(context) {
+class SimpRecycView : RecyclerView {
 
+    private val TAGME = "SimpRecycView"
     var dataList = ArrayList<String>()
 
-    init {
+    constructor(context: Context) : super(context) {
+        Log.v(TAGME, "Primary Constructor")
         layoutManager = LinearLayoutManager(context)
         adapter = SimpViewAdapter()
     }
 
-    constructor (context: Context, intf: AttributeSet) : this(context) {
-        //super(context, intf)
+    constructor(context: Context, intf: AttributeSet) : super(context, intf) {
+        Log.v(TAGME, "2ndary Constructor")
     }
 
     fun assignDataList(inDataList: ArrayList<String>) {
@@ -35,6 +38,7 @@ class SimpRecycView(context: Context) : RecyclerView(context) {
         for (item in inDataList) {
             dataList.add(item)
         }
+        Log.v(TAGME, "assignDataList:${dataList.size} items in")
         adapter?.notifyDataSetChanged()
     }
 
@@ -42,6 +46,8 @@ class SimpRecycView(context: Context) : RecyclerView(context) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpViewHolder {
             val view = TextView(context)
+            view.isEnabled = true
+            view.visibility = View.VISIBLE
             return SimpViewHolder(view)
         }
 
