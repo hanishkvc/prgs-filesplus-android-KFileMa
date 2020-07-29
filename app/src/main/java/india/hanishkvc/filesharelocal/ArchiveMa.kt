@@ -9,6 +9,7 @@ package india.hanishkvc.filesharelocal
 
 import android.util.Log
 import org.apache.commons.compress.archivers.ArchiveStreamFactory
+import java.io.File
 import java.io.FileInputStream
 
 class ArchiveMa {
@@ -18,11 +19,27 @@ class ArchiveMa {
     init {
     }
 
+    fun mapExtToArchiveType(sInFile: String): String {
+        val file = File(sInFile)
+        val sExt = file.extension.toLowerCase()
+        val sType = when(sExt) {
+            "zip" -> ArchiveStreamFactory.ZIP
+            "tar" -> ArchiveStreamFactory.TAR
+            "7z" -> ArchiveStreamFactory.SEVEN_Z
+            "ar" -> ArchiveStreamFactory.AR
+            "jar" -> ArchiveStreamFactory.JAR
+            "arj" -> ArchiveStreamFactory.ARJ
+            else -> "UNKNOWN"
+        }
+        return sType
+    }
+
     fun listArchive(sInFile: String): ArrayList<String> {
         Log.v(TAGME, "listArchive: $sInFile")
         val fileList = ArrayList<String>()
         val inFile = FileInputStream(sInFile)
-        val inFileA = ArchiveStreamFactory().createArchiveInputStream(ArchiveStreamFactory.ZIP, inFile)
+        val sType = mapExtToArchiveType(sInFile)
+        val inFileA = ArchiveStreamFactory().createArchiveInputStream(sType, inFile)
         while(true) {
             val entryA = inFileA.nextEntry
             if (entryA == null) break
