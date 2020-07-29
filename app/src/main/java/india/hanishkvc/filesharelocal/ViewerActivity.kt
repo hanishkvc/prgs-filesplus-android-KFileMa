@@ -30,6 +30,7 @@ class ViewerActivity : AppCompatActivity() {
     private var webv: WebView? = null
     private var videov: VideoView? = null
     private var mtextv: EditText? = null
+    private var srcv: SimpRecycView? = null
 
     var bVideoFault = false
 
@@ -49,6 +50,9 @@ class ViewerActivity : AppCompatActivity() {
         mtextv?.isEnabled = false
         mtextv?.visibility = View.GONE
         mtextv?.typeface = Typeface.MONOSPACE
+        srcv = findViewById<SimpRecycView>(R.id.srcv)
+        srcv?.isEnabled = false
+        srcv?.visibility = View.GONE
 
         setResult(Activity.RESULT_OK)
         handleContent()
@@ -136,7 +140,7 @@ class ViewerActivity : AppCompatActivity() {
         videov?.start()
     }
 
-    fun showZip() {
+    fun showZipOld() {
         Log.v(TAGME, "showZip: Entered")
         mtextv?.visibility = View.VISIBLE
         mtextv?.isEnabled = true
@@ -146,6 +150,20 @@ class ViewerActivity : AppCompatActivity() {
             val sEntry = "$type ${entry.name}\n"
             mtextv?.text?.append(sEntry)
         }
+    }
+
+    fun showZip() {
+        Log.v(TAGME, "showZip: Entered")
+        srcv?.visibility = View.VISIBLE
+        srcv?.isEnabled = true
+        val sFiles = ArrayList<String>()
+        val zipFile = ZipFile(intent.data?.toFile())
+        for (entry in zipFile.entries()) {
+            val type = if (entry.isDirectory) "[D]" else "[f]"
+            val sEntry = "$type ${entry.name}\n"
+            sFiles.add(sEntry)
+        }
+        srcv?.assignDataList(sFiles)
     }
 
 }
