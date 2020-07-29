@@ -23,14 +23,20 @@ class SimpRecycView : RecyclerView {
     private val TAGME = "SimpRecycView"
     var dataList = ArrayList<String>()
 
-    constructor(context: Context) : super(context) {
-        Log.v(TAGME, "Primary Constructor")
+    fun initHelper(context: Context) {
+        Log.v(TAGME, "init helper")
         layoutManager = LinearLayoutManager(context)
         adapter = SimpViewAdapter()
     }
 
+    constructor(context: Context) : super(context) {
+        Log.v(TAGME, "Constructor with 1arg")
+        initHelper(context)
+    }
+
     constructor(context: Context, intf: AttributeSet) : super(context, intf) {
-        Log.v(TAGME, "2ndary Constructor")
+        Log.v(TAGME, "Constructor with 2args")
+        initHelper(context)
     }
 
     fun assignDataList(inDataList: ArrayList<String>) {
