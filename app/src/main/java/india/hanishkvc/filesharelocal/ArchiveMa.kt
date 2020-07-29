@@ -28,8 +28,18 @@ class ArchiveMa {
             sType = ArchiveStreamFactory.detect(inFile)
         } catch (e: ArchiveException) {
             Log.v(TAGME, "UnknownArchive:$sInFile: ${e.localizedMessage}" )
+            inFile.close()
             return fileList
         }
+        val inFileA = ArchiveStreamFactory().createArchiveInputStream(inFile)
+        while(true) {
+            val entryA = inFileA.nextEntry
+            if (entryA == null) break
+            fileList.add(entryA.name)
+        }
+        inFileA.close()
+        inFile.close()
+        return fileList
     }
 
 }
