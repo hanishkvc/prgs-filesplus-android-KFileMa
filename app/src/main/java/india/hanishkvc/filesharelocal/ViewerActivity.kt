@@ -59,10 +59,13 @@ class ViewerActivity : AppCompatActivity() {
     }
 
     fun handleContent() {
-        if (intent.type != null) {
-            if (intent.type!!.startsWith("video",true)) {
+        val itype = intent.type?.toLowerCase()
+        if (itype != null) {
+            if (itype.startsWith("video")) {
                 return showVideo()
-            } else if (intent.type!!.endsWith("/zip",true)) {
+            } else if (itype.endsWith("/zip") ||
+                itype.endsWith("/x-tar") ||
+                itype.endsWith("/x-7z-compressed")) {
                 return showArchive()
             }
         }
