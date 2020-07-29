@@ -69,10 +69,14 @@ class MainActivity : AppCompatActivity() {
         }
         if (bModeGrid) {
             FManFragment.defaultColCnt = 2
+            SimpRecycView.defaultColumnCount = 2
         } else {
             FManFragment.defaultColCnt = 1
+            SimpRecycView.defaultColumnCount = 1
         }
         Log.v(TAGME,"Start:ModeGrid: $bModeGrid")
+        // Misc setup
+        SimpRecycView.viewBackgroundResource = R.drawable.list
         // packageManager.hasSystemFeature
     }
 

@@ -86,10 +86,10 @@ class SimpRecycView : RecyclerView {
     }
 
     companion object {
-        var defaultColumnCount: Int = 3
+        var defaultColumnCount: Int = 1
         var viewTextColor: Int = Color.BLACK
         var viewTypeface: Typeface = Typeface.MONOSPACE
-        var viewBackgroundResource: Int = R.drawable.list
+        var viewBackgroundResource: Int = android.R.drawable.list_selector_background
     }
 
 }
