@@ -18,6 +18,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -28,7 +29,10 @@ class SimpRecycView : RecyclerView {
 
     fun initHelper(context: Context) {
         Log.v(TAGME, "init helper")
-        layoutManager = LinearLayoutManager(context)
+        when {
+            defaultColumnCount <= 1 -> layoutManager = LinearLayoutManager(context)
+            else -> layoutManager = GridLayoutManager(context, defaultColumnCount)
+        }
         adapter = SimpViewAdapter()
     }
 
@@ -58,11 +62,11 @@ class SimpRecycView : RecyclerView {
             view.isEnabled = true
             view.visibility = View.VISIBLE
             view.isFocusable = true
-            view.typeface = Typeface.MONOSPACE
+            view.typeface = viewTypeface
             view.gravity = Gravity.CENTER_VERTICAL
-            view.setTextColor(Color.BLACK)
+            view.setTextColor(viewTextColor)
             view.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            view.setBackgroundResource(R.drawable.list)
+            view.setBackgroundResource(viewBackgroundResource)
             return SimpViewHolder(view)
         }
 
@@ -79,6 +83,13 @@ class SimpRecycView : RecyclerView {
             var id = -1
         }
 
+    }
+
+    companion object {
+        var defaultColumnCount: Int = 3
+        var viewTextColor: Int = Color.BLACK
+        var viewTypeface: Typeface = Typeface.MONOSPACE
+        var viewBackgroundResource: Int = R.drawable.list
     }
 
 }
