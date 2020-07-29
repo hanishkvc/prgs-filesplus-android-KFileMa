@@ -10,7 +10,6 @@ package india.hanishkvc.filesharelocal
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import org.apache.commons.compress.archivers.ArchiveException
 import org.apache.commons.compress.archivers.ArchiveStreamFactory
 import java.io.InputStream
 import java.nio.file.Files
@@ -28,14 +27,6 @@ class ArchiveMa {
         Log.v(TAGME, "listArchive: $sInFile")
         val fileList = ArrayList<String>()
         val inFile: InputStream = Files.newInputStream(Paths.get(sInFile))
-        var sType = "UNKNOWN"
-        try {
-            sType = ArchiveStreamFactory.detect(inFile)
-        } catch (e: ArchiveException) {
-            Log.v(TAGME, "UnknownArchive:$sInFile: ${e.localizedMessage}" )
-            inFile.close()
-            return fileList
-        }
         val inFileA = ArchiveStreamFactory().createArchiveInputStream(inFile)
         while(true) {
             val entryA = inFileA.nextEntry
