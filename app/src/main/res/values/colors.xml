@@ -7,4 +7,8 @@
     <color name="colorListBGActivated">#808080F0</color>
     <color name="colorListBGPressed">#8000A0A0</color>
     <color name="colorListBGFocusedOld">#80C0C0C0</color>
+    <color name="colorButtonBGFocused">#8080F0F0</color>
+    <color name="colorButtonBGActivated">#808080F0</color>
+    <color name="colorButtonBGPressed">#8000A0A0</color>
+    <color name="colorButtonBGDefault">#80C0C0C0</color>
 </resources>
