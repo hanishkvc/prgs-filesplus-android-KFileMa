@@ -16,11 +16,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class SimpRecycView(context: Context, val dataList: ArrayList<String>) : RecyclerView(context) {
+class SimpRecycView(context: Context) : RecyclerView(context) {
+
+    var dataList = ArrayList<String>()
 
     init {
         layoutManager = LinearLayoutManager(context)
         adapter = SimpViewAdapter()
+    }
+
+    fun assignDataList(inDataList: ArrayList<String>) {
+        dataList.clear()
+        for (item in inDataList) {
+            dataList.add(item)
+        }
+        adapter?.notifyDataSetChanged()
     }
 
     inner class SimpViewAdapter : RecyclerView.Adapter<SimpViewAdapter.SimpViewHolder>() {
