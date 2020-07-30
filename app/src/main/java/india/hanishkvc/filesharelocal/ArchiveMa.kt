@@ -63,6 +63,7 @@ class ArchiveMa {
 
     companion object {
         const val UNKNOWN = "UNKNOWN"
+        const val ARCHIVE_7Z = ArchiveStreamFactory.SEVEN_Z
 
         fun mapExtToArchiveType(sInFile: String): String {
             val file = File(sInFile)

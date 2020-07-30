@@ -60,24 +60,35 @@ class ViewerActivity : AppCompatActivity() {
 
     fun handleContent() {
         val itype = intent.type?.toLowerCase()
+        val ifileStr = intent.data?.toFile().toString()
         if (itype != null) {
             if (itype.startsWith("video")) {
                 return showVideo()
-            } else if (itype.endsWith("/zip") ||
-                itype.endsWith("/x-tar") ||
-                itype.endsWith("/gzip") ||
-                itype.endsWith("/bzip2") ||
-                itype.endsWith("/x-xz") ||
-                itype.endsWith("/x-7z-compressed")) {
-                return showArchive()
+            } else {
+                var sArcType = ArchiveMa.UNKNOWN
+                if (itype.endsWith("/zip"))
+                    sArcType = ArchiveMa.mapExtToArchiveType(ifileStr)
+                if (itype.endsWith("/x-tar"))
+                    sArcType = ArchiveMa.mapExtToArchiveType(ifileStr)
+                if (itype.endsWith("/gzip"))
+                    sArcType = ArchiveMa.mapExtToCompressType(ifileStr)
+                if (itype.endsWith("/bzip2"))
+                    sArcType = ArchiveMa.mapExtToCompressType(ifileStr)
+                if (itype.endsWith("/x-xz"))
+                    sArcType = ArchiveMa.mapExtToCompressType(ifileStr)
+                if (itype.endsWith("/x-7z-compressed"))
+                    sArcType = ArchiveMa.mapExtToArchiveType(ifileStr)
+                if (sArcType != ArchiveMa.UNKNOWN) {
+                    return showArchive(sArcType)
+                }
             }
         } else {
-            val ifileStr = intent.data?.toFile().toString()
             if (ifileStr != null) {
                 var sCType = ArchiveMa.mapExtToCompressType(ifileStr)
                 var sAType = ArchiveMa.mapExtToArchiveType(ifileStr)
                 if ((sCType != ArchiveMa.UNKNOWN) || (sAType != ArchiveMa.UNKNOWN) ) {
-                    return showArchive()
+                    var sArcType = if (sCType == ArchiveMa.UNKNOWN) sAType else sCType
+                    return showArchive(sArcType)
                 }
             }
         }
@@ -169,12 +180,18 @@ class ViewerActivity : AppCompatActivity() {
         srcv?.assignDataList(sFiles)
     }
 
-    fun showArchive() {
+    fun showArchive(sArcType: String) {
         Log.v(TAGME, "showArchive: Entered")
         srcv?.visibility = View.VISIBLE
         srcv?.isEnabled = true
         try {
-            val sFiles = ArchiveMa().listArchive(intent.data?.toFile().toString())
+            val sArchFile = intent.data?.toFile().toString()
+            var sFiles: ArrayList<String>? = null
+            if (sArcType == ArchiveMa.ARCHIVE_7Z) {
+                sFiles = ArchiveMa().listArchive7z(sArchFile)
+            } else {
+                sFiles = ArchiveMa().listArchive(sArchFile)
+            }
             srcv?.assignDataList(sFiles)
         } catch (e: Exception) {
             Log.v(TAGME, "showArchive:Failed: ${e.localizedMessage}")
