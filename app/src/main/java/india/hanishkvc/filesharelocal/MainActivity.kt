@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private val TAGME = "FSLMain"
     private val BID_SAVEPATH = "BID_SAVEPATH"
 
-    private var btnUp: Button? = null
+    private var btnMa: Button? = null
     private var tvPath: TextView? = null
     private var fragMain: FManFragment? = null
 
@@ -89,10 +89,10 @@ class MainActivity : AppCompatActivity() {
         tvPath = findViewById<TextView>(R.id.tvPath)
         tvPath?.text = FManFragment.defaultPathStr
         fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
-        btnUp = findViewById<Button>(R.id.btnUp)
-        btnUp?.setOnClickListener {
+        btnMa = findViewById<Button>(R.id.btnMa)
+        btnMa?.setOnClickListener {
             backPath()
-            Log.v(TAGME, "btnUp: items ${fragMain!!.fmd?.ITEMS?.size}")
+            Log.v(TAGME, "btnMa: items ${fragMain!!.fmd?.ITEMS?.size}")
             Toast.makeText(this,"Items ${fragMain?.fmd?.ITEMS?.size}", Toast.LENGTH_SHORT).show()
         }
         checkPermissions()
