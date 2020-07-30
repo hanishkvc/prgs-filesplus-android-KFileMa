@@ -38,9 +38,8 @@ class ArchiveMa {
         } catch (e: Exception) {
             Log.v(TAGME, "listArchive: Is not compressed or ..., ${e.localizedMessage}")
         }
-        var inFileA: ArchiveInputStream? = null
         try {
-            inFileA = ArchiveStreamFactory().createArchiveInputStream(inFileX)
+            val inFileA = ArchiveStreamFactory().createArchiveInputStream(inFileX)
         } catch (e: StreamingNotSupportedException) {
             Log.w(TAGME, "listArchive:${e.localizedMessage}")
             if (e.format == ARCHIVE_7Z) {
@@ -51,13 +50,13 @@ class ArchiveMa {
             }
         }
         while(true) {
-            val entryA = inFileA?.nextEntry
+            val entryA = inFileA.nextEntry
             if (entryA == null) break
             fileList.add(entryA.name)
         }
         if (inFileX != inFileB) inFileB.close()
         inFileX.close()
-        inFileA?.close()
+        inFileA.close()
         inFile.close()
         return fileList
     }
