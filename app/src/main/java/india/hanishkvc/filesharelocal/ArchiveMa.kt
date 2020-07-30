@@ -29,7 +29,6 @@ class ArchiveMa {
         val fileList = ArrayList<String>()
         val inFile = FileInputStream(sInFile)
         val inFileB = BufferedInputStream(inFile)
-        //val sType = mapExtToArchiveType(sInFile)
         var inFileX = inFileB
         try {
             val inFileC = CompressorStreamFactory().createCompressorInputStream(inFileB)
@@ -42,7 +41,7 @@ class ArchiveMa {
         try {
             inFileA = ArchiveStreamFactory().createArchiveInputStream(inFileX)
         } catch (e: StreamingNotSupportedException) {
-            Log.w(TAGME, "listArchive:${e.localizedMessage}")
+            Log.w(TAGME, "listArchive:${e.localizedMessage}, chaining in 7z")
             if (e.format == ARCHIVE_7Z) {
                 inFileX.close()
                 inFileB.close()
