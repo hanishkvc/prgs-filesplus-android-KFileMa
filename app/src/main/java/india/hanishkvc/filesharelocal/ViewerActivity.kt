@@ -67,7 +67,7 @@ class ViewerActivity : AppCompatActivity() {
                 itype.endsWith("/x-tar") ||
                 itype.endsWith("/gzip") ||
                 itype.endsWith("/bzip2") ||
-                itype.endsWith("/xz") ||
+                itype.endsWith("/x-xz") ||
                 itype.endsWith("/x-7z-compressed")) {
                 return showArchive()
             }

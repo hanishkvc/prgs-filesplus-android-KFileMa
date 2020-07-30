@@ -48,7 +48,7 @@ class ArchiveMa {
             inFileX = BufferedInputStream(inFileC)
             Log.v(TAGME, "listArchive: Is compressed")
         } catch (e: Exception) {
-            Log.v(TAGME, "listArchive: Is not compressed or ...")
+            Log.v(TAGME, "listArchive: Is not compressed or ..., ${e.localizedMessage}")
         }
         val inFileA = ArchiveStreamFactory().createArchiveInputStream(inFileX)
         while(true) {
