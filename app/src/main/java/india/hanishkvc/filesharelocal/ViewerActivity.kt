@@ -184,9 +184,16 @@ class ViewerActivity : AppCompatActivity() {
         Log.v(TAGME, "showArchive: Entered")
         srcv?.visibility = View.VISIBLE
         srcv?.isEnabled = true
+        var sFiles: ArrayList<String>? = null
+        srcv?.onSRCVItemClickListener = {
+            Log.v(TAGME, "onSRCVItemClick: ${sFiles?.get(it)}")
+        }
+        srcv?.onSRCVItemLongClickListener = {
+            Log.v(TAGME, "onSRCVItemLongClick: $sFiles[it]")
+            false
+        }
         try {
             val sArchFile = intent.data?.toFile().toString()
-            var sFiles: ArrayList<String>? = null
             if (sArcType == ArchiveMa.ARCHIVE_7Z) {
                 sFiles = ArchiveMa().listArchive7z(sArchFile)
             } else {
