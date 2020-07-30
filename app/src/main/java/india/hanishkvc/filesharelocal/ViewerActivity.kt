@@ -186,11 +186,11 @@ class ViewerActivity : AppCompatActivity() {
         srcv?.isEnabled = true
         var sFiles: ArrayList<String>? = null
 
-        srcv?.onSRCVItemClickListener = {
-            Log.v(TAGME, "onSRCVItemClick: ${sFiles?.get(it)}")
+        srcv?.onSRCVItemClickListener = { position: Int, view: View ->
+            Log.v(TAGME, "onSRCVItemClick: ${sFiles?.get(position)}")
         }
-        srcv?.onSRCVItemLongClickListener = {
-            Log.v(TAGME, "onSRCVItemLongClick: ${sFiles?.get(it)}")
+        srcv?.onSRCVItemLongClickListener = { position: Int, view: View ->
+            Log.v(TAGME, "onSRCVItemLongClick: ${sFiles?.get(position)}")
             true
         }
 

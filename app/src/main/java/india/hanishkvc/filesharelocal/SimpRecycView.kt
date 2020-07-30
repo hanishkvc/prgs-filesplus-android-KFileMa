@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-typealias SRCVItemClickListener = (position: Int) -> kotlin.Unit
-typealias SRCVItemLongClickListener = (position: Int) -> kotlin.Boolean
+typealias SRCVItemClickListener = (position: Int, view: View) -> kotlin.Unit
+typealias SRCVItemLongClickListener = (position: Int, view: View) -> kotlin.Boolean
 
 class SimpRecycView : RecyclerView {
 
@@ -98,10 +98,10 @@ class SimpRecycView : RecyclerView {
 
             init {
                 itemView.setOnClickListener {
-                    onSRCVItemClickListener?.invoke(id)
+                    onSRCVItemClickListener?.invoke(id, it)
                 }
                 itemView.setOnLongClickListener {
-                    var res = onSRCVItemLongClickListener?.invoke(id)
+                    var res = onSRCVItemLongClickListener?.invoke(id, it)
                     if (res == null) res = false
                     return@setOnLongClickListener res
                 }
