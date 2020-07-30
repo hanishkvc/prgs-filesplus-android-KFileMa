@@ -71,6 +71,9 @@ class ViewerActivity : AppCompatActivity() {
                 itype.endsWith("/x-7z-compressed")) {
                 return showArchive()
             }
+        } else {
+            var sCType = ArchiveMa.mapExtToCompressType(intent.data?.toFile().toString())
+            var sAType = ArchiveMa.mapExtToArchiveType(intent.data?.toFile().toString())
         }
         showGeneralUseWebV()
     }

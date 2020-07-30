@@ -17,6 +17,7 @@ import java.io.FileInputStream
 class ArchiveMa {
 
     private val TAGME = "ArchiveMa"
+    val UNKNOWN = "UNKNOWN"
 
     init {
     }
@@ -31,7 +32,19 @@ class ArchiveMa {
             "ar" -> ArchiveStreamFactory.AR
             "jar" -> ArchiveStreamFactory.JAR
             "arj" -> ArchiveStreamFactory.ARJ
-            else -> "UNKNOWN"
+            else -> UNKNOWN
+        }
+        return sType
+    }
+
+    fun mapExtToCompressType(sInFile: String): String {
+        val sInFile2 = sInFile.toLowerCase()
+        val sExt = sInFile2.substringAfterLast(".", UNKNOWN)
+        val sType = when(sExt) {
+            "bz2" -> CompressorStreamFactory.BZIP2
+            "gz" -> CompressorStreamFactory.GZIP
+            "xz" -> CompressorStreamFactory.XZ
+            else -> UNKNOWN
         }
         return sType
     }
