@@ -72,8 +72,14 @@ class ViewerActivity : AppCompatActivity() {
                 return showArchive()
             }
         } else {
-            var sCType = ArchiveMa.mapExtToCompressType(intent.data?.toFile().toString())
-            var sAType = ArchiveMa.mapExtToArchiveType(intent.data?.toFile().toString())
+            val ifileStr = intent.data?.toFile().toString()
+            if (ifileStr != null) {
+                var sCType = ArchiveMa.mapExtToCompressType(ifileStr)
+                var sAType = ArchiveMa.mapExtToArchiveType(ifileStr)
+                if ((sCType != ArchiveMa.UNKNOWN) || (sAType != ArchiveMa.UNKNOWN) ) {
+                    return showArchive()
+                }
+            }
         }
         showGeneralUseWebV()
     }

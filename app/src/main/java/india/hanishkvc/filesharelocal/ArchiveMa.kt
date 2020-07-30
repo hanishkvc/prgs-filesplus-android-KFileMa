@@ -17,36 +17,8 @@ import java.io.FileInputStream
 class ArchiveMa {
 
     private val TAGME = "ArchiveMa"
-    val UNKNOWN = "UNKNOWN"
 
     init {
-    }
-
-    fun mapExtToArchiveType(sInFile: String): String {
-        val file = File(sInFile)
-        val sExt = file.extension.toLowerCase()
-        val sType = when(sExt) {
-            "zip" -> ArchiveStreamFactory.ZIP
-            "tar" -> ArchiveStreamFactory.TAR
-            "7z" -> ArchiveStreamFactory.SEVEN_Z
-            "ar" -> ArchiveStreamFactory.AR
-            "jar" -> ArchiveStreamFactory.JAR
-            "arj" -> ArchiveStreamFactory.ARJ
-            else -> UNKNOWN
-        }
-        return sType
-    }
-
-    fun mapExtToCompressType(sInFile: String): String {
-        val sInFile2 = sInFile.toLowerCase()
-        val sExt = sInFile2.substringAfterLast(".", UNKNOWN)
-        val sType = when(sExt) {
-            "bz2" -> CompressorStreamFactory.BZIP2
-            "gz" -> CompressorStreamFactory.GZIP
-            "xz" -> CompressorStreamFactory.XZ
-            else -> UNKNOWN
-        }
-        return sType
     }
 
     fun listArchive(sInFile: String): ArrayList<String> {
@@ -72,6 +44,38 @@ class ArchiveMa {
         inFileA.close()
         inFile.close()
         return fileList
+    }
+
+    companion object {
+        const val UNKNOWN = "UNKNOWN"
+
+        fun mapExtToArchiveType(sInFile: String): String {
+            val file = File(sInFile)
+            val sExt = file.extension.toLowerCase()
+            val sType = when(sExt) {
+                "zip" -> ArchiveStreamFactory.ZIP
+                "tar" -> ArchiveStreamFactory.TAR
+                "7z" -> ArchiveStreamFactory.SEVEN_Z
+                "ar" -> ArchiveStreamFactory.AR
+                "jar" -> ArchiveStreamFactory.JAR
+                "arj" -> ArchiveStreamFactory.ARJ
+                else -> UNKNOWN
+            }
+            return sType
+        }
+
+        fun mapExtToCompressType(sInFile: String): String {
+            val sInFile2 = sInFile.toLowerCase()
+            val sExt = sInFile2.substringAfterLast(".", UNKNOWN)
+            val sType = when(sExt) {
+                "bz2" -> CompressorStreamFactory.BZIP2
+                "gz" -> CompressorStreamFactory.GZIP
+                "xz" -> CompressorStreamFactory.XZ
+                else -> UNKNOWN
+            }
+            return sType
+        }
+
     }
 
 }
