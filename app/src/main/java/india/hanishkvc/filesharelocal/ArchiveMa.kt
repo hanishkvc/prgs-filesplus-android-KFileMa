@@ -9,6 +9,7 @@ package india.hanishkvc.filesharelocal
 
 import android.util.Log
 import org.apache.commons.compress.archivers.ArchiveStreamFactory
+import org.apache.commons.compress.archivers.sevenz.SevenZFile
 import org.apache.commons.compress.compressors.CompressorStreamFactory
 import java.io.BufferedInputStream
 import java.io.File
@@ -41,8 +42,22 @@ class ArchiveMa {
             if (entryA == null) break
             fileList.add(entryA.name)
         }
+        if (inFileX != inFileB) inFileB.close()
+        inFileX.close()
         inFileA.close()
         inFile.close()
+        return fileList
+    }
+
+    fun listArchive7z(sInFile: String): ArrayList<String> {
+        val f7 = SevenZFile(File(sInFile))
+        val fileList = ArrayList<String>()
+        while (true) {
+            val entry7 = f7.nextEntry
+            if (entry7 == null) break
+            fileList.add(entry7.name)
+        }
+        f7.close()
         return fileList
     }
 
