@@ -22,10 +22,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+typealias SRCVItemClickListener = (position: Int) -> kotlin.Unit
+typealias SRCVItemLongClickListener = (position: Int) -> kotlin.Boolean
+
 class SimpRecycView : RecyclerView {
 
     private val TAGME = "SimpRecycView"
     var dataList = ArrayList<String>()
+    var onSRCVItemClickListener: SRCVItemClickListener? = null
+    var onSRCVItemLongClickListener: SRCVItemLongClickListener? = null
 
     fun initHelper(context: Context) {
         Log.v(TAGME, "init helper")
@@ -81,6 +86,17 @@ class SimpRecycView : RecyclerView {
 
         inner class SimpViewHolder(itemView: View) : ViewHolder(itemView) {
             var id = -1
+
+            init {
+                itemView.setOnClickListener {
+                    onSRCVItemClickListener?.invoke(id)
+                }
+                itemView.setOnLongClickListener {
+                    var res = onSRCVItemLongClickListener?.invoke(id)
+                    if (res == null) res = false
+                    return@setOnLongClickListener res
+                }
+            }
         }
 
     }
