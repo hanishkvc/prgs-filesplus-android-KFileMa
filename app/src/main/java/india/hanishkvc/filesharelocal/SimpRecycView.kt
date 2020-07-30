@@ -29,6 +29,8 @@ class SimpRecycView<E> : RecyclerView {
 
     private val TAGME = "SimpRecycView"
     var dataList = ArrayList<E>()
+    var selected = ArrayList<Int>()
+    var bHandleMultiSelection = true
     var onSRCVItemClickListener: SRCVItemClickListener? = null
     var onSRCVItemLongClickListener: SRCVItemLongClickListener? = null
 
@@ -57,6 +59,7 @@ class SimpRecycView<E> : RecyclerView {
             dataList.add(item)
         }
         Log.v(TAGME, "assignDataList:${dataList.size} items in")
+        if (bHandleMultiSelection) selected.clear()
         adapter?.notifyDataSetChanged()
     }
 
@@ -83,6 +86,7 @@ class SimpRecycView<E> : RecyclerView {
         private fun bindInternalSimpleView(holder: SimpViewHolder, position: Int) {
             holder.id = position
             (holder.itemView as TextView).text = dataList[position].toString()
+            if (bHandleMultiSelection) holder.itemView.isActivated = selected.contains(position)
         }
 
         override fun onBindViewHolder(holder: SimpViewHolder, position: Int) {
@@ -101,6 +105,9 @@ class SimpRecycView<E> : RecyclerView {
                     onSRCVItemClickListener?.invoke(id, it)
                 }
                 itemView.setOnLongClickListener {
+                    if (bHandleMultiSelection) {
+                        if (selected.contains(id)) selected.remove(id) else selected.add(id)
+                    }
                     var res = onSRCVItemLongClickListener?.invoke(id, it)
                     if (res == null) res = false
                     return@setOnLongClickListener res
