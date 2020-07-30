@@ -173,8 +173,14 @@ class ViewerActivity : AppCompatActivity() {
         Log.v(TAGME, "showArchive: Entered")
         srcv?.visibility = View.VISIBLE
         srcv?.isEnabled = true
-        val sFiles = ArchiveMa().listArchive(intent.data?.toFile().toString())
-        srcv?.assignDataList(sFiles)
+        try {
+            val sFiles = ArchiveMa().listArchive(intent.data?.toFile().toString())
+            srcv?.assignDataList(sFiles)
+        } catch (e: Exception) {
+            Log.v(TAGME, "showArchive:Failed: ${e.localizedMessage}")
+            setResult(Activity.RESULT_CANCELED)
+            finish()
+        }
     }
 
 }
