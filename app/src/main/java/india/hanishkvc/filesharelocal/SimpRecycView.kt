@@ -62,7 +62,7 @@ class SimpRecycView : RecyclerView {
 
     inner class SimpViewAdapter : RecyclerView.Adapter<SimpViewAdapter.SimpViewHolder>() {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpViewHolder {
+        private fun createInternalSimpleView(): View {
             val view = TextView(context)
             view.isEnabled = true
             view.visibility = View.VISIBLE
@@ -72,6 +72,11 @@ class SimpRecycView : RecyclerView {
             view.setTextColor(viewTextColor)
             view.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             view.setBackgroundResource(viewBackgroundResource)
+            return view
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpViewHolder {
+            val view = createInternalSimpleView()
             return SimpViewHolder(view)
         }
 
