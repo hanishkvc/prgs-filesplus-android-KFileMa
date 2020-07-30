@@ -8,6 +8,7 @@
 package india.hanishkvc.filesharelocal
 
 import android.util.Log
+import org.apache.commons.compress.archivers.ArchiveInputStream
 import org.apache.commons.compress.archivers.ArchiveStreamFactory
 import org.apache.commons.compress.archivers.sevenz.SevenZFile
 import org.apache.commons.compress.compressors.CompressorStreamFactory
@@ -36,15 +37,20 @@ class ArchiveMa {
         } catch (e: Exception) {
             Log.v(TAGME, "listArchive: Is not compressed or ..., ${e.localizedMessage}")
         }
-        val inFileA = ArchiveStreamFactory().createArchiveInputStream(inFileX)
+        var inFileA: ArchiveInputStream? = null
+        try {
+            val inFileA = ArchiveStreamFactory().createArchiveInputStream(inFileX)
+        } catch (e: Exception) {
+            Log.w(TAGME, "listArchive:${e.localizedMessage}")
+        }
         while(true) {
-            val entryA = inFileA.nextEntry
+            val entryA = inFileA?.nextEntry
             if (entryA == null) break
             fileList.add(entryA.name)
         }
         if (inFileX != inFileB) inFileB.close()
         inFileX.close()
-        inFileA.close()
+        inFileA?.close()
         inFile.close()
         return fileList
     }
