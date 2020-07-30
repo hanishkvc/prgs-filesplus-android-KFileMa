@@ -100,13 +100,24 @@ class SimpRecycView<E> : RecyclerView {
         inner class SimpViewHolder(itemView: View) : ViewHolder(itemView) {
             var id = -1
 
+            private fun handleSelection() {
+                if (selected.contains(id)) {
+                    selected.remove(id)
+                    itemView.isActivated = false
+                } else  {
+                    selected.add(id)
+                    itemView.isActivated = true
+                }
+            }
+
             init {
                 itemView.setOnClickListener {
                     onSRCVItemClickListener?.invoke(id, it)
                 }
                 itemView.setOnLongClickListener {
                     if (bHandleMultiSelection) {
-                        if (selected.contains(id)) selected.remove(id) else selected.add(id)
+                        handleSelection()
+                        Log.v(TAGME, "onLongClick: $id, ${selected.contains(id)}")
                     }
                     var res = onSRCVItemLongClickListener?.invoke(id, it)
                     if (res == null) res = false
