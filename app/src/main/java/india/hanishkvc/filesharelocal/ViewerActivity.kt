@@ -30,7 +30,7 @@ class ViewerActivity : AppCompatActivity() {
     private var webv: WebView? = null
     private var videov: VideoView? = null
     private var mtextv: EditText? = null
-    private var srcv: SimpRecycView? = null
+    private var srcv: SimpRecycView<String>? = null
 
     var bVideoFault = false
 
@@ -50,7 +50,7 @@ class ViewerActivity : AppCompatActivity() {
         mtextv?.isEnabled = false
         mtextv?.visibility = View.GONE
         mtextv?.typeface = Typeface.MONOSPACE
-        srcv = findViewById<SimpRecycView>(R.id.srcv)
+        srcv = findViewById<SimpRecycView<String>>(R.id.srcv)
         srcv?.isEnabled = false
         srcv?.visibility = View.GONE
 

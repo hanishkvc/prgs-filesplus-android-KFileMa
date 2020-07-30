@@ -25,10 +25,10 @@ import androidx.recyclerview.widget.RecyclerView
 typealias SRCVItemClickListener = (position: Int, view: View) -> kotlin.Unit
 typealias SRCVItemLongClickListener = (position: Int, view: View) -> kotlin.Boolean
 
-class SimpRecycView : RecyclerView {
+class SimpRecycView<E> : RecyclerView {
 
     private val TAGME = "SimpRecycView"
-    var dataList = ArrayList<String>()
+    var dataList = ArrayList<E>()
     var onSRCVItemClickListener: SRCVItemClickListener? = null
     var onSRCVItemLongClickListener: SRCVItemLongClickListener? = null
 
@@ -51,7 +51,7 @@ class SimpRecycView : RecyclerView {
         initHelper(context)
     }
 
-    fun assignDataList(inDataList: ArrayList<String>) {
+    fun assignDataList(inDataList: ArrayList<E>) {
         dataList.clear()
         for (item in inDataList) {
             dataList.add(item)
@@ -82,7 +82,7 @@ class SimpRecycView : RecyclerView {
 
         private fun bindInternalSimpleView(holder: SimpViewHolder, position: Int) {
             holder.id = position
-            (holder.itemView as TextView).text = dataList[position]
+            (holder.itemView as TextView).text = dataList[position].toString()
         }
 
         override fun onBindViewHolder(holder: SimpViewHolder, position: Int) {
