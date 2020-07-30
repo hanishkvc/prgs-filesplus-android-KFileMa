@@ -195,7 +195,7 @@ class ViewerActivity : AppCompatActivity() {
         try {
             val sArchFile = intent.data?.toFile().toString()
             if (sArcType == ArchiveMa.ARCHIVE_7Z) {
-                sFiles = ArchiveMa().listArchive7z(sArchFile)
+                sFiles = ArchiveMa().listArchive(sArchFile)
             } else {
                 sFiles = ArchiveMa().listArchive(sArchFile)
             }

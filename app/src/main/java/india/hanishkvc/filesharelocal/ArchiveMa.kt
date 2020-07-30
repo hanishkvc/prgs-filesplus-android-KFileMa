@@ -10,6 +10,7 @@ package india.hanishkvc.filesharelocal
 import android.util.Log
 import org.apache.commons.compress.archivers.ArchiveInputStream
 import org.apache.commons.compress.archivers.ArchiveStreamFactory
+import org.apache.commons.compress.archivers.StreamingNotSupportedException
 import org.apache.commons.compress.archivers.sevenz.SevenZFile
 import org.apache.commons.compress.compressors.CompressorStreamFactory
 import java.io.BufferedInputStream
@@ -39,9 +40,15 @@ class ArchiveMa {
         }
         var inFileA: ArchiveInputStream? = null
         try {
-            val inFileA = ArchiveStreamFactory().createArchiveInputStream(inFileX)
-        } catch (e: Exception) {
+            inFileA = ArchiveStreamFactory().createArchiveInputStream(inFileX)
+        } catch (e: StreamingNotSupportedException) {
             Log.w(TAGME, "listArchive:${e.localizedMessage}")
+            if (e.format == ARCHIVE_7Z) {
+                inFileX.close()
+                inFileB.close()
+                inFile.close()
+                return listArchive7z(sInFile)
+            }
         }
         while(true) {
             val entryA = inFileA?.nextEntry
