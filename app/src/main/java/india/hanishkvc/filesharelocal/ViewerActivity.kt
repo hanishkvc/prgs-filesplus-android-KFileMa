@@ -65,6 +65,7 @@ class ViewerActivity : AppCompatActivity() {
                 return showVideo()
             } else if (itype.endsWith("/zip") ||
                 itype.endsWith("/x-tar") ||
+                itype.endsWith("/gzip") ||
                 itype.endsWith("/x-7z-compressed")) {
                 return showArchive()
             }

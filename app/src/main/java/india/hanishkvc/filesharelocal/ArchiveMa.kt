@@ -9,6 +9,7 @@ package india.hanishkvc.filesharelocal
 
 import android.util.Log
 import org.apache.commons.compress.archivers.ArchiveStreamFactory
+import org.apache.commons.compress.compressors.CompressorStreamFactory
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileInputStream
@@ -41,7 +42,15 @@ class ArchiveMa {
         val inFile = FileInputStream(sInFile)
         val inFileB = BufferedInputStream(inFile)
         //val sType = mapExtToArchiveType(sInFile)
-        val inFileA = ArchiveStreamFactory().createArchiveInputStream(inFileB)
+        var inFileX = inFileB
+        try {
+            val inFileC = CompressorStreamFactory().createCompressorInputStream(inFileB)
+            inFileX = BufferedInputStream(inFileC)
+            Log.v(TAGME, "listArchive: Is compressed")
+        } catch (e: Exception) {
+            Log.v(TAGME, "listArchive: Is not compressed or ...")
+        }
+        val inFileA = ArchiveStreamFactory().createArchiveInputStream(inFileX)
         while(true) {
             val entryA = inFileA.nextEntry
             if (entryA == null) break
