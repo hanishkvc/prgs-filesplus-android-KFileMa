@@ -9,6 +9,7 @@ package india.hanishkvc.filesharelocal
 
 import android.util.Log
 import org.apache.commons.compress.archivers.ArchiveStreamFactory
+import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileInputStream
 
@@ -38,8 +39,9 @@ class ArchiveMa {
         Log.v(TAGME, "listArchive: $sInFile")
         val fileList = ArrayList<String>()
         val inFile = FileInputStream(sInFile)
-        val sType = mapExtToArchiveType(sInFile)
-        val inFileA = ArchiveStreamFactory().createArchiveInputStream(sType, inFile)
+        val inFileB = BufferedInputStream(inFile)
+        //val sType = mapExtToArchiveType(sInFile)
+        val inFileA = ArchiveStreamFactory().createArchiveInputStream(inFileB)
         while(true) {
             val entryA = inFileA.nextEntry
             if (entryA == null) break
