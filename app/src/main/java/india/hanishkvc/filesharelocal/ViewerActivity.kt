@@ -189,8 +189,8 @@ class ViewerActivity : AppCompatActivity() {
             Log.v(TAGME, "onSRCVItemClick: ${sFiles?.get(it)}")
         }
         srcv?.onSRCVItemLongClickListener = {
-            Log.v(TAGME, "onSRCVItemLongClick: $sFiles[it]")
-            false
+            Log.v(TAGME, "onSRCVItemLongClick: ${sFiles?.get(it)}")
+            true
         }
         try {
             val sArchFile = intent.data?.toFile().toString()
