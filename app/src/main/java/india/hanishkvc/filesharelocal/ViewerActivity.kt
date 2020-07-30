@@ -185,6 +185,7 @@ class ViewerActivity : AppCompatActivity() {
         srcv?.visibility = View.VISIBLE
         srcv?.isEnabled = true
         var sFiles: ArrayList<String>? = null
+
         srcv?.onSRCVItemClickListener = {
             Log.v(TAGME, "onSRCVItemClick: ${sFiles?.get(it)}")
         }
@@ -192,13 +193,10 @@ class ViewerActivity : AppCompatActivity() {
             Log.v(TAGME, "onSRCVItemLongClick: ${sFiles?.get(it)}")
             true
         }
+
         try {
             val sArchFile = intent.data?.toFile().toString()
-            if (sArcType == ArchiveMa.ARCHIVE_7Z) {
-                sFiles = ArchiveMa().listArchive(sArchFile)
-            } else {
-                sFiles = ArchiveMa().listArchive(sArchFile)
-            }
+            sFiles = ArchiveMa().listArchive(sArchFile)
             srcv?.assignDataList(sFiles)
         } catch (e: Exception) {
             Log.v(TAGME, "showArchive:Failed: ${e.localizedMessage}")
