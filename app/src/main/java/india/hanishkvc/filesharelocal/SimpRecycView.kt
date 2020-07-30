@@ -80,9 +80,13 @@ class SimpRecycView : RecyclerView {
             return SimpViewHolder(view)
         }
 
-        override fun onBindViewHolder(holder: SimpViewHolder, position: Int) {
+        private fun bindInternalSimpleView(holder: SimpViewHolder, position: Int) {
             holder.id = position
             (holder.itemView as TextView).text = dataList[position]
+        }
+
+        override fun onBindViewHolder(holder: SimpViewHolder, position: Int) {
+            bindInternalSimpleView(holder, position)
         }
 
         override fun getItemCount(): Int {
