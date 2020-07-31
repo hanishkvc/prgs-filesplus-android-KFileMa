@@ -39,12 +39,18 @@ typealias SRCVItemClickListener = (position: Int, view: View) -> kotlin.Unit
  * view: the item specific view which got clicked/pressed
  */
 typealias SRCVItemLongClickListener = (position: Int, view: View) -> kotlin.Boolean
+
 /**
  * Callback which will be called when SRcV becomes visible and or its contents change.
  * This helps create a set of itemviews which will be used as required to show the
  * contents of the dataList (and or as the developer chooses).
  */
 typealias SRCVCreateViewHolder = () -> View
+/**
+ * Callback which will be called when SRcV wants to show a item using an existing
+ * ViewHolder with its view.
+ */
+typealias SRCVBindView = (view: View, position: Int) -> Unit
 
 
 /**
@@ -103,6 +109,7 @@ class SimpRecycView<E> : RecyclerView {
     var onSRCVItemClickListener: SRCVItemClickListener? = null
     var onSRCVItemLongClickListener: SRCVItemLongClickListener? = null
     var onSRCVCreateViewHolder: SRCVCreateViewHolder? = null
+    var onSRCVBindView: SRCVBindView? = null
 
     fun initHelper(context: Context) {
         Log.v(TAGME, "init helper")
