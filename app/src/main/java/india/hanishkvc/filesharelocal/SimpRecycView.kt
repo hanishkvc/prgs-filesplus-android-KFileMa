@@ -41,14 +41,17 @@ typealias SRCVItemClickListener = (position: Int, view: View) -> kotlin.Unit
 typealias SRCVItemLongClickListener = (position: Int, view: View) -> kotlin.Boolean
 
 /**
- * Callback which will be called when SRcV becomes visible and or its contents change.
+ * Callback which will be called when SRcV wants a view to show one of the items
+ * given to it. This could occur when SRcV becomes visible and or its contents change.
  * This helps create a set of itemviews which will be used as required to show the
  * contents of the dataList (and or as the developer chooses).
  */
 typealias SRCVCreateView = () -> View
 /**
  * Callback which will be called when SRcV wants to show a item using an existing
- * ViewHolder with its view.
+ * view, from its cache of views (view holders with their views).
+ * Developers using SRcV are expected to update the view's content based on the data
+ * corresponding to the given position in the datalist.
  */
 typealias SRCVBindView = (view: View, position: Int) -> Unit
 
