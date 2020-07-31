@@ -57,6 +57,11 @@ class FManFragment : Fragment() {
             pathView.text = item.path.substringAfterLast(File.separator)
         }
 
+        recyclerView?.onSRCVItemClickListener = { position: Int, view: View ->
+            Log.v(TAGME, "onClick: ${position}, ${fmd?.ITEMS?.get(position)}")
+            FMan.fManItemInteractionIF?.doNavigate(position)
+        }
+
         recyclerView?.assignDataList(fmd!!.ITEMS as ArrayList<FMan.FManItem>)
         recyclerView?.preserveFocusAfterLayout = true
         return recyclerView
