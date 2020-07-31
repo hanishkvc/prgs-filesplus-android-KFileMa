@@ -123,9 +123,12 @@ class MainActivity : AppCompatActivity() {
         fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
         btnMa = findViewById<Button>(R.id.btnMa)
         btnMa?.setOnClickListener {
+            contextMenu()
+            /*
             backPath()
             Log.v(TAGME, "btnMa: items ${fragMain!!.fmd?.ITEMS?.size}")
             Toast.makeText(this,"Items ${fragMain?.fmd?.ITEMS?.size}", Toast.LENGTH_SHORT).show()
+             */
         }
         checkPermissions()
         setupFManInteractions()
@@ -303,6 +306,21 @@ class MainActivity : AppCompatActivity() {
             menuList.add("Back")
         }
         menuList.add("Settings")
+        // Show context menu dialog
+        val builder = AlertDialog.Builder(this).also {
+            it.setTitle("KFileMa")
+            it.setItems(menuList.toTypedArray(),
+                { _: DialogInterface, i: Int ->
+                    Log.v(TAGME, "contextMenu: $menuList[i]")
+                    if (menuList[i] == "Back") {
+                        backPath()
+                    } else if (menuList[i] == "Copy") {
+
+                    }
+                })
+        }
+        val dlg = builder.create()
+        dlg.show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
