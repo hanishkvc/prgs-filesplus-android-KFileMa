@@ -45,7 +45,7 @@ typealias SRCVItemLongClickListener = (position: Int, view: View) -> kotlin.Bool
  * This helps create a set of itemviews which will be used as required to show the
  * contents of the dataList (and or as the developer chooses).
  */
-typealias SRCVCreateViewHolder = () -> View
+typealias SRCVCreateView = () -> View
 /**
  * Callback which will be called when SRcV wants to show a item using an existing
  * ViewHolder with its view.
@@ -65,8 +65,8 @@ typealias SRCVBindView = (view: View, position: Int) -> Unit
  *   If there is only a single data per item to be shown, then SRcV will handle this
  *   using textview, automatically.
  * * or they could handle the item view on their own similar to in RecyclerView
- *   IN this case one is required to provide the call backs for onSRcVCreateViewHolder
- *   and onSRcVBindViewHolder.
+ *   IN this case one is required to provide the call backs for onSRcVCreateView
+ *   and onSRcVBindView.
  *
  * Handling Interaction with Individual Items: Developer needs to assign callbacks
  * to onSRCVItemClickListener and onSRCVItemLongClickListener. These are called for
@@ -108,7 +108,7 @@ class SimpRecycView<E> : RecyclerView {
      */
     var onSRCVItemClickListener: SRCVItemClickListener? = null
     var onSRCVItemLongClickListener: SRCVItemLongClickListener? = null
-    var onSRCVCreateViewHolder: SRCVCreateViewHolder? = null
+    var onSRCVCreateView: SRCVCreateView? = null
     var onSRCVBindView: SRCVBindView? = null
 
     fun initHelper(context: Context) {
@@ -158,18 +158,18 @@ class SimpRecycView<E> : RecyclerView {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpViewHolder {
-            val view = onSRCVCreateViewHolder?.invoke() ?: createInternalSimpleView()
+            val view = onSRCVCreateView?.invoke() ?: createInternalSimpleView()
             return SimpViewHolder(view)
         }
 
-        private fun bindInternalSimpleView(holder: SimpViewHolder, position: Int) {
-            holder.id = position
-            (holder.itemView as TextView).text = dataList[position].toString()
-            if (bHandleMultiSelection) holder.itemView.isActivated = selected.contains(position)
+        private fun bindInternalSimpleView(view: View, position: Int) {
+            (view as TextView).text = dataList[position].toString()
         }
 
         override fun onBindViewHolder(holder: SimpViewHolder, position: Int) {
-            bindInternalSimpleView(holder, position)
+            holder.id = position
+            onSRCVBindView?.invoke(holder.itemView, position) ?: bindInternalSimpleView(holder.itemView, position)
+            if (bHandleMultiSelection) holder.itemView.isActivated = selected.contains(position)
         }
 
         override fun getItemCount(): Int {
