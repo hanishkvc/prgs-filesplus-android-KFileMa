@@ -20,7 +20,7 @@ class FManFragment : Fragment() {
 
     private val TAGME = "FManFrag"
     private var columnCount = defaultColCnt
-    private var recyclerView: SimpRecycView<FMan.FManItem>? = null
+    var recyclerView: SimpRecycView<FMan.FManItem>? = null
     var fmd: FMan.FManData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -49,6 +49,14 @@ class MainActivity : AppCompatActivity() {
     private var vfUri: Uri? = null
     private var vfMime: String? = null
 
+    enum class MainState {
+        NORMAL,
+        CANPASTE,
+        TRANSFERING,
+    }
+    var mainState = MainState.NORMAL
+
+
     private fun setupStartState(savedInstanceState: Bundle?) {
         // Handle initial path
         var sPath = savedInstanceState?.getCharSequence(BID_SAVEPATH)
@@ -281,6 +289,20 @@ class MainActivity : AppCompatActivity() {
         tvPath?.text = path
         Log.v(TAGME,"backPath: $path")
         loadPath(defEntry = back)
+    }
+
+    fun contextMenu() {
+        val menuList = ArrayList<String>()
+        val selectedList = fragMain?.recyclerView?.getSelectedList()
+        if (selectedList != null) {
+            Log.v(TAGME, "contextMenu: $selectedList")
+            menuList.add("Copy")
+        }
+        if (mainState == MainState.CANPASTE) menuList.add("Paste")
+        if (menuList.count() > 0) {
+            menuList.add("Back")
+        }
+        menuList.add("Settings")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
