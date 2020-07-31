@@ -195,6 +195,14 @@ class SimpRecycView<E> : RecyclerView {
         }
     }
 
+    fun getSelectedList(): ArrayList<E> {
+        val selectedList = ArrayList<E>()
+        for (i in selected) {
+            selectedList.add(dataList[i])
+        }
+        return selectedList
+    }
+
     /**
      * Set focus to the view corresponding to the specified position in the dataList.
      * If requested it even scrolls the item into view, if not already in view.
