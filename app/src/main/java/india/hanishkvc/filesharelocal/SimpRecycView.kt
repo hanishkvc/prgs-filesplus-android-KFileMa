@@ -109,7 +109,9 @@ class SimpRecycView<E> : RecyclerView {
             view.typeface = viewTypeface
             view.gravity = Gravity.CENTER_VERTICAL
             view.setTextColor(viewTextColor)
-            view.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val mlayout = MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            mlayout.setMargins(16, 6, 16, 2)
+            view.layoutParams = mlayout
             view.setBackgroundResource(viewBackgroundResource)
             return view
         }
