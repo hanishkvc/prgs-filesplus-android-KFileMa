@@ -6,9 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import india.hanishkvc.filesharelocal.fman.FMan
 import kotlin.time.ExperimentalTime
 
@@ -21,7 +18,7 @@ class FManFragment : Fragment() {
 
     private val TAGME = "FManFrag"
     private var columnCount = defaultColCnt
-    private var recyclerView: RecyclerView? = null
+    private var recyclerView: SimpRecycView<FMan.FManItem>? = null
     var fmd: FMan.FManData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,20 +36,11 @@ class FManFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         Log.v(TAGME, "onCreateView: Entered")
-        recyclerView = inflater.inflate(R.layout.fragment_fman_list, container, false) as RecyclerView
+        recyclerView = inflater.inflate(R.layout.fragment_fman_list, container, false) as SimpRecycView<FMan.FManItem>
 
-        // Set the adapter
-        if (recyclerView is RecyclerView) {
-            with(recyclerView) {
-                this?.layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                fmd = FMan.FManData()
-                fmd!!.loadPath(defaultPathStr)
-                this?.adapter = FManRecyclerViewAdapter(fmd!!)
-            }
-        }
+        fmd = FMan.FManData()
+        fmd!!.loadPath(defaultPathStr)
+        recyclerView?.assignDataList(fmd!!.ITEMS as ArrayList<FMan.FManItem>)
         recyclerView?.preserveFocusAfterLayout = true
         return recyclerView
     }
