@@ -68,8 +68,7 @@ class FManFragment : Fragment() {
     }
 
     fun updateFrag(initialPosition: Int = -1) {
-        recyclerView?.adapter?.notifyDataSetChanged()
-        (recyclerView?.adapter as FManRecyclerViewAdapter).selected.clear()
+        recyclerView?.assignDataList(fmd!!.ITEMS as ArrayList<FMan.FManItem>)
         if (initialPosition >= 0) {
             recyclerView?.scrollToPosition(initialPosition)
             recyclerView?.post {
