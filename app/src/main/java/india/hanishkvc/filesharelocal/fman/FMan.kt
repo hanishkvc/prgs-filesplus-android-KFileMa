@@ -5,6 +5,7 @@ import android.os.Environment
 import android.os.storage.StorageManager
 import android.util.Log
 import java.io.File
+import java.io.IOException
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -108,6 +109,17 @@ object FMan {
         return vols
     }
 
+    fun copyFile(src: File, dst: File): Boolean {
+        return src.copyRecursively(dst, false, { file: File, ioException: IOException ->
+            Log.v(TAGME, "copy: ${file.name}: ${ioException.localizedMessage}")
+            OnErrorAction.SKIP
+        })
+    }
+
+    fun deleteFile(file: File): Boolean {
+        Log.v(TAGME, "delete: ${file.name}")
+        return file.deleteRecursively()
+    }
 
     class FManData {
         /**
