@@ -20,6 +20,7 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -205,18 +206,31 @@ class SimpRecycView<E> : RecyclerView {
                 }
             }
 
+            private fun handleSelection(view: View): Boolean {
+                if (bHandleMultiSelection) {
+                    handleSelection()
+                    Log.v(TAGME, "onLongClick: $id, ${selected.contains(id)}")
+                }
+                var res = onSRCVItemLongClickListener?.invoke(id, view)
+                if (res == null) res = false
+                return res
+            }
+
             init {
                 itemView.setOnClickListener {
                     onSRCVItemClickListener?.invoke(id, it)
                 }
                 itemView.setOnLongClickListener {
-                    if (bHandleMultiSelection) {
-                        handleSelection()
-                        Log.v(TAGME, "onLongClick: $id, ${selected.contains(id)}")
+                    return@setOnLongClickListener handleSelection(it)
+                }
+                itemView.setOnKeyListener { v, keyCode, event ->
+                    if (event != null) {
+                        if ( (keyCode == KeyEvent.KEYCODE_SPACE) &&
+                            (event.action == KeyEvent.ACTION_DOWN) ) {
+                            return@setOnKeyListener handleSelection(v)
+                        }
                     }
-                    var res = onSRCVItemLongClickListener?.invoke(id, it)
-                    if (res == null) res = false
-                    return@setOnLongClickListener res
+                    false
                 }
             }
         }
