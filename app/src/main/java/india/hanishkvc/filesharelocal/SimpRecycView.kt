@@ -102,34 +102,44 @@ class SimpRecycView<E> : RecyclerView {
 
     /**
      * dataList: The list of data items associated with this SRcV.
+     */
+    var dataList = ArrayList<E>()
+    /**
      * selected: The list of item positions which have been selected by the user.
+     */
+    var selected = ArrayList<Int>()
+    /**
      * bHandleMultiSelection: Set to allow SRcV handle the multi selection logic.
      *     It expects ItemView background drawable selector to support activated state.
      *     Selected items will have their itemview's state set to activated.
      */
-    var dataList = ArrayList<E>()
-    var selected = ArrayList<Int>()
     var bHandleMultiSelection = true
 
     /**
      * CallBacks: Interaction
      * onSRCVItemClickListener: Called when the user clicks/presses an item
+     */
+    var onSRCVItemClickListener: SRCVItemClickListener? = null
+    /**
+     * CallBacks: Interaction
      * onSRCVItemLongClickListener: Called when user long clicks/presses the item.
      *     If using keyboard, then pressing spacebar triggers this.
      */
-    var onSRCVItemClickListener: SRCVItemClickListener? = null
     var onSRCVItemLongClickListener: SRCVItemLongClickListener? = null
 
     /**
      * CallBacks: Display
      * onSRCVCreateView: Called when a new item view is required.
+     */
+    var onSRCVCreateView: SRCVCreateView? = null
+    /**
+     * CallBacks: Display
      * onSRCVBindView: Called when a item view is being assinged to new or different item.
      *     Thus needing its content to change.
      */
-    var onSRCVCreateView: SRCVCreateView? = null
     var onSRCVBindView: SRCVBindView? = null
 
-    fun initHelper(context: Context, columnCount: Int = -1) {
+    private fun initHelper(context: Context, columnCount: Int = -1) {
         Log.v(TAGME, "init helper")
         val theColumnCount = if (columnCount == -1) defaultColumnCount else columnCount
         when {
