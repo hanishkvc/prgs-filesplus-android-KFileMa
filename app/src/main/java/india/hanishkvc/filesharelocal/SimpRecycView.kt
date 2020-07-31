@@ -136,6 +136,9 @@ class SimpRecycView<E> : RecyclerView {
      * CallBacks: Display
      * onSRCVBindView: Called when a item view is being assinged to new or different item.
      *     Thus needing its content to change.
+     * NOTE: By using view and not any view holder, it potentially sacrifices perf a bit ;)
+     * as one is required to use findViewById on the view to get the child views. But then
+     * it keeps the flow simple for the SimpRecycView, without too much overhead at one level.
      */
     var onSRCVBindView: SRCVBindView? = null
 
@@ -154,16 +157,31 @@ class SimpRecycView<E> : RecyclerView {
         initHelper(context)
     }
 
+    /**
+     * The constructor that is normally called during layout xml inflating
+     */
     constructor(context: Context, intf: AttributeSet) : super(context, intf) {
         Log.v(TAGME, "Constructor with 2args: attribute set")
         initHelper(context)
     }
 
+    /**
+     * Constructor to call, if you want to explicitly control the number of columns
+     * to be shown and inturn whether a list or grid layout will be provided.
+     */
     constructor(context: Context, columnCount: Int) : super(context) {
         Log.v(TAGME, "Constructor with 2args: columnCount")
         initHelper(context, columnCount)
     }
 
+    /**
+     * Use this to load a new dataList to this SRcV instance.
+     * It takes care of clearing the old data and selected list,
+     * then copies over the newly passed dataList,
+     * notifies internal adapter and layout managers about new dataset,
+     * and in turn scrolls and sets focus to a predefined position in
+     * the dataList if requested for now.
+     */
     fun assignDataList(inDataList: ArrayList<E>, initialPosition: Int = -1) {
         dataList.clear()
         for (item in inDataList) {
@@ -177,6 +195,10 @@ class SimpRecycView<E> : RecyclerView {
         }
     }
 
+    /**
+     * Set focus to the view corresponding to the specified position in the dataList.
+     * If requested it even scrolls the item into view, if not already in view.
+     */
     fun focus(position: Int, bFocus: Boolean = true, bScrollIfRequired: Boolean = true) {
         if (bScrollIfRequired) scrollToPosition(position)
         post {
