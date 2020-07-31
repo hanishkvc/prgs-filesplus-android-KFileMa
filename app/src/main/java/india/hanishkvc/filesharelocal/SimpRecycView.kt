@@ -167,8 +167,8 @@ class SimpRecycView<E> : RecyclerView {
         }
     }
 
-    fun focus(position: Int, bFocus: Boolean = true) {
-        scrollToPosition(position)
+    fun focus(position: Int, bFocus: Boolean = true, bScrollIfRequired: Boolean = true) {
+        if (bScrollIfRequired) scrollToPosition(position)
         post {
             layoutManager?.findViewByPosition(position)?.let {
                 if (bFocus) {
