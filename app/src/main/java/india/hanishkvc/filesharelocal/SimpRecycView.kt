@@ -63,6 +63,13 @@ typealias SRCVBindView = (view: View, position: Int) -> Unit
  * Each item in turn could be either a single data value or a set of data values.
  * If single and textual then SRcV can handle it on its own fully.
  *
+ * List or Grid Layout: Based on the number of columns to show, it decides between
+ * list and grid layout. If more than 1 column is required then grid layout is used
+ * else it will appear as a list. If explicitly creating SRcV in code, then one
+ * can pass the columnCount to its constructor. Else there is companion var called
+ * defaultColumnCount, whose value will be used to decide, developer using SRcV can
+ * set this static/companion var to their liking. By default it will be 1.
+ *
  * Handling Display of Individual Item: Developer could either
  * * let SRcV handle the display of items to users
  *   If there is only a single data per item to be shown, then SRcV will handle this
@@ -114,10 +121,11 @@ class SimpRecycView<E> : RecyclerView {
     var onSRCVCreateView: SRCVCreateView? = null
     var onSRCVBindView: SRCVBindView? = null
 
-    fun initHelper(context: Context) {
+    fun initHelper(context: Context, columnCount: Int = -1) {
         Log.v(TAGME, "init helper")
+        val theColumnCount = if (columnCount == -1) defaultColumnCount else columnCount
         when {
-            defaultColumnCount <= 1 -> layoutManager = LinearLayoutManager(context)
+            theColumnCount <= 1 -> layoutManager = LinearLayoutManager(context)
             else -> layoutManager = GridLayoutManager(context, defaultColumnCount)
         }
         adapter = SimpViewAdapter()
@@ -129,8 +137,13 @@ class SimpRecycView<E> : RecyclerView {
     }
 
     constructor(context: Context, intf: AttributeSet) : super(context, intf) {
-        Log.v(TAGME, "Constructor with 2args")
+        Log.v(TAGME, "Constructor with 2args: attribute set")
         initHelper(context)
+    }
+
+    constructor(context: Context, columnCount: Int) : super(context) {
+        Log.v(TAGME, "Constructor with 2args: columnCount")
+        initHelper(context, columnCount)
     }
 
     fun assignDataList(inDataList: ArrayList<E>) {
