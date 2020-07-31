@@ -109,7 +109,7 @@ object FMan {
         return vols
     }
 
-    fun copyFile(src: File, dst: File): Boolean {
+    fun copyRecursive(src: File, dst: File): Boolean {
         Log.v(TAGME, "copy: ${src.name}")
         return src.copyRecursively(dst, false, { file: File, ioException: IOException ->
             Log.w(TAGME, "copy: ${file.name}: ${ioException.localizedMessage}")
@@ -121,11 +121,11 @@ object FMan {
         val fDst = File(dstPathStr)
         for (srcStr in srcPathsStr) {
             val fSrc = File(srcStr)
-            copyFile(fSrc, fDst)
+            copyRecursive(fSrc, fDst)
         }
     }
 
-    fun deleteFile(file: File): Boolean {
+    fun deleteRecursive(file: File): Boolean {
         Log.v(TAGME, "delete: ${file.name}")
         return file.deleteRecursively()
     }
@@ -133,7 +133,7 @@ object FMan {
     fun deleteFiles(filePathsStr: ArrayList<String>) {
         for (fileStr in filePathsStr) {
             val fFile = File(fileStr)
-            deleteFile(fFile)
+            deleteRecursive(fFile)
         }
     }
 
