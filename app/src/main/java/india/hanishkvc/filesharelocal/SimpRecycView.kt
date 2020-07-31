@@ -22,9 +22,45 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * Callback which will be called when user clicks or presses an item
+ * position: position of the item within the dataList
+ * view: the item specific view which got clicked/pressed
+ */
 typealias SRCVItemClickListener = (position: Int, view: View) -> kotlin.Unit
+/**
+ * Callback which will be called when user long clicks/presses an item
+ * position: position of the item within the dataList
+ * view: the item specific view which got clicked/pressed
+ */
 typealias SRCVItemLongClickListener = (position: Int, view: View) -> kotlin.Boolean
 
+/**
+ * SimpRecycView: A RecyclerView, which takes care of the boilerplate required wrt
+ * associated view adapter and view holder, for simple recyclerview use cases.
+ * It allows one to show a list of items either in a linear or grid layout.
+ * Each item in turn could be either a single data value or a set of data values.
+ * If single and textual then SRcV can handle it on its own fully.
+ *
+ * Handling Display of Individual Item, Developer could either
+ * * let SRcV handle the display of items to users
+ *   If there is only a single data per item to be shown, then SRcV will handle this
+ *   using textview, automatically.
+ * * or they could handle the item view on their own similar to in RecyclerView
+ *   IN this case one is required to provide the call backs for onSRcVCreateViewHolder
+ *   and onSRcVBindViewHolder.
+ *
+ * Handling Interaction with Individual Items: Developer needs to assign callbacks
+ * to onSRCVItemClickListener and onSRCVItemLongClickListener. These are called for
+ * any one of the following user interaction with the individual item view.
+ * * clicking on the item and or
+ * * pressing dpad center when focus is on the item and or
+ * * pressing keyboard enter or space button when focus is on the item.
+ *   * enter keypress triggers the ClickListener
+ *   * space keypress triggers the LongClickListener
+ *
+ *
+ */
 class SimpRecycView<E> : RecyclerView {
 
     private val TAGME = "SimpRecycView"
