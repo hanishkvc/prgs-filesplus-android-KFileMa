@@ -3,6 +3,8 @@
  * @author C Hanish Menon <hanishkvc@gmail.com>, 2020
  * @License GPL3
  */
+@file:Suppress("MoveLambdaOutsideParentheses")
+
 package india.hanishkvc.filesharelocal
 
 import android.Manifest
@@ -22,7 +24,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import india.hanishkvc.filesharelocal.fman.FMan
-import india.hanishkvc.filesharelocal.fman.FMan.FManItemInteractionIF
 import java.io.File
 import kotlin.time.ExperimentalTime
 
@@ -80,23 +81,9 @@ class MainActivity : AppCompatActivity() {
         // packageManager.hasSystemFeature
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.v(TAGME, "onCreate: Entered")
-        setupStartState(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        Log.v(TAGME, "onCreate: View inflated")
-        tvPath = findViewById<TextView>(R.id.tvPath)
-        tvPath?.text = FManFragment.defaultPathStr
-        fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
-        btnMa = findViewById<Button>(R.id.btnMa)
-        btnMa?.setOnClickListener {
-            backPath()
-            Log.v(TAGME, "btnMa: items ${fragMain!!.fmd?.ITEMS?.size}")
-            Toast.makeText(this,"Items ${fragMain?.fmd?.ITEMS?.size}", Toast.LENGTH_SHORT).show()
-        }
-        checkPermissions()
-        FMan.fManItemInteractionIF = object : FManItemInteractionIF {
+    private fun setupFManInteractions() {
+        FMan.fManItemInteractionIF = object : FMan.FManItemInteractionIF {
+
             override fun doNavigate(itemId: Int) {
                 if ((itemId < 0) || (itemId >= fragMain?.fmd?.ITEMS?.size!!)) {
                     Log.v(TAGME, "FManISIF:Ignoring invalid $itemId/${fragMain?.fmd?.ITEMS?.size}")
@@ -113,8 +100,27 @@ class MainActivity : AppCompatActivity() {
             override fun doSelect(itemId: Int): Boolean {
                 return true
             }
-        }
 
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.v(TAGME, "onCreate: Entered")
+        setupStartState(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        Log.v(TAGME, "onCreate: View inflated")
+        tvPath = findViewById<TextView>(R.id.tvPath)
+        tvPath?.text = FManFragment.defaultPathStr
+        fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
+        btnMa = findViewById<Button>(R.id.btnMa)
+        btnMa?.setOnClickListener {
+            backPath()
+            Log.v(TAGME, "btnMa: items ${fragMain!!.fmd?.ITEMS?.size}")
+            Toast.makeText(this,"Items ${fragMain?.fmd?.ITEMS?.size}", Toast.LENGTH_SHORT).show()
+        }
+        checkPermissions()
+        setupFManInteractions()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
