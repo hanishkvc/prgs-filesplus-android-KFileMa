@@ -112,13 +112,20 @@ class SimpRecycView<E> : RecyclerView {
     var bHandleMultiSelection = true
 
     /**
-     * CallBacks
+     * CallBacks: Interaction
      * onSRCVItemClickListener: Called when the user clicks/presses an item
      * onSRCVItemLongClickListener: Called when user long clicks/presses the item.
-     *     If using keyboard, then pressing spacebar triggers this [TODO]
+     *     If using keyboard, then pressing spacebar triggers this.
      */
     var onSRCVItemClickListener: SRCVItemClickListener? = null
     var onSRCVItemLongClickListener: SRCVItemLongClickListener? = null
+
+    /**
+     * CallBacks: Display
+     * onSRCVCreateView: Called when a new item view is required.
+     * onSRCVBindView: Called when a item view is being assinged to new or different item.
+     *     Thus needing its content to change.
+     */
     var onSRCVCreateView: SRCVCreateView? = null
     var onSRCVBindView: SRCVBindView? = null
 
