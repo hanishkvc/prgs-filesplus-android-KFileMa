@@ -110,15 +110,31 @@ object FMan {
     }
 
     fun copyFile(src: File, dst: File): Boolean {
+        Log.v(TAGME, "copy: ${src.name}")
         return src.copyRecursively(dst, false, { file: File, ioException: IOException ->
-            Log.v(TAGME, "copy: ${file.name}: ${ioException.localizedMessage}")
+            Log.w(TAGME, "copy: ${file.name}: ${ioException.localizedMessage}")
             OnErrorAction.SKIP
         })
+    }
+
+    fun copyFiles(srcPathsStr: ArrayList<String>, dstPathStr: String) {
+        val fDst = File(dstPathStr)
+        for (srcStr in srcPathsStr) {
+            val fSrc = File(srcStr)
+            copyFile(fSrc, fDst)
+        }
     }
 
     fun deleteFile(file: File): Boolean {
         Log.v(TAGME, "delete: ${file.name}")
         return file.deleteRecursively()
+    }
+
+    fun deleteFiles(filePathsStr: ArrayList<String>) {
+        for (fileStr in filePathsStr) {
+            val fFile = File(fileStr)
+            deleteFile(fFile)
+        }
     }
 
     class FManData {
