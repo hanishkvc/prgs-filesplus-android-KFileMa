@@ -86,6 +86,13 @@ class SimpRecycView<E> : RecyclerView {
     var dataList = ArrayList<E>()
     var selected = ArrayList<Int>()
     var bHandleMultiSelection = true
+
+    /**
+     * CallBacks
+     * onSRCVItemClickListener: Called when the user clicks/presses an item
+     * onSRCVItemLongClickListener: Called when user long clicks/presses the item.
+     *     If using keyboard, then pressing spacebar triggers this [TODO]
+     */
     var onSRCVItemClickListener: SRCVItemClickListener? = null
     var onSRCVItemLongClickListener: SRCVItemLongClickListener? = null
 
