@@ -62,6 +62,11 @@ class FManFragment : Fragment() {
             FMan.fManItemInteractionIF?.doNavigate(position)
         }
 
+        recyclerView?.onSRCVItemLongClickListener = { position: Int, view: View ->
+            Log.v(TAGME, "onLongClick: ${position}, ${fmd?.ITEMS?.get(position)}")
+            FMan.fManItemInteractionIF?.doSelect(position)!!
+        }
+
         recyclerView?.assignDataList(fmd!!.ITEMS as ArrayList<FMan.FManItem>)
         recyclerView?.preserveFocusAfterLayout = true
         return recyclerView
