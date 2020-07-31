@@ -47,7 +47,7 @@ typealias SRCVItemLongClickListener = (position: Int, view: View) -> kotlin.Bool
  * This helps create a set of itemviews which will be used as required to show the
  * contents of the dataList (and or as the developer chooses).
  */
-typealias SRCVCreateView = () -> View
+typealias SRCVCreateView = (parent: ViewGroup) -> View
 /**
  * Callback which will be called when SRcV wants to show a item using an existing
  * view, from its cache of views (view holders with their views).
@@ -199,7 +199,7 @@ class SimpRecycView<E> : RecyclerView {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpViewHolder {
-            val view = onSRCVCreateView?.invoke() ?: createInternalSimpleView()
+            val view = onSRCVCreateView?.invoke(parent) ?: createInternalSimpleView()
             return SimpViewHolder(view)
         }
 

@@ -40,6 +40,13 @@ class FManFragment : Fragment() {
 
         fmd = FMan.FManData()
         fmd!!.loadPath(defaultPathStr)
+
+        recyclerView?.onSRCVCreateView = { parent ->
+            val view = LayoutInflater.from(context)
+                .inflate(R.layout.fragment_fman_item, parent, false)
+            view
+        }
+
         recyclerView?.assignDataList(fmd!!.ITEMS as ArrayList<FMan.FManItem>)
         recyclerView?.preserveFocusAfterLayout = true
         return recyclerView
