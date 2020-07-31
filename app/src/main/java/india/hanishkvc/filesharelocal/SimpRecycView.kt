@@ -163,19 +163,19 @@ class SimpRecycView<E> : RecyclerView {
         if (bHandleMultiSelection) selected.clear()
         adapter?.notifyDataSetChanged()
         if (initialPosition >= 0) {
-            scrollToPosition(initialPosition)
-            post {
-                focus(initialPosition, true)
-            }
+            focus(initialPosition, true)
         }
     }
 
     fun focus(position: Int, bFocus: Boolean = true) {
-        layoutManager?.findViewByPosition(position)?.let {
-            if (bFocus) {
-                it.requestFocus()
-            } else {
-                it.clearFocus()
+        scrollToPosition(position)
+        post {
+            layoutManager?.findViewByPosition(position)?.let {
+                if (bFocus) {
+                    it.requestFocus()
+                } else {
+                    it.clearFocus()
+                }
             }
         }
     }
