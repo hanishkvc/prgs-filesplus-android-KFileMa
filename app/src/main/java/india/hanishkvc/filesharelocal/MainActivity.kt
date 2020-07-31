@@ -255,7 +255,7 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this).also {
             it.setTitle("Select Volume")
             it.setItems(sPathsPlus,
-                { dialogInterface: DialogInterface, i: Int ->
+                { _: DialogInterface, i: Int ->
                     if (i >= FMan.volBasePathStrs.size) {
                         finish()
                     } else {
