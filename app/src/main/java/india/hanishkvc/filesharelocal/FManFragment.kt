@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import india.hanishkvc.filesharelocal.fman.FMan
+import java.io.File
 import kotlin.time.ExperimentalTime
 
 /**
@@ -45,6 +47,14 @@ class FManFragment : Fragment() {
             val view = LayoutInflater.from(context)
                 .inflate(R.layout.fragment_fman_item, parent, false)
             view
+        }
+
+        recyclerView?.onSRCVBindView = { view: View, position: Int ->
+            val item = fmd!!.ITEMS[position]
+            val typeView: TextView = view.findViewById(R.id.item_type)
+            val pathView: TextView = view.findViewById(R.id.item_path)
+            typeView.text = item.type.shortDesc
+            pathView.text = item.path.substringAfterLast(File.separator)
         }
 
         recyclerView?.assignDataList(fmd!!.ITEMS as ArrayList<FMan.FManItem>)
