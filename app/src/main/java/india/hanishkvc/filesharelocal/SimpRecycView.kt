@@ -154,7 +154,7 @@ class SimpRecycView<E> : RecyclerView {
         initHelper(context, columnCount)
     }
 
-    fun assignDataList(inDataList: ArrayList<E>) {
+    fun assignDataList(inDataList: ArrayList<E>, initialPosition: Int = -1) {
         dataList.clear()
         for (item in inDataList) {
             dataList.add(item)
@@ -162,7 +162,24 @@ class SimpRecycView<E> : RecyclerView {
         Log.v(TAGME, "assignDataList:${dataList.size} items in")
         if (bHandleMultiSelection) selected.clear()
         adapter?.notifyDataSetChanged()
+        if (initialPosition >= 0) {
+            scrollToPosition(initialPosition)
+            post {
+                focus(initialPosition, true)
+            }
+        }
     }
+
+    fun focus(position: Int, bFocus: Boolean = true) {
+        layoutManager?.findViewByPosition(position)?.let {
+            if (bFocus) {
+                it.requestFocus()
+            } else {
+                it.clearFocus()
+            }
+        }
+    }
+
 
     inner class SimpViewAdapter : RecyclerView.Adapter<SimpViewAdapter.SimpViewHolder>() {
 

@@ -45,36 +45,12 @@ class FManFragment : Fragment() {
         return recyclerView
     }
 
-    private fun highlightRecyclerItem(position: Int, highlight: Boolean = true) {
-        recyclerView?.layoutManager?.findViewByPosition(position)?.let {
-            /*
-            Log.v(TAGME, "highlightRecycItem: pos[{$position}], view[${it.javaClass}], vh[${recyclerView?.getChildViewHolder(it)}]")
-            val vh = recyclerView?.getChildViewHolder(it) as FManRecyclerViewAdapter.ViewHolder
-            if (highlight) {
-                vh.itemView.requestFocus()
-            } else {
-                vh.itemView.clearFocus()
-            }
-             */
-            if (highlight) {
-                it.requestFocus()
-            } else {
-                it.clearFocus()
-            }
-        }
-    }
 
     fun clearHighlights() {
     }
 
     fun updateFrag(initialPosition: Int = -1) {
-        recyclerView?.assignDataList(fmd!!.ITEMS as ArrayList<FMan.FManItem>)
-        if (initialPosition >= 0) {
-            recyclerView?.scrollToPosition(initialPosition)
-            recyclerView?.post {
-                highlightRecyclerItem(initialPosition, true)
-            }
-        }
+        recyclerView?.assignDataList(fmd!!.ITEMS as ArrayList<FMan.FManItem>, initialPosition)
     }
 
     fun loadPath(path: String? = null, defEntry: String? = null): Boolean {
@@ -87,7 +63,7 @@ class FManFragment : Fragment() {
             if (defEntry != null) {
                 initialPosition = curFMD.indexOf(defEntry)
             }
-            updateFrag(initialPosition=initialPosition)
+            updateFrag(initialPosition)
         }
         return bLoaded
     }
