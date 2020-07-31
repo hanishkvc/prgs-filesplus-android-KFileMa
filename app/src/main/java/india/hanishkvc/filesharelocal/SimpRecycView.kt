@@ -1,8 +1,13 @@
 /**
- * SimpRecycView - A simple recycler view based list/grid view which provides the
- * view adaptor and holder classes within itself.
- * This is useful if one is working with simple list of strings or so. And just wants
- * to show the same on the screen without breaking head about too many things.
+ * SimpRecycView - A simple recycler view based list/grid view which provides and handles
+ * the view adaptor and view holder classes within itself.
+ * This simplifies the use of recycler view for many simple use cases like when wanting
+ * to show a simple list of items (with textual info), by cutting out the boiler plate
+ * needed around its usage. At the same time it still allows one to provide more complex
+ * views of the item, if they so desire, without worrying about all the underlying boilerplate,
+ * that would be required.
+ * i.e this is useful if one wants to show a simple list/grid of items, on the screen,
+ * without breaking head about too many things.
  * @author: C Hanish Menon <hanishkvc@gmail.com>, 2020
  * @License: LGPL
  */
@@ -42,7 +47,7 @@ typealias SRCVItemLongClickListener = (position: Int, view: View) -> kotlin.Bool
  * Each item in turn could be either a single data value or a set of data values.
  * If single and textual then SRcV can handle it on its own fully.
  *
- * Handling Display of Individual Item, Developer could either
+ * Handling Display of Individual Item: Developer could either
  * * let SRcV handle the display of items to users
  *   If there is only a single data per item to be shown, then SRcV will handle this
  *   using textview, automatically.
@@ -59,11 +64,25 @@ typealias SRCVItemLongClickListener = (position: Int, view: View) -> kotlin.Bool
  *   * enter keypress triggers the ClickListener
  *   * space keypress triggers the LongClickListener
  *
+ * MultiSelection of Displayed Items: By setting bHandleMultiSelection, the developer
+ * can let SRcV maintain a list of selected items. User can select or deselect items
+ * from this list by long clicking the corresponding item in the SRcV view. SRcV will
+ * indicate selection of the item by setting its itemview state to activated.
+ *     It expects ItemView background drawable selector to support activated state,
+ *     with a distinguishable appearance, so that user can notice the selections.
  *
  */
 class SimpRecycView<E> : RecyclerView {
 
     private val TAGME = "SimpRecycView"
+
+    /**
+     * dataList: The list of data items associated with this SRcV.
+     * selected: The list of item positions which have been selected by the user.
+     * bHandleMultiSelection: Set to allow SRcV handle the multi selection logic.
+     *     It expects ItemView background drawable selector to support activated state.
+     *     Selected items will have their itemview's state set to activated.
+     */
     var dataList = ArrayList<E>()
     var selected = ArrayList<Int>()
     var bHandleMultiSelection = true
