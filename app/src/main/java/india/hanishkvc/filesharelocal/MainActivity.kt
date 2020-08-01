@@ -25,6 +25,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import india.hanishkvc.filesharelocal.fman.FMan
+import kotlinx.coroutines.*
 import java.io.File
 import kotlin.time.ExperimentalTime
 
@@ -33,6 +34,8 @@ class MainActivity : AppCompatActivity() {
 
     private val TAGME = "FSLMain"
     private val BID_SAVEPATH = "BID_SAVEPATH"
+    val scope = MainScope()
+    var fileioJob: Job? = null
 
     private var btnMa: Button? = null
     private var tvPath: TextView? = null
@@ -321,14 +324,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun handlePaste() {
-        Log.v(TAGME, "contextMenu: $selectedFileList")
-        for (e in selectedFileList.toSet()) {
-            Log.v(TAGME, "$e")
+        Log.v(TAGME, "handlePaste:MainStart:$selectedFileList")
+        fileioJob = scope.launch {
+            Log.v(TAGME, "handlePaste:ScopeStart")
+            withContext(Dispatchers.Main) {
+                Log.v(TAGME, "handlePaste:IOStart")
+                for (e in selectedFileList) {
+                    delay(5000)
+                    Log.v(TAGME, "handlePaste:IO: $e")
+                }
+                Log.v(TAGME, "handlePaste:IOEnd")
+            }
+            withContext(Dispatchers.Main) {
+                selectedFileList.clear()
+            }
+            Log.v(TAGME, "handlePaste:ScopeEnd")
         }
-        selectedFileList.clear()
+        Log.v(TAGME, "handlePaste:MainEnd")
     }
 
     fun contextMenu() {
+        if (fileioJob != null) {
+            if (!fileioJob!!.isCompleted) {
+                Toast.makeText(this, "A FileIO Job is active, waiting for it to finish", Toast.LENGTH_LONG).show()
+                return
+            }
+        }
         val popupMenu = PopupMenu(this, btnMa)
         popupMenu.inflate(R.menu.main_ma_menu)
         // Show or hide items
