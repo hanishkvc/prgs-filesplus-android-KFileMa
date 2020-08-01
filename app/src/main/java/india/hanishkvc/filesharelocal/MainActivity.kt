@@ -336,8 +336,10 @@ class MainActivity : AppCompatActivity() {
         if ((selectedList != null) && (selectedList.size > 0)){
             Log.v(TAGME, "contextMenu: copy ok $selectedList")
         } else {
-            popupMenu.menu.findItem(R.id.copy).isVisible = false
-            popupMenu.menu.findItem(R.id.send).isVisible = false
+            //popupMenu.menu.findItem(R.id.copy).isVisible = false
+            //popupMenu.menu.findItem(R.id.send).isVisible = false
+            popupMenu.menu.findItem(R.id.copy).isEnabled = false
+            popupMenu.menu.findItem(R.id.send).isEnabled = false
         }
         if (selectedFileList.size <= 0) popupMenu.menu.findItem(R.id.paste).isVisible = false
 
