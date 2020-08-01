@@ -270,7 +270,7 @@ class MainActivity : AppCompatActivity() {
     private fun volumeSelector(sPaths: Array<String>) {
         val sPathsPlus = sPaths + "Exit"
         val builder = AlertDialog.Builder(this).also {
-            it.setTitle("Select Volume")
+            it.setTitle("Storage Volume")
             it.setItems(sPathsPlus,
                 { _: DialogInterface, i: Int ->
                     if (i >= FMan.volBasePathStrs.size) {
@@ -303,6 +303,10 @@ class MainActivity : AppCompatActivity() {
             menuList.add("Copy")
         }
         if (mainState == MainState.CANPASTE) menuList.add("Paste")
+        menuList.add("New folder")
+        menuList.add("Send")
+        menuList.add("Receive")
+        menuList.add("Storage Volume")
         menuList.add("Settings")
         // Show context menu dialog
         val builder = AlertDialog.Builder(this).also {
