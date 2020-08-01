@@ -328,9 +328,8 @@ class MainActivity : AppCompatActivity() {
         DELETE
     }
 
-    fun handleFileIO(fileiotype: FILEIOTYPE, srcFileList: ArrayList<String>) {
+    fun handleFileIO(fileiotype: FILEIOTYPE, srcFileList: ArrayList<String>, dstPath: String) {
         Log.v(TAGME, "handleFileIO:Started:$srcFileList")
-        val dstPath = fragMain!!.fmd!!.curPath
         btnMa?.text = resources.getString(R.string.Wait)
         fileioJob = scope.launch {
             var errCnt = 0
@@ -339,7 +338,7 @@ class MainActivity : AppCompatActivity() {
                     val curStat = "${i+1}/${srcFileList.size}"
                     Log.v(TAGME, "handleFileIO:Start:$curStat: $curFile")
                     val bDone = when(fileiotype) {
-                        FILEIOTYPE.COPY -> FMan.copyRecursive(File(curFile), dstPath!!.absoluteFile)
+                        FILEIOTYPE.COPY -> FMan.copyRecursive(File(curFile), File(dstPath))
                         FILEIOTYPE.DELETE -> FMan.deleteRecursive(File(curFile))
                     }
                     if (!bDone) errCnt += 1
@@ -373,7 +372,7 @@ class MainActivity : AppCompatActivity() {
         for (e in selectedList) {
             deleteList.add(e.path)
         }
-        handleFileIO(FILEIOTYPE.DELETE, deleteList)
+        handleFileIO(FILEIOTYPE.DELETE, deleteList, "")
     }
 
     fun contextMenu() {
@@ -403,7 +402,7 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.back -> backPath()
                 R.id.copy -> handleCopy(selectedList!!)
-                R.id.paste -> handleFileIO(FILEIOTYPE.COPY, selectedFileList)
+                R.id.paste -> handleFileIO(FILEIOTYPE.COPY, selectedFileList, fragMain!!.fmd!!.curPath!!.absolutePath)
                 R.id.storagevolume -> storageVolumeSelector()
                 R.id.delete -> handleDelete(selectedList!!)
                 R.id.exit -> finish()
