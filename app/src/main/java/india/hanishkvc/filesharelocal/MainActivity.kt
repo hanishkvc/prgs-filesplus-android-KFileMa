@@ -19,6 +19,7 @@ import android.os.FileUriExposedException
 import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.Button
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -311,7 +312,7 @@ class MainActivity : AppCompatActivity() {
         loadPath(defEntry = back)
     }
 
-    fun contextMenu() {
+    fun contextMenuDlg() {
         val menuList = ArrayList<String>()
         menuList.add(MenuEntries.BACK.text)
         val selectedList = fragMain?.recyclerView?.getSelectedList()
@@ -354,6 +355,20 @@ class MainActivity : AppCompatActivity() {
         }
         val dlg = builder.create()
         dlg.show()
+    }
+
+    fun contextMenu() {
+        val popupMenu = PopupMenu(this, btnMa)
+        popupMenu.inflate(R.menu.main_ma_menu)
+        //popupMenu.menu.findItem(R.id.copy).isVisible = false
+        popupMenu.setOnMenuItemClickListener {
+            Log.v(TAGME, "${popupMenu.menu.findItem(it.itemId)}")
+            when (it.itemId) {
+                R.id.copy -> Log.v(TAGME, "${popupMenu.menu.findItem(it.itemId)}")
+            }
+            true
+        }
+        popupMenu.show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

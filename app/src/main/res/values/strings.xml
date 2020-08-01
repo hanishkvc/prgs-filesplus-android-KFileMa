@@ -2,4 +2,11 @@
     <string name="app_name">FileShareLocal</string>
     <string name="Ma">Ma</string>
     <string name="WishAll">Sarve Jana Sukhino Bhavantu; लोकाः समस्ताः सुखिनोभवंतु ॥ </string>
+    <string name="Back">Back</string>
+    <string name="Transfer">Transfer</string>
+    <string name="Send">Send</string>
+    <string name="Receive">Receive</string>
+    <string name="Newfolder">New folder</string>
+    <string name="Settings">Settings</string>
+    <string name="Exit">Exit</string>
 </resources>
