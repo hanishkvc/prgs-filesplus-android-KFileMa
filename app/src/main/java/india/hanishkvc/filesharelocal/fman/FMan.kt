@@ -110,19 +110,21 @@ object FMan {
         return vols
     }
 
-    fun copyRecursive(src: File, dst: File): Pair<Boolean, String> {
+    fun copyRecursive(src: File, dst: File): Pair<Boolean, ArrayList<String>> {
         var bDone = true
+        val errFiles = ArrayList<String>()
+        var dstActual = dst
         if ((dst.isDirectory) && (src.isFile)) {
-            //actualDst = dst.resolve()
+            dstActual = File(dst,src.name)
         }
-        Log.v(TAGME, "copy: ${src.absolutePath} to ${dst.absolutePath}")
-        return Pair(src.copyRecursively(dst, false, { file: File, ioException: IOException ->
-            if (ioException is FileAlreadyExistsException) {
-                bDone = false
-            }
+        Log.v(TAGME, "copy: ${src.absolutePath} to ${dstActual.absolutePath}")
+        val bRet = src.copyRecursively(dstActual, false, { file: File, ioException: IOException ->
+            bDone = false
+            errFiles.add(file.absolutePath)
             Log.e(TAGME, "copy: ${file.absolutePath} : ${ioException.localizedMessage}")
             OnErrorAction.SKIP
-        }), "TODO")
+        })
+        return Pair((bDone && bRet), errFiles)
     }
 
     fun copyFiles(srcPathsStr: ArrayList<String>, dstPathStr: String) {

@@ -328,20 +328,26 @@ class MainActivity : AppCompatActivity() {
         val dstPath = fragMain!!.fmd!!.curPath
         btnMa?.text = resources.getString(R.string.Wait)
         fileioJob = scope.launch {
+            var errCnt = 0
             withContext(Dispatchers.IO) {
                 for ((i,curFile) in selectedFileList.withIndex()) {
                     val curStat = "${i+1}/${selectedFileList.size}"
                     Log.v(TAGME, "handlePaste:Start:$curStat: $curFile")
-                    FMan.copyRecursive(File(curFile), dstPath!!.absoluteFile)
-                    Log.v(TAGME, "handlePaste:End:$curStat: $curFile")
+                    val (bDone, _) = FMan.copyRecursive(File(curFile), dstPath!!.absoluteFile)
+                    if (!bDone) errCnt += 1
+                    Log.v(TAGME, "handlePaste:End:$curStat:$errCnt: $curFile")
                     withContext(Dispatchers.Main) {
-                        btnMa?.text = resources.getString(R.string.Wait) + ":$curStat"
+                        btnMa?.text = resources.getString(R.string.Wait) + ":$curStat; E:$errCnt"
                     }
                 }
             }
             withContext(Dispatchers.Main) {
+                if (errCnt == 0) {
+                    btnMa?.text = resources.getString(R.string.Ma)
+                } else {
+                    btnMa?.text = resources.getString(R.string.Ma) + " [E:$errCnt/${selectedFileList.size}]"
+                }
                 selectedFileList.clear()
-                btnMa?.text = resources.getString(R.string.Ma)
             }
             Log.v(TAGME, "handlePaste:Done")
         }
