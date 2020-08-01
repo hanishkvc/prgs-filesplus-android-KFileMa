@@ -13,6 +13,7 @@ import java.io.IOException
  *
  * TODO: Replace all uses of this class before publishing your app.
  */
+@Suppress("MoveLambdaOutsideParentheses")
 object FMan {
 
     private const val TAGME = "FSLFMan"
@@ -109,13 +110,19 @@ object FMan {
         return vols
     }
 
-    fun copyRecursive(src: File, dst: File): Boolean {
-        val sDType = if (dst.isDirectory) "D: " else "F: "
-        Log.v(TAGME, "copy: ${src.absolutePath} to $sDType ${dst.absolutePath}")
-        return src.copyRecursively(dst, false, { file: File, ioException: IOException ->
+    fun copyRecursive(src: File, dst: File): Pair<Boolean, String> {
+        var bDone = true
+        if ((dst.isDirectory) && (src.isFile)) {
+            //actualDst = dst.resolve()
+        }
+        Log.v(TAGME, "copy: ${src.absolutePath} to ${dst.absolutePath}")
+        return Pair(src.copyRecursively(dst, false, { file: File, ioException: IOException ->
+            if (ioException is FileAlreadyExistsException) {
+                bDone = false
+            }
             Log.e(TAGME, "copy: ${file.absolutePath} : ${ioException.localizedMessage}")
             OnErrorAction.SKIP
-        })
+        }), "TODO")
     }
 
     fun copyFiles(srcPathsStr: ArrayList<String>, dstPathStr: String) {
