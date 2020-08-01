@@ -335,12 +335,8 @@ class MainActivity : AppCompatActivity() {
                         delay(5000)
                         Log.v(TAGME, "handlePaste:End:$curStat: $curFile")
                     }
-                    withContext(Dispatchers.Main) {
-                        btnMa?.text = resources.getString(R.string.Wait) + ":$curStat"
-                    }
+                    btnMa?.text = resources.getString(R.string.Wait) + ":$curStat"
                 }
-            }
-            withContext(Dispatchers.Main) {
                 selectedFileList.clear()
                 btnMa?.text = resources.getString(R.string.Ma)
             }
