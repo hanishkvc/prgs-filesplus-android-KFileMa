@@ -22,6 +22,9 @@
         android:id="@+id/newfolder"
         android:title="@string/NewFolder" />
     <item
+        android:id="@+id/delete"
+        android:title="@string/Delete" />
+    <item
         android:id="@+id/settings"
         android:title="@string/Settings" />
     <item

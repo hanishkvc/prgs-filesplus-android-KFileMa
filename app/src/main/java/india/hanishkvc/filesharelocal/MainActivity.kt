@@ -323,8 +323,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun handlePaste() {
-        Log.v(TAGME, "handlePaste:Started:$selectedFileList")
+    enum class FILEIOTYPE {
+        COPY,
+        DELETE
+    }
+
+    fun handleFileIO(fileiotype: FILEIOTYPE) {
+        Log.v(TAGME, "handleFileIO:Started:$selectedFileList")
         val dstPath = fragMain!!.fmd!!.curPath
         btnMa?.text = resources.getString(R.string.Wait)
         fileioJob = scope.launch {
@@ -332,10 +337,13 @@ class MainActivity : AppCompatActivity() {
             withContext(Dispatchers.IO) {
                 for ((i,curFile) in selectedFileList.withIndex()) {
                     val curStat = "${i+1}/${selectedFileList.size}"
-                    Log.v(TAGME, "handlePaste:Start:$curStat: $curFile")
-                    val bDone = FMan.copyRecursive(File(curFile), dstPath!!.absoluteFile)
+                    Log.v(TAGME, "handleFileIO:Start:$curStat: $curFile")
+                    val bDone = when(fileiotype) {
+                        FILEIOTYPE.COPY -> FMan.copyRecursive(File(curFile), dstPath!!.absoluteFile)
+                        FILEIOTYPE.DELETE -> FMan.deleteRecursive(File(curFile))
+                    }
                     if (!bDone) errCnt += 1
-                    Log.v(TAGME, "handlePaste:End:$curStat:$errCnt: $curFile")
+                    Log.v(TAGME, "handleFileIO:End:$curStat:$errCnt: $curFile")
                     withContext(Dispatchers.Main) {
                         btnMa?.text = resources.getString(R.string.Wait) + ":$curStat; E:$errCnt"
                     }
@@ -354,7 +362,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 selectedFileList.clear()
             }
-            Log.v(TAGME, "handlePaste:Done")
+            Log.v(TAGME, "handleFileIO:Done")
         }
     }
 
@@ -384,8 +392,9 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.back -> backPath()
                 R.id.copy -> handleCopy(selectedList!!)
-                R.id.paste -> handlePaste()
+                R.id.paste -> handleFileIO(FILEIOTYPE.COPY)
                 R.id.storagevolume -> storageVolumeSelector()
+                R.id.delete -> handleFileIO(FILEIOTYPE.DELETE)
                 R.id.exit -> finish()
             }
             true
