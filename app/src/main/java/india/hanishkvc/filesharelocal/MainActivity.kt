@@ -296,15 +296,13 @@ class MainActivity : AppCompatActivity() {
 
     fun contextMenu() {
         val menuList = ArrayList<String>()
+        menuList.add("Back")
         val selectedList = fragMain?.recyclerView?.getSelectedList()
-        if (selectedList != null) {
+        if ((selectedList != null) && (selectedList.size > 0)){
             Log.v(TAGME, "contextMenu: $selectedList")
             menuList.add("Copy")
         }
         if (mainState == MainState.CANPASTE) menuList.add("Paste")
-        if (menuList.count() > 0) {
-            menuList.add("Back")
-        }
         menuList.add("Settings")
         // Show context menu dialog
         val builder = AlertDialog.Builder(this).also {
