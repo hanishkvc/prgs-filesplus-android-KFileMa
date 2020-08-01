@@ -274,12 +274,12 @@ class MainActivity : AppCompatActivity() {
             if (!bLoaded) {
                 val vols = FMan.getVolumes(this)
                 thePath = vols[0]
-                volumeSelector()
+                storageVolumeSelector()
             }
         }
     }
 
-    private fun _volumeSelector(sPaths: Array<String>) {
+    private fun _storageVolumeSelector(sPaths: Array<String>) {
         val sPathsPlus = sPaths + "Exit"
         val builder = AlertDialog.Builder(this).also {
             it.setTitle("Storage Volume")
@@ -298,9 +298,9 @@ class MainActivity : AppCompatActivity() {
         dlg.show()
     }
 
-    fun volumeSelector() {
+    fun storageVolumeSelector() {
         val vols = FMan.getVolumes(this)
-        _volumeSelector(vols.toTypedArray())
+        _storageVolumeSelector(vols.toTypedArray())
     }
 
     private fun backPath() {
@@ -334,7 +334,7 @@ class MainActivity : AppCompatActivity() {
                     if (menuList[i] == MenuEntries.BACK.text) {
                         backPath()
                     } else if (menuList[i] == MenuEntries.STORAGEVOLUME.text) {
-                        volumeSelector()
+                        storageVolumeSelector()
                     }
                     if (menuList[i] == MenuEntries.EXIT.text) {
                         finish()
