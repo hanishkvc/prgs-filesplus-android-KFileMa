@@ -19,11 +19,11 @@ import android.os.FileUriExposedException
 import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.Button
-import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import india.hanishkvc.filesharelocal.fman.FMan
 import kotlinx.coroutines.*
 import java.io.File
@@ -395,7 +395,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
-        val popupMenu = PopupMenu(this, btnMa)
+        val popupMenu = PopupMenu(this, btnMa!!)
         popupMenu.inflate(R.menu.main_ma_menu)
         // Show or hide items
         val selectedList = fragMain?.recyclerView?.getSelectedList()
