@@ -325,13 +325,14 @@ class MainActivity : AppCompatActivity() {
 
     fun handlePaste() {
         Log.v(TAGME, "handlePaste:Started:$selectedFileList")
+        val dstPath = fragMain!!.fmd!!.curPath
         btnMa?.text = resources.getString(R.string.Wait)
         fileioJob = scope.launch {
             withContext(Dispatchers.IO) {
                 for ((i,curFile) in selectedFileList.withIndex()) {
                     val curStat = "${i+1}/${selectedFileList.size}"
                     Log.v(TAGME, "handlePaste:Start:$curStat: $curFile")
-                    delay(5000)
+                    FMan.copyRecursive(File(curFile), dstPath!!.absoluteFile)
                     Log.v(TAGME, "handlePaste:End:$curStat: $curFile")
                     withContext(Dispatchers.Main) {
                         btnMa?.text = resources.getString(R.string.Wait) + ":$curStat"

@@ -110,9 +110,10 @@ object FMan {
     }
 
     fun copyRecursive(src: File, dst: File): Boolean {
-        Log.v(TAGME, "copy: ${src.name}")
+        val sDType = if (dst.isDirectory) "D: " else "F: "
+        Log.v(TAGME, "copy: ${src.absolutePath} to $sDType ${dst.absolutePath}")
         return src.copyRecursively(dst, false, { file: File, ioException: IOException ->
-            Log.w(TAGME, "copy: ${file.name}: ${ioException.localizedMessage}")
+            Log.e(TAGME, "copy: ${file.absolutePath} : ${ioException.localizedMessage}")
             OnErrorAction.SKIP
         })
     }
