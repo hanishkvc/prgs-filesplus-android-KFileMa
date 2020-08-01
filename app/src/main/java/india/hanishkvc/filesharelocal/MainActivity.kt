@@ -328,6 +328,16 @@ class MainActivity : AppCompatActivity() {
         DELETE
     }
 
+    /**
+     * Handle FileIO operation in the background on the IOThread
+     * and update the progress and end status using btnMa text.
+     *
+     * If it is a copy operation, then the global selectedFileList will be cleared.
+     * It also refreshes the MainActivity view through a loadPath, this can lead to
+     *     any selections made by user in the current path to get cleared.
+     *     Users should ideally wait for fileio operations to complete, before
+     *     doing any other operations.
+     */
     fun handleFileIO(fileiotype: FILEIOTYPE, srcFileList: ArrayList<String>, dstPath: String) {
         Log.v(TAGME, "handleFileIO:Started:$srcFileList")
         btnMa?.text = resources.getString(R.string.Wait)
@@ -361,6 +371,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 if (fileiotype == FILEIOTYPE.COPY) {
                     selectedFileList.clear()
+                }
+                btnMa?.post {
+                    loadPath()
                 }
             }
             Log.v(TAGME, "handleFileIO:Done")
