@@ -110,7 +110,7 @@ object FMan {
         return vols
     }
 
-    fun copyRecursive(src: File, dst: File): Pair<Boolean, ArrayList<String>> {
+    fun copyRecursiveEx(src: File, dst: File): Pair<Boolean, ArrayList<String>> {
         var bDone = true
         val errFiles = ArrayList<String>()
         var dstActual = dst
@@ -125,6 +125,11 @@ object FMan {
             OnErrorAction.SKIP
         })
         return Pair((bDone && bRet), errFiles)
+    }
+
+    fun copyRecursive(src: File, dst: File): Boolean {
+        val (bDone, _) = copyRecursiveEx(src, dst)
+        return bDone
     }
 
     fun copyFiles(srcPathsStr: ArrayList<String>, dstPathStr: String) {

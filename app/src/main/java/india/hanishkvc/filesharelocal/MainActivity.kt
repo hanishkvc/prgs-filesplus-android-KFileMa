@@ -333,7 +333,7 @@ class MainActivity : AppCompatActivity() {
                 for ((i,curFile) in selectedFileList.withIndex()) {
                     val curStat = "${i+1}/${selectedFileList.size}"
                     Log.v(TAGME, "handlePaste:Start:$curStat: $curFile")
-                    val (bDone, _) = FMan.copyRecursive(File(curFile), dstPath!!.absoluteFile)
+                    val bDone = FMan.copyRecursive(File(curFile), dstPath!!.absoluteFile)
                     if (!bDone) errCnt += 1
                     Log.v(TAGME, "handlePaste:End:$curStat:$errCnt: $curFile")
                     withContext(Dispatchers.Main) {
