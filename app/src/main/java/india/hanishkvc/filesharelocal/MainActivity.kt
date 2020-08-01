@@ -325,9 +325,10 @@ class MainActivity : AppCompatActivity() {
 
     fun handlePaste() {
         Log.v(TAGME, "handlePaste:MainStart:$selectedFileList")
+        btnMa?.text = resources.getString(R.string.Wait)
         fileioJob = scope.launch {
             Log.v(TAGME, "handlePaste:ScopeStart")
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
                 Log.v(TAGME, "handlePaste:IOStart")
                 for (e in selectedFileList) {
                     delay(5000)
@@ -337,6 +338,7 @@ class MainActivity : AppCompatActivity() {
             }
             withContext(Dispatchers.Main) {
                 selectedFileList.clear()
+                btnMa?.text = resources.getString(R.string.Ma)
             }
             Log.v(TAGME, "handlePaste:ScopeEnd")
         }
