@@ -6,7 +6,8 @@
     <string name="Transfer">Transfer</string>
     <string name="Send">Send</string>
     <string name="Receive">Receive</string>
-    <string name="Newfolder">New folder</string>
+    <string name="NewFolder">New Folder</string>
+    <string name="StorageVolume">Storage Volume</string>
     <string name="Settings">Settings</string>
     <string name="Exit">Exit</string>
 </resources>

@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         EXIT("Exit")
     }
 
+    val bCopyAddToList = false
     val selectedFileList = ArrayList<String>()
 
     private fun setupStartState(savedInstanceState: Bundle?) {
@@ -312,59 +313,42 @@ class MainActivity : AppCompatActivity() {
         loadPath(defEntry = back)
     }
 
-    fun contextMenuDlg() {
-        val menuList = ArrayList<String>()
-        menuList.add(MenuEntries.BACK.text)
-        val selectedList = fragMain?.recyclerView?.getSelectedList()
-        if ((selectedList != null) && (selectedList.size > 0)){
-            Log.v(TAGME, "contextMenu: $selectedList")
-            menuList.add(MenuEntries.COPY.text)
+    fun handleCopy(selectedList: ArrayList<FMan.FManItem>) {
+        if (!bCopyAddToList) selectedFileList.clear()
+        for (e in selectedList) {
+            selectedFileList.add(e.path)
         }
-        if (selectedFileList.size > 0) menuList.add(MenuEntries.PASTE.text)
-        menuList.add(MenuEntries.NEWFOLDER.text)
-        menuList.add(MenuEntries.SEND.text)
-        menuList.add(MenuEntries.RECEIVE.text)
-        menuList.add(MenuEntries.STORAGEVOLUME.text)
-        menuList.add(MenuEntries.SETTINGS.text)
-        menuList.add(MenuEntries.EXIT.text)
-        // Show context menu dialog
-        val builder = AlertDialog.Builder(this).also {
-            it.setTitle("KFileMa")
-            it.setItems(menuList.toTypedArray(),
-                { _: DialogInterface, i: Int ->
-                    Log.v(TAGME, "contextMenu: $menuList[i]")
-                    if (menuList[i] == MenuEntries.BACK.text) {
-                        backPath()
-                    } else if (menuList[i] == MenuEntries.COPY.text) {
-                        for (e in selectedList!!) {
-                            selectedFileList.add(e.path)
-                        }
-                    } else if (menuList[i] == MenuEntries.PASTE.text) {
-                        Log.v(TAGME, "contextMenu: $selectedFileList")
-                        for (e in selectedFileList.toSet()) {
-                            Log.v(TAGME, "$e")
-                        }
-                        selectedFileList.clear()
-                    } else if (menuList[i] == MenuEntries.STORAGEVOLUME.text) {
-                        storageVolumeSelector()
-                    }
-                    if (menuList[i] == MenuEntries.EXIT.text) {
-                        finish()
-                    }
-                })
+    }
+
+    fun handlePaste() {
+        Log.v(TAGME, "contextMenu: $selectedFileList")
+        for (e in selectedFileList.toSet()) {
+            Log.v(TAGME, "$e")
         }
-        val dlg = builder.create()
-        dlg.show()
+        selectedFileList.clear()
     }
 
     fun contextMenu() {
         val popupMenu = PopupMenu(this, btnMa)
         popupMenu.inflate(R.menu.main_ma_menu)
-        //popupMenu.menu.findItem(R.id.copy).isVisible = false
+        // Show or hide items
+        val selectedList = fragMain?.recyclerView?.getSelectedList()
+        if ((selectedList != null) && (selectedList.size > 0)){
+            Log.v(TAGME, "contextMenu: copy ok $selectedList")
+        } else {
+            popupMenu.menu.findItem(R.id.copy).isVisible = false
+            popupMenu.menu.findItem(R.id.send).isVisible = false
+        }
+        if (selectedFileList.size <= 0) popupMenu.menu.findItem(R.id.paste).isVisible = false
+
         popupMenu.setOnMenuItemClickListener {
             Log.v(TAGME, "${popupMenu.menu.findItem(it.itemId)}")
             when (it.itemId) {
-                R.id.copy -> Log.v(TAGME, "${popupMenu.menu.findItem(it.itemId)}")
+                R.id.back -> backPath()
+                R.id.copy -> handleCopy(selectedList!!)
+                R.id.paste -> handlePaste()
+                R.id.storagevolume -> storageVolumeSelector()
+                R.id.exit -> finish()
             }
             true
         }

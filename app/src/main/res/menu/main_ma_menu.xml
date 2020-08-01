@@ -10,17 +10,17 @@
         android:id="@+id/paste"
         android:title="@android:string/paste" />
     <item
-        android:id="@+id/transfer"
-        android:title="@string/Transfer">
-        <menu>
-            <item
-                android:id="@+id/send"
-                android:title="@string/Send" />
-            <item
-                android:id="@+id/receive"
-                android:title="@string/Receive" />
-        </menu>
-    </item>
+        android:id="@+id/send"
+        android:title="@string/Send" />
+    <item
+        android:id="@+id/receive"
+        android:title="@string/Receive" />
+    <item
+        android:id="@+id/storagevolume"
+        android:title="@string/StorageVolume" />
+    <item
+        android:id="@+id/newfolder"
+        android:title="@string/NewFolder" />
     <item
         android:id="@+id/settings"
         android:title="@string/Settings" />
