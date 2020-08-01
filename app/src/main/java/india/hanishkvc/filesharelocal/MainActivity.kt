@@ -340,6 +340,9 @@ class MainActivity : AppCompatActivity() {
                         }
                     } else if (menuList[i] == MenuEntries.PASTE.text) {
                         Log.v(TAGME, "contextMenu: $selectedFileList")
+                        for (e in selectedFileList.toSet()) {
+                            Log.v(TAGME, "$e")
+                        }
                         selectedFileList.clear()
                     } else if (menuList[i] == MenuEntries.STORAGEVOLUME.text) {
                         storageVolumeSelector()
