@@ -346,6 +346,11 @@ class MainActivity : AppCompatActivity() {
                     btnMa?.text = resources.getString(R.string.Ma)
                 } else {
                     btnMa?.text = resources.getString(R.string.Ma) + " [E:$errCnt/${selectedFileList.size}]"
+                    btnMa?.postDelayed({
+                        if (btnMa?.text != resources.getString(R.string.Ma)) {
+                            btnMa?.text = resources.getString(R.string.Ma)
+                        }
+                    }, 10000)
                 }
                 selectedFileList.clear()
             }
