@@ -327,12 +327,14 @@ class MainActivity : AppCompatActivity() {
         Log.v(TAGME, "handlePaste:Started:$selectedFileList")
         btnMa?.text = resources.getString(R.string.Wait)
         fileioJob = scope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
                 for ((i,curFile) in selectedFileList.withIndex()) {
                     val curStat = "${i+1}/${selectedFileList.size}"
-                    Log.v(TAGME, "handlePaste:Start:$curStat: $curFile")
-                    delay(5000)
-                    Log.v(TAGME, "handlePaste:End:$curStat: $curFile")
+                    withContext(Dispatchers.IO) {
+                        Log.v(TAGME, "handlePaste:Start:$curStat: $curFile")
+                        delay(5000)
+                        Log.v(TAGME, "handlePaste:End:$curStat: $curFile")
+                    }
                     withContext(Dispatchers.Main) {
                         btnMa?.text = resources.getString(R.string.Wait) + ":$curStat"
                     }
