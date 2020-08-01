@@ -324,25 +324,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun handlePaste() {
-        Log.v(TAGME, "handlePaste:MainStart:$selectedFileList")
+        Log.v(TAGME, "handlePaste:Started:$selectedFileList")
         btnMa?.text = resources.getString(R.string.Wait)
         fileioJob = scope.launch {
-            Log.v(TAGME, "handlePaste:ScopeStart")
             withContext(Dispatchers.IO) {
-                Log.v(TAGME, "handlePaste:IOStart")
-                for (e in selectedFileList) {
+                for ((i,curFile) in selectedFileList.withIndex()) {
+                    val curStat = "${i+1}/${selectedFileList.size}"
+                    Log.v(TAGME, "handlePaste:Start:$curStat: $curFile")
                     delay(5000)
-                    Log.v(TAGME, "handlePaste:IO: $e")
+                    Log.v(TAGME, "handlePaste:End:$curStat: $curFile")
+                    withContext(Dispatchers.Main) {
+                        btnMa?.text = resources.getString(R.string.Wait) + ":$curStat"
+                    }
                 }
-                Log.v(TAGME, "handlePaste:IOEnd")
             }
             withContext(Dispatchers.Main) {
                 selectedFileList.clear()
                 btnMa?.text = resources.getString(R.string.Ma)
             }
-            Log.v(TAGME, "handlePaste:ScopeEnd")
+            Log.v(TAGME, "handlePaste:Done")
         }
-        Log.v(TAGME, "handlePaste:MainEnd")
     }
 
     fun contextMenu() {
