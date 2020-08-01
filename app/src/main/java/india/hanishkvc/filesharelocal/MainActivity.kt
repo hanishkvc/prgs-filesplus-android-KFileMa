@@ -56,6 +56,18 @@ class MainActivity : AppCompatActivity() {
     }
     var mainState = MainState.NORMAL
 
+    enum class MenuEntries(val text: String) {
+        BACK("Back"),
+        COPY("Copy"),
+        PASTE("Paste"),
+        SEND("Send"),
+        RECEIVE("Receive"),
+        STORAGEVOLUME("StorageVolume"),
+        NEWFOLDER("NewFolder"),
+        SETTINGS("Settings"),
+        EXIT("Exit")
+    }
+
 
     private fun setupStartState(savedInstanceState: Bundle?) {
         // Handle initial path
@@ -296,27 +308,27 @@ class MainActivity : AppCompatActivity() {
 
     fun contextMenu() {
         val menuList = ArrayList<String>()
-        menuList.add("Back")
+        menuList.add(MenuEntries.BACK.text)
         val selectedList = fragMain?.recyclerView?.getSelectedList()
         if ((selectedList != null) && (selectedList.size > 0)){
             Log.v(TAGME, "contextMenu: $selectedList")
-            menuList.add("Copy")
+            menuList.add(MenuEntries.COPY.text)
         }
-        if (mainState == MainState.CANPASTE) menuList.add("Paste")
-        menuList.add("New folder")
-        menuList.add("Send")
-        menuList.add("Receive")
-        menuList.add("Storage Volume")
-        menuList.add("Settings")
+        if (mainState == MainState.CANPASTE) menuList.add(MenuEntries.PASTE.text)
+        menuList.add(MenuEntries.NEWFOLDER.text)
+        menuList.add(MenuEntries.SEND.text)
+        menuList.add(MenuEntries.RECEIVE.text)
+        menuList.add(MenuEntries.STORAGEVOLUME.text)
+        menuList.add(MenuEntries.SETTINGS.text)
         // Show context menu dialog
         val builder = AlertDialog.Builder(this).also {
             it.setTitle("KFileMa")
             it.setItems(menuList.toTypedArray(),
                 { _: DialogInterface, i: Int ->
                     Log.v(TAGME, "contextMenu: $menuList[i]")
-                    if (menuList[i] == "Back") {
+                    if (menuList[i] == MenuEntries.BACK.text) {
                         backPath()
-                    } else if (menuList[i] == "Copy") {
+                    } else if (menuList[i] == MenuEntries.STORAGEVOLUME.text) {
 
                     }
                 })
