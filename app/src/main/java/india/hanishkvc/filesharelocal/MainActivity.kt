@@ -328,15 +328,15 @@ class MainActivity : AppCompatActivity() {
         DELETE
     }
 
-    fun handleFileIO(fileiotype: FILEIOTYPE) {
-        Log.v(TAGME, "handleFileIO:Started:$selectedFileList")
+    fun handleFileIO(fileiotype: FILEIOTYPE, srcFileList: ArrayList<String>) {
+        Log.v(TAGME, "handleFileIO:Started:$srcFileList")
         val dstPath = fragMain!!.fmd!!.curPath
         btnMa?.text = resources.getString(R.string.Wait)
         fileioJob = scope.launch {
             var errCnt = 0
             withContext(Dispatchers.IO) {
-                for ((i,curFile) in selectedFileList.withIndex()) {
-                    val curStat = "${i+1}/${selectedFileList.size}"
+                for ((i,curFile) in srcFileList.withIndex()) {
+                    val curStat = "${i+1}/${srcFileList.size}"
                     Log.v(TAGME, "handleFileIO:Start:$curStat: $curFile")
                     val bDone = when(fileiotype) {
                         FILEIOTYPE.COPY -> FMan.copyRecursive(File(curFile), dstPath!!.absoluteFile)
@@ -353,17 +353,27 @@ class MainActivity : AppCompatActivity() {
                 if (errCnt == 0) {
                     btnMa?.text = resources.getString(R.string.Ma)
                 } else {
-                    btnMa?.text = resources.getString(R.string.Ma) + " [E:$errCnt/${selectedFileList.size}]"
+                    btnMa?.text = resources.getString(R.string.Ma) + " [E:$errCnt/${srcFileList.size}]"
                     btnMa?.postDelayed({
                         if (btnMa?.text != resources.getString(R.string.Ma)) {
                             btnMa?.text = resources.getString(R.string.Ma)
                         }
                     }, 10000)
                 }
-                selectedFileList.clear()
+                if (fileiotype == FILEIOTYPE.COPY) {
+                    selectedFileList.clear()
+                }
             }
             Log.v(TAGME, "handleFileIO:Done")
         }
+    }
+
+    fun handleDelete(selectedList: ArrayList<FMan.FManItem>) {
+        val deleteList = ArrayList<String>()
+        for (e in selectedList) {
+            deleteList.add(e.path)
+        }
+        handleFileIO(FILEIOTYPE.DELETE, deleteList)
     }
 
     fun contextMenu() {
@@ -384,6 +394,7 @@ class MainActivity : AppCompatActivity() {
             //popupMenu.menu.findItem(R.id.send).isVisible = false
             popupMenu.menu.findItem(R.id.copy).isEnabled = false
             popupMenu.menu.findItem(R.id.send).isEnabled = false
+            popupMenu.menu.findItem(R.id.delete).isEnabled = false
         }
         if (selectedFileList.size <= 0) popupMenu.menu.findItem(R.id.paste).isVisible = false
 
@@ -392,9 +403,9 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.back -> backPath()
                 R.id.copy -> handleCopy(selectedList!!)
-                R.id.paste -> handleFileIO(FILEIOTYPE.COPY)
+                R.id.paste -> handleFileIO(FILEIOTYPE.COPY, selectedFileList)
                 R.id.storagevolume -> storageVolumeSelector()
-                R.id.delete -> handleFileIO(FILEIOTYPE.DELETE)
+                R.id.delete -> handleDelete(selectedList!!)
                 R.id.exit -> finish()
             }
             true
