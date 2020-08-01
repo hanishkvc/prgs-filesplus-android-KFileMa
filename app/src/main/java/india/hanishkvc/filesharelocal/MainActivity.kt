@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
 
     enum class MainState {
         NORMAL,
-        CANPASTE,
         TRANSFERING,
     }
     var mainState = MainState.NORMAL
@@ -68,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         EXIT("Exit")
     }
 
+    val selectedFileList = ArrayList<String>()
 
     private fun setupStartState(savedInstanceState: Bundle?) {
         // Handle initial path
@@ -319,12 +319,13 @@ class MainActivity : AppCompatActivity() {
             Log.v(TAGME, "contextMenu: $selectedList")
             menuList.add(MenuEntries.COPY.text)
         }
-        if (mainState == MainState.CANPASTE) menuList.add(MenuEntries.PASTE.text)
+        if (selectedFileList.size > 0) menuList.add(MenuEntries.PASTE.text)
         menuList.add(MenuEntries.NEWFOLDER.text)
         menuList.add(MenuEntries.SEND.text)
         menuList.add(MenuEntries.RECEIVE.text)
         menuList.add(MenuEntries.STORAGEVOLUME.text)
         menuList.add(MenuEntries.SETTINGS.text)
+        menuList.add(MenuEntries.EXIT.text)
         // Show context menu dialog
         val builder = AlertDialog.Builder(this).also {
             it.setTitle("KFileMa")
@@ -333,6 +334,13 @@ class MainActivity : AppCompatActivity() {
                     Log.v(TAGME, "contextMenu: $menuList[i]")
                     if (menuList[i] == MenuEntries.BACK.text) {
                         backPath()
+                    } else if (menuList[i] == MenuEntries.COPY.text) {
+                        for (e in selectedList!!) {
+                            selectedFileList.add(e.path)
+                        }
+                    } else if (menuList[i] == MenuEntries.PASTE.text) {
+                        Log.v(TAGME, "contextMenu: $selectedFileList")
+                        selectedFileList.clear()
                     } else if (menuList[i] == MenuEntries.STORAGEVOLUME.text) {
                         storageVolumeSelector()
                     }
