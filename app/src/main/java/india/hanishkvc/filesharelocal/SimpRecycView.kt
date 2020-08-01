@@ -27,6 +27,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.roundToInt
 
 /**
  * Callback which will be called when user clicks or presses an item
@@ -229,11 +230,20 @@ class SimpRecycView<E> : RecyclerView {
             view.visibility = View.VISIBLE
             view.isFocusable = true
             view.typeface = viewTypeface
+            view.textSize = viewTextSizeSP //viewTextSizeBasePixels*resources.displayMetrics.scaledDensity
             view.gravity = Gravity.CENTER_VERTICAL
             view.setTextColor(viewTextColor)
+            /*
             val mlayout = MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            mlayout.setMargins(16, 6, 16, 2)
+            val wpx = (16*resources.displayMetrics.density).roundToInt()
+            val wpy = (8*resources.displayMetrics.density).roundToInt()
+            mlayout.setMargins(wpx, wpy, wpx, wpy)
             view.layoutParams = mlayout
+             */
+            view.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val wpx = (viewPadHorz*resources.displayMetrics.density).roundToInt()
+            val wpy = (viewPadVert*resources.displayMetrics.density).roundToInt()
+            view.setPadding(wpx, wpy, wpx, wpy)
             view.setBackgroundResource(viewBackgroundResource)
             return view
         }
@@ -305,6 +315,9 @@ class SimpRecycView<E> : RecyclerView {
         var defaultColumnCount: Int = 1
         var viewTextColor: Int = Color.BLACK
         var viewTypeface: Typeface = Typeface.MONOSPACE
+        var viewTextSizeSP = 16.0f
+        var viewPadHorz = 16
+        var viewPadVert = 8
         var viewBackgroundResource: Int = android.R.drawable.list_selector_background
     }
 
