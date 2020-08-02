@@ -23,7 +23,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
 import india.hanishkvc.filesharelocal.fman.FMan
 import kotlinx.coroutines.*
 import java.io.File
@@ -387,38 +386,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun contextMenu() {
-        val popupMenu = HPopupMenu(this, btnMa!!)
-        popupMenu.buildMenuMap(0, HPopupMenu.ROOTMENU_ID, R.menu.main_ma_menu)
-        popupMenu.buildMenuMap(0, R.id.file, R.menu.main_ma_file)
-        popupMenu.buildMenuMap(0, R.id.transfer, R.menu.main_ma_transfer)
-        popupMenu.prepare()
-        popupMenu.show()
-    }
-
-    fun contextMenuAndroidPopup() {
+        // Check we are ok to do things
         if (fileioJob != null) {
             if (!fileioJob!!.isCompleted) {
                 Toast.makeText(this, "A FileIO Job is active, waiting for it to finish", Toast.LENGTH_LONG).show()
                 return
             }
         }
-        val popupMenu = PopupMenu(this, btnMa!!)
-        popupMenu.inflate(R.menu.main_ma_menu)
+        // Create the popup menu
+        val popupMenu = HPopupMenu(this, btnMa!!)
+        popupMenu.buildMenuMap(0, HPopupMenu.ROOTMENU_ID, R.menu.main_ma_menu)
+        popupMenu.buildMenuMap(0, R.id.file, R.menu.main_ma_file)
+        popupMenu.buildMenuMap(0, R.id.transfer, R.menu.main_ma_transfer)
+        popupMenu.prepare()
         // Show or hide items
+        val disabledMenuItems = ArrayList<Int>()
         val selectedList = fragMain?.recyclerView?.getSelectedList()
         if ((selectedList != null) && (selectedList.size > 0)){
-            Log.v(TAGME, "contextMenu: copy ok $selectedList")
+            Log.v(TAGME, "contextMenu: selectedList : $selectedList")
         } else {
-            //popupMenu.menu.findItem(R.id.copy).isVisible = false
-            //popupMenu.menu.findItem(R.id.send).isVisible = false
-            popupMenu.menu.findItem(R.id.copy).isEnabled = false
-            popupMenu.menu.findItem(R.id.send).isEnabled = false
-            popupMenu.menu.findItem(R.id.delete).isEnabled = false
+            disabledMenuItems.add(R.id.copy)
+            disabledMenuItems.add(R.id.send)
+            disabledMenuItems.add(R.id.delete)
         }
-        if (selectedFileList.size <= 0) popupMenu.menu.findItem(R.id.paste).isVisible = false
-
-        popupMenu.setOnMenuItemClickListener {
-            Log.v(TAGME, "${popupMenu.menu.findItem(it.itemId)}")
+        if (selectedFileList.size <= 0) disabledMenuItems.add(R.id.paste)
+        popupMenu.disabledMenuItems = disabledMenuItems
+        // Setup interaction callback
+        popupMenu.onMenuItemClickListener = {
+            Log.v(TAGME, "contextMenu:Clicked: ${it}")
             when (it.itemId) {
                 R.id.back -> backPath()
                 R.id.copy -> handleCopy(selectedList!!)
@@ -429,6 +424,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+        // Show it
         popupMenu.show()
     }
 

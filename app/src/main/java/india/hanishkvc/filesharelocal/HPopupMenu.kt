@@ -40,10 +40,15 @@ class HPopupMenu(val context: Context, val view: View ) {
             get() {
                 return "$curLvl:$curId"
             }
+
     var onMenuItemClickListener: ((MenuItem)->Boolean)? = null
+    var disabledMenuItems = ArrayList<Int>()
+            set(value) {
+                field.clear()
+                field.addAll(value)
+            }
 
     var bTrapDismissListener = true
-
     val callStack = Stack<Pair<Int, Int>>()
     var hotFromClick = false
 
@@ -122,6 +127,9 @@ class HPopupMenu(val context: Context, val view: View ) {
     }
 
     fun show() {
+        disabledMenuItems.forEach {
+            popupMenu.menu.findItem(it)?.isEnabled = false
+        }
         popupMenu.show()
     }
 
