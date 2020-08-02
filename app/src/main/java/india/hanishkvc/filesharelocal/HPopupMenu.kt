@@ -6,6 +6,7 @@
 package india.hanishkvc.filesharelocal
 
 import android.content.Context
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
@@ -27,6 +28,7 @@ import androidx.appcompat.widget.PopupMenu
 
 class HPopupMenu(context: Context, view: View ) {
 
+    val TAGME = "HPopupMenu"
     lateinit var popupMenu: PopupMenu
     val hm = HashMap<String, Int>()
     var curLvl = 0
@@ -45,9 +47,12 @@ class HPopupMenu(context: Context, view: View ) {
         popupMenu.inflate(hm[curPath]!!)
         popupMenu.setOnMenuItemClickListener {
             val newPath = "$curLvl:${it.itemId}"
+            Log.v(TAGME, "onMenuItemClick: newPath=$newPath")
             if (newPath in hm) {
+                Log.v(TAGME, "onMenuItemClick:SubMenu: $newPath")
                 popupMenu.dismiss()
                 popupMenu.inflate(hm[newPath]!!)
+                curLvl += 1
                 popupMenu.show()
                 return@setOnMenuItemClickListener true
             }
