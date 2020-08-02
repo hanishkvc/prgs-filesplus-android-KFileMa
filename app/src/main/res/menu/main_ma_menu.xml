@@ -7,11 +7,8 @@
         android:id="@+id/file"
         android:title="@string/File" />
     <item
-        android:id="@+id/send"
-        android:title="@string/Send" />
-    <item
-        android:id="@+id/receive"
-        android:title="@string/Receive" />
+        android:id="@+id/transfer"
+        android:title="@string/Transfer" />
     <item
         android:id="@+id/storagevolume"
         android:title="@string/StorageVolume" />

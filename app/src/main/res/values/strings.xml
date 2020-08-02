@@ -13,4 +13,5 @@
     <string name="Exit">Exit</string>
     <string name="Wait">Wait</string>
     <string name="File">File</string>
+    <string name="Files">File(s)</string>
 </resources>
