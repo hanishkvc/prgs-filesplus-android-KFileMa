@@ -26,7 +26,7 @@ import androidx.appcompat.widget.PopupMenu
  * Show the menu
  */
 
-class HPopupMenu(context: Context, view: View ) {
+class HPopupMenu(val context: Context, val view: View ) {
 
     val TAGME = "HPopupMenu"
     lateinit var popupMenu: PopupMenu
@@ -51,6 +51,7 @@ class HPopupMenu(context: Context, view: View ) {
             if (newPath in hm) {
                 Log.v(TAGME, "onMenuItemClick:SubMenu: $newPath")
                 popupMenu.dismiss()
+                popupMenu = PopupMenu(context, view)
                 popupMenu.inflate(hm[newPath]!!)
                 curLvl += 1
                 popupMenu.show()
