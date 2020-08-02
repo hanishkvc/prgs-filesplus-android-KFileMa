@@ -41,6 +41,9 @@ class HPopupMenu(val context: Context, val view: View ) {
                 return "$curLvl:$curId"
             }
     var onMenuItemClickListener: ((MenuItem)->Boolean)? = null
+
+    var bTrapDismissListener = true
+
     val callStack = Stack<Pair<Int, Int>>()
     var hotFromClick = false
 
@@ -82,30 +85,32 @@ class HPopupMenu(val context: Context, val view: View ) {
             if (onMenuItemClickListener != null) return@setOnMenuItemClickListener onMenuItemClickListener!!.invoke(it)
             false
         }
-        curPopup.setOnDismissListener {
-            if (hotFromClick) {
-                hotFromClick = false
-                return@setOnDismissListener
-            }
-            try {
-                Log.v(TAGME, "onDismiss:In:$curPath")
-                val (backLvl, backId) = callStack.pop()
-                Log.v(TAGME, "onDismiss:BackTo:$curPath")
-                curLvl = backLvl-1
-                if (curLvl == -1) {
-                    curLvl = backLvl
-                    curId = ROOTMENU_ID
-                } else {
-                    curId = backId
+        if (bTrapDismissListener) {
+            curPopup.setOnDismissListener {
+                if (hotFromClick) {
+                    hotFromClick = false
+                    return@setOnDismissListener
                 }
-                popupMenu = PopupMenu(context, view)
-                popupMenu.inflate(hm[curPath]!!)
-                curLvl = backLvl
-                markSubs(curLvl)
-                setupOnMenuItemClickListener(popupMenu)
-                show()
-            } catch (e: EmptyStackException) {
-                Log.v(TAGME, "onDismiss:Already at top")
+                try {
+                    Log.v(TAGME, "onDismiss:In:$curPath")
+                    val (backLvl, backId) = callStack.pop()
+                    Log.v(TAGME, "onDismiss:BackTo:$curPath")
+                    curLvl = backLvl-1
+                    if (curLvl == -1) {
+                        curLvl = backLvl
+                        curId = ROOTMENU_ID
+                    } else {
+                        curId = backId
+                    }
+                    popupMenu = PopupMenu(context, view)
+                    popupMenu.inflate(hm[curPath]!!)
+                    curLvl = backLvl
+                    markSubs(curLvl)
+                    setupOnMenuItemClickListener(popupMenu)
+                    show()
+                } catch (e: EmptyStackException) {
+                    Log.v(TAGME, "onDismiss:Already at top")
+                }
             }
         }
     }
