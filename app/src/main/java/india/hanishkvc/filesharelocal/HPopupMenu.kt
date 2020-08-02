@@ -11,6 +11,8 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.iterator
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * HPopupMenu - Hierarchical popup menu for android
@@ -33,8 +35,13 @@ class HPopupMenu(val context: Context, val view: View ) {
     lateinit var popupMenu: PopupMenu
     val hm = HashMap<String, Int>()
     var curLvl = ROOTMENU_LVL
-    var curPath = "$curLvl:$ROOTMENU_ID"
+    var curId = ROOTMENU_ID
+    private val curPath: String
+            get() {
+                return "$curLvl:$curId"
+            }
     var onMenuItemClickListener: ((MenuItem)->Boolean)? = null
+    val callStack = Stack<String>()
 
     init {
         popupMenu = PopupMenu(context, view)
@@ -60,9 +67,11 @@ class HPopupMenu(val context: Context, val view: View ) {
             if (newPath in hm) {
                 Log.v(TAGME, "onMenuItemClick:SubMenu: $newPath")
                 curPopup.dismiss()
+                callStack.push(curPath)
                 popupMenu = PopupMenu(context, view)
                 popupMenu.inflate(hm[newPath]!!)
                 curLvl += 1
+                curId = it.itemId
                 markSubs(curLvl)
                 setupOnMenuItemClickListener(popupMenu)
                 show()
