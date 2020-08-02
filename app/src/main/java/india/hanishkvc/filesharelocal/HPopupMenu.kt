@@ -32,8 +32,8 @@ class HPopupMenu(val context: Context, val view: View ) {
     val TAGME = "HPopupMenu"
     lateinit var popupMenu: PopupMenu
     val hm = HashMap<String, Int>()
-    var curLvl = 0
-    var curPath = "$curLvl:-1"
+    var curLvl = ROOTMENU_LVL
+    var curPath = "$curLvl:$ROOTMENU_ID"
     var onMenuItemClickListener: ((MenuItem)->Boolean)? = null
 
     init {
@@ -78,4 +78,8 @@ class HPopupMenu(val context: Context, val view: View ) {
         popupMenu.show()
     }
 
+    companion object {
+        const val ROOTMENU_LVL=0
+        const val ROOTMENU_ID=-1
+    }
 }
