@@ -53,9 +53,7 @@ class HPopupMenu(val context: Context, val view: View ) {
         }
     }
 
-    fun prepare() {
-        popupMenu.inflate(hm[curPath]!!)
-        markSubs(curLvl)
+    fun setupOnMenuItemClickListener(popupMenu: PopupMenu) {
         popupMenu.setOnMenuItemClickListener {
             val newPath = "$curLvl:${it.itemId}"
             Log.v(TAGME, "onMenuItemClick: newPath=$newPath")
@@ -72,6 +70,12 @@ class HPopupMenu(val context: Context, val view: View ) {
             if (onMenuItemClickListener != null) return@setOnMenuItemClickListener onMenuItemClickListener!!.invoke(it)
             false
         }
+    }
+
+    fun prepare() {
+        popupMenu.inflate(hm[curPath]!!)
+        markSubs(curLvl)
+        setupOnMenuItemClickListener(popupMenu)
     }
 
     fun show() {
