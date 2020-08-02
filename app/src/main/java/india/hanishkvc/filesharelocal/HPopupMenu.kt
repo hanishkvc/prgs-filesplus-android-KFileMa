@@ -87,22 +87,26 @@ class HPopupMenu(val context: Context, val view: View ) {
                 hotFromClick = false
                 return@setOnDismissListener
             }
-            Log.v(TAGME, "onDismiss:In:$curPath")
-            val (backLvl, backId) = callStack.pop()
-            Log.v(TAGME, "onDismiss:BackTo:$curPath")
-            curLvl = backLvl-1
-            if (curLvl == -1) {
+            try {
+                Log.v(TAGME, "onDismiss:In:$curPath")
+                val (backLvl, backId) = callStack.pop()
+                Log.v(TAGME, "onDismiss:BackTo:$curPath")
+                curLvl = backLvl-1
+                if (curLvl == -1) {
+                    curLvl = backLvl
+                    curId = ROOTMENU_ID
+                } else {
+                    curId = backId
+                }
+                popupMenu = PopupMenu(context, view)
+                popupMenu.inflate(hm[curPath]!!)
                 curLvl = backLvl
-                curId = ROOTMENU_ID
-            } else {
-                curId = backId
+                markSubs(curLvl)
+                setupOnMenuItemClickListener(popupMenu)
+                show()
+            } catch (e: EmptyStackException) {
+                Log.v(TAGME, "onDismiss:Already at top")
             }
-            popupMenu = PopupMenu(context, view)
-            popupMenu.inflate(hm[curPath]!!)
-            curLvl = backLvl
-            markSubs(curLvl)
-            setupOnMenuItemClickListener(popupMenu)
-            show()
         }
     }
 
