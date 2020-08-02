@@ -42,6 +42,7 @@ class HPopupMenu(val context: Context, val view: View ) {
             }
     var onMenuItemClickListener: ((MenuItem)->Boolean)? = null
     val callStack = Stack<Pair<Int, Int>>()
+    var hotFromClick = false
 
     init {
         popupMenu = PopupMenu(context, view)
@@ -62,6 +63,7 @@ class HPopupMenu(val context: Context, val view: View ) {
 
     fun setupOnMenuItemClickListener(curPopup: PopupMenu) {
         curPopup.setOnMenuItemClickListener {
+            hotFromClick = true
             val newPath = "$curLvl:${it.itemId}"
             Log.v(TAGME, "onMenuItemClick: newPath=$newPath")
             if (newPath in hm) {
@@ -81,6 +83,10 @@ class HPopupMenu(val context: Context, val view: View ) {
             false
         }
         curPopup.setOnDismissListener {
+            if (hotFromClick) {
+                hotFromClick = false
+                return@setOnDismissListener
+            }
             val (backLvl, backId) = callStack.pop()
             curLvl = backLvl
             curId = backId
