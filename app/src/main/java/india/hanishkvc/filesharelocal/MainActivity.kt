@@ -27,9 +27,7 @@ import androidx.appcompat.widget.PopupMenu
 import india.hanishkvc.filesharelocal.fman.FMan
 import kotlinx.coroutines.*
 import java.io.File
-import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 class MainActivity : AppCompatActivity() {
 
     private val TAGME = "FSLMain"

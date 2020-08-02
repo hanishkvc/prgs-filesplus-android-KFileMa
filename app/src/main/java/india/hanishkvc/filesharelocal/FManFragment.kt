@@ -9,12 +9,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import india.hanishkvc.filesharelocal.fman.FMan
 import java.io.File
-import kotlin.time.ExperimentalTime
 
 /**
  * A fragment representing a list of Items.
  */
-@ExperimentalTime
 @Suppress("MoveLambdaOutsideParentheses")
 class FManFragment : Fragment() {
 
