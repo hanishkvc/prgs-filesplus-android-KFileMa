@@ -30,7 +30,7 @@ class HPopupMenu(context: Context, view: View ) {
     lateinit var popupMenu: PopupMenu
     val hm = HashMap<String, Int>()
     var curLvl = 0
-    var curPath = "$curLvl:0"
+    var curPath = "$curLvl:-1"
     var onMenuItemClickListener: ((MenuItem)->Boolean)? = null
 
     init {

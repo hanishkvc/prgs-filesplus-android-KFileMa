@@ -387,6 +387,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun contextMenu() {
+        val popupMenu = HPopupMenu(this, btnMa!!)
+        popupMenu.buildMenuMap(0, -1, R.menu.main_ma_menu)
+        popupMenu.buildMenuMap(0, R.id.file, R.menu.main_ma_file)
+        popupMenu.prepare()
+        popupMenu.show()
+
+    }
+
+    fun contextMenuAndroidPopup() {
         if (fileioJob != null) {
             if (!fileioJob!!.isCompleted) {
                 Toast.makeText(this, "A FileIO Job is active, waiting for it to finish", Toast.LENGTH_LONG).show()
