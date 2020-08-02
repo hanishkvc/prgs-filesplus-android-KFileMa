@@ -12,4 +12,5 @@
     <string name="Settings">Settings</string>
     <string name="Exit">Exit</string>
     <string name="Wait">Wait</string>
+    <string name="File">File</string>
 </resources>
