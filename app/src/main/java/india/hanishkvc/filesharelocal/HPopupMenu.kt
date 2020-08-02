@@ -53,17 +53,18 @@ class HPopupMenu(val context: Context, val view: View ) {
         }
     }
 
-    fun setupOnMenuItemClickListener(popupMenu: PopupMenu) {
-        popupMenu.setOnMenuItemClickListener {
+    fun setupOnMenuItemClickListener(curPopup: PopupMenu) {
+        curPopup.setOnMenuItemClickListener {
             val newPath = "$curLvl:${it.itemId}"
             Log.v(TAGME, "onMenuItemClick: newPath=$newPath")
             if (newPath in hm) {
                 Log.v(TAGME, "onMenuItemClick:SubMenu: $newPath")
-                popupMenu.dismiss()
+                curPopup.dismiss()
                 popupMenu = PopupMenu(context, view)
                 popupMenu.inflate(hm[newPath]!!)
                 curLvl += 1
                 markSubs(curLvl)
+                setupOnMenuItemClickListener(popupMenu)
                 show()
                 return@setOnMenuItemClickListener true
             }
