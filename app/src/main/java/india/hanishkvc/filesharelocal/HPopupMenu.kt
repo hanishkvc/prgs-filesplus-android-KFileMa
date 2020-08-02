@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.iterator
 
 /**
  * HPopupMenu - Hierarchical popup menu for android
@@ -43,8 +44,18 @@ class HPopupMenu(val context: Context, val view: View ) {
         hm.put("$menuLvl:$itemId", menuRes)
     }
 
+    fun markSubs(lvl: Int) {
+        for (item in popupMenu.menu) {
+            val newPath = "$lvl:${item.itemId}"
+            if (newPath in hm) {
+                item.title = item.title as String + "    >"
+            }
+        }
+    }
+
     fun prepare() {
         popupMenu.inflate(hm[curPath]!!)
+        markSubs(curLvl)
         popupMenu.setOnMenuItemClickListener {
             val newPath = "$curLvl:${it.itemId}"
             Log.v(TAGME, "onMenuItemClick: newPath=$newPath")
@@ -54,7 +65,8 @@ class HPopupMenu(val context: Context, val view: View ) {
                 popupMenu = PopupMenu(context, view)
                 popupMenu.inflate(hm[newPath]!!)
                 curLvl += 1
-                popupMenu.show()
+                markSubs(curLvl)
+                show()
                 return@setOnMenuItemClickListener true
             }
             if (onMenuItemClickListener != null) return@setOnMenuItemClickListener onMenuItemClickListener!!.invoke(it)
