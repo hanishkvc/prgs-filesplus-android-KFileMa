@@ -294,8 +294,7 @@ class SimpRecycView<E> : RecyclerView {
                         bLongClicked = false
                     }
                     if ((event.action == MotionEvent.ACTION_UP) && !bLongClicked) {
-                        onSRCVItemClickListener?.invoke(id, v)
-                        return@setOnTouchListener true
+                        return@setOnTouchListener v.performClick()
                     }
                     false
                 }
