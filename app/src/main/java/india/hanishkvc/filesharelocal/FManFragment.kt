@@ -56,12 +56,12 @@ class FManFragment : Fragment() {
         }
 
         recyclerView?.onSRCVItemClickListener = { position: Int, view: View ->
-            Log.v(TAGME, "onClick: ${position}, ${fmd?.ITEMS?.get(position)}")
+            Log.d(TAGME, "onSRcVItemClick: ${position}, ${fmd?.ITEMS?.get(position)}")
             FMan.fManItemInteractionIF?.doNavigate(position)
         }
 
         recyclerView?.onSRCVItemLongClickListener = { position: Int, view: View ->
-            Log.v(TAGME, "onLongClick: ${position}, ${fmd?.ITEMS?.get(position)}")
+            Log.d(TAGME, "onSRcVItemLongClick: ${position}, ${fmd?.ITEMS?.get(position)}")
             FMan.fManItemInteractionIF?.doSelect(position)!!
         }
 
