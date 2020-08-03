@@ -266,6 +266,7 @@ class SimpRecycView<E> : RecyclerView {
 
         inner class SimpViewHolder(itemView: View) : ViewHolder(itemView) {
             var id = -1
+            var bLongClicked = false
 
             private fun handleSelectedPlus() {
                 if (selected.contains(id)) {
@@ -289,7 +290,10 @@ class SimpRecycView<E> : RecyclerView {
 
             init {
                 itemView.setOnTouchListener { v, event ->
-                    if (event.action == MotionEvent.ACTION_UP) {
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        bLongClicked = false
+                    }
+                    if ((event.action == MotionEvent.ACTION_UP) && !bLongClicked) {
                         onSRCVItemClickListener?.invoke(id, v)
                         return@setOnTouchListener true
                     }
@@ -299,6 +303,7 @@ class SimpRecycView<E> : RecyclerView {
                     onSRCVItemClickListener?.invoke(id, it)
                 }
                 itemView.setOnLongClickListener {
+                    bLongClicked = true
                     return@setOnLongClickListener handleSelection(it)
                 }
                 itemView.setOnKeyListener { v, keyCode, event ->
