@@ -140,6 +140,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showPath(pathStr: String?) {
+        if (pathStr == null) {
+            Log.d(TAGME, "showPath: $pathStr")
+            return
+        }
+        var thePathStr = pathStr
+        if (pathStr.length > 100) {
+            pathStr.substring(pathStr.length-100)
+            thePathStr = "...$pathStr"
+        }
+        tvPath?.text = thePathStr
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.v(TAGME, "onCreate: Entered")
@@ -147,7 +160,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.v(TAGME, "onCreate: View inflated")
         tvPath = findViewById<TextView>(R.id.tvPath)
-        tvPath?.text = FManFragment.defaultPathStr
+        showPath(FManFragment.defaultPathStr)
         fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
         btnMa = findViewById<Button>(R.id.btnMa)
         btnMa?.setOnClickListener {
@@ -300,7 +313,7 @@ class MainActivity : AppCompatActivity() {
         while (!bLoaded) {
             Log.v(TAGME,"loadPath: $thePath")
             if (thePath != null) {
-                tvPath?.text = thePath
+                showPath(thePath)
             }
             bLoaded = fragMain?.loadPath(thePath, defEntry)!!
             if (!bLoaded) {
@@ -338,7 +351,7 @@ class MainActivity : AppCompatActivity() {
     private fun backPath() {
         val back = fragMain?.fmd?.curPath.toString()
         val path = fragMain?.fmd?.backPath()
-        tvPath?.text = path
+        showPath(path)
         Log.v(TAGME,"backPath: $path")
         loadPath(defEntry = back)
     }
