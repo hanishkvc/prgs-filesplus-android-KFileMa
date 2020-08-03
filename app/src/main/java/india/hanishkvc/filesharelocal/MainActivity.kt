@@ -398,9 +398,17 @@ class MainActivity : AppCompatActivity() {
             editText.inputType = InputType.TYPE_CLASS_TEXT
             setView(editText)
             setPositiveButton("Create", { dialogInterface: DialogInterface, i: Int ->
-                Log.v(TAGME, "handleNewFolder: ${editText.text}")
-                val dir = File(fragMain?.fmd?.curPath, editText.text.toString())
-                if (!dir.mkdir()) {
+                val folderName = editText.text.toString()
+                Log.v(TAGME, "handleNewFolder: $folderName")
+                var bDone = true
+                try {
+                    val dir = File(fragMain?.fmd?.curPath, folderName)
+                    bDone = dir.mkdir()
+                } catch (e: Exception) {
+                    bDone = false
+                    Log.e(TAGME, "handleNewFolder: ${e.localizedMessage}")
+                }
+                if (!bDone) {
                     btnMa?.text = "Failed"
                     btnMa?.postDelayed({
                         btnMa?.text = resources.getString(R.string.Ma)
