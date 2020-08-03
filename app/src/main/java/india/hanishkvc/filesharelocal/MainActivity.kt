@@ -74,6 +74,8 @@ class MainActivity : AppCompatActivity() {
     val bCopyAddToList = false
     val selectedFileList = ArrayList<String>()
 
+    val BTNMA_ERRORMILLIS = 5000
+
     private fun setupStartState(savedInstanceState: Bundle?) {
         // Handle initial path
         var sPath = savedInstanceState?.getCharSequence(BID_SAVEPATH)
@@ -370,7 +372,7 @@ class MainActivity : AppCompatActivity() {
                         if (btnMa?.text != resources.getString(R.string.Ma)) {
                             btnMa?.text = resources.getString(R.string.Ma)
                         }
-                    }, 10000)
+                    }, BTNMA_ERRORMILLIS.toLong())
                 }
                 if (fileiotype == FILEIOTYPE.COPY) {
                     selectedFileList.clear()
@@ -412,7 +414,7 @@ class MainActivity : AppCompatActivity() {
                     btnMa?.text = resources.getString(R.string.Error)
                     btnMa?.postDelayed({
                         btnMa?.text = resources.getString(R.string.Ma)
-                    }, 5000)
+                    }, BTNMA_ERRORMILLIS.toLong())
                 }
             })
             setNegativeButton("Cancel", { dialogInterface: DialogInterface, i: Int ->
