@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     private val REQUESTCODE_VIEWFILEINT = 0x5a52
     private val REQUESTCODE_VIEWFILEEXT = 0x5a53
-    private val bViewFileInt2Ext: Boolean = true
+    private var bViewFileInt2Ext: Boolean = true
     private var vfUri: Uri? = null
     private var vfMime: String? = null
 
@@ -426,6 +426,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun handleSettings() {
+        AlertDialog.Builder(this).apply {
+            setTitle("Settings")
+            val sSettings = arrayOf("Viewer: Internal First")
+            val bSettings = ArrayList<Boolean>()
+            bSettings.add(bViewFileInt2Ext)
+            setMultiChoiceItems(sSettings, bSettings.toBooleanArray(), { dlgIF: DialogInterface, index: Int, bChecked: Boolean ->
+                bSettings[index] = bChecked
+            })
+            setPositiveButton("Ok", { dialogInterface: DialogInterface, id: Int ->
+                bViewFileInt2Ext = bSettings[0]
+            })
+            setNegativeButton("Cancel", { dialogInterface: DialogInterface, id: Int ->
+                dialogInterface.cancel()
+            })
+            show()
+        }
     }
 
     fun contextMenu() {
