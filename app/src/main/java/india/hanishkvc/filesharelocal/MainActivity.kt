@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     private val REQUESTCODE_VIEWFILEINT = 0x5a52
     private val REQUESTCODE_VIEWFILEEXT = 0x5a53
-    private var bViewFileInt2Ext: Boolean = true
+    private var bViewFileInternalFirst: Boolean = true
     private var vfUri: Uri? = null
     private var vfMime: String? = null
 
@@ -156,13 +156,19 @@ class MainActivity : AppCompatActivity() {
         setupFManInteractions()
     }
 
+    /**
+     * NOTE THAT if the internal viewer returns with a failure, we chain into external viewer.
+     * However if external viewer returns with a failure, we dont chain into internal viewer.
+     * This is because, most external viewers dont consistently return with success or failure
+     * to view file related status.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.v(TAGME, "onActRes: rc[$requestCode], r[$resultCode], d[$data]")
         if ((requestCode == REQUESTCODE_VIEWFILEINT) && (resultCode == Activity.RESULT_CANCELED)) {
-            if (bViewFileInt2Ext) {
-                if ((vfUri != null) && (vfMime != null)) {
-                        viewFileExt(vfUri!!, vfMime)
+            if (bViewFileInternalFirst) {
+                if (vfUri != null) {
+                    viewFileExt(vfUri!!, vfMime)
                 }
             }
         }
@@ -215,15 +221,13 @@ class MainActivity : AppCompatActivity() {
         vfUri = Uri.fromFile(file)
         //if (vfUri == null) return
         vfMime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(File(path).extension)
-        if (bViewFileInt2Ext) {
+        if (bViewFileInternalFirst) {
             bActivityStarted = viewFileInt(vfUri!!, vfMime)
             if (!bActivityStarted) {
                 viewFileExt(vfUri!!, vfMime)
             }
         } else {
-            if (vfMime != null) {
-                bActivityStarted = viewFileExt(vfUri!!, vfMime)
-            }
+            bActivityStarted = viewFileExt(vfUri!!, vfMime)
             if (!bActivityStarted) {
                 viewFileInt(vfUri!!, vfMime)
             }
@@ -430,12 +434,12 @@ class MainActivity : AppCompatActivity() {
             setTitle("Settings")
             val sSettings = arrayOf("Viewer: Internal First")
             val bSettings = ArrayList<Boolean>()
-            bSettings.add(bViewFileInt2Ext)
+            bSettings.add(bViewFileInternalFirst)
             setMultiChoiceItems(sSettings, bSettings.toBooleanArray(), { dlgIF: DialogInterface, index: Int, bChecked: Boolean ->
                 bSettings[index] = bChecked
             })
             setPositiveButton("Ok", { dialogInterface: DialogInterface, id: Int ->
-                bViewFileInt2Ext = bSettings[0]
+                bViewFileInternalFirst = bSettings[0]
             })
             setNegativeButton("Cancel", { dialogInterface: DialogInterface, id: Int ->
                 dialogInterface.cancel()
