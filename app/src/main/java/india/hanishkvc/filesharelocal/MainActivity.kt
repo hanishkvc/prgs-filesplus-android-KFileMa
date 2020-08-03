@@ -425,6 +425,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun handleSettings() {
+    }
+
     fun contextMenu() {
         // Check we are ok to do things
         if (fileioJob != null) {
@@ -461,6 +464,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.storagevolume -> storageVolumeSelector()
                 R.id.delete -> handleDelete(selectedList!!)
                 R.id.newfolder -> handleNewFolder()
+                R.id.settings -> handleSettings()
                 R.id.exit -> finish()
             }
             true
