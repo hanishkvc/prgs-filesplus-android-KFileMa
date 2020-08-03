@@ -19,10 +19,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.Log
-import android.view.Gravity
-import android.view.KeyEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -291,6 +288,13 @@ class SimpRecycView<E> : RecyclerView {
             }
 
             init {
+                itemView.setOnTouchListener { v, event ->
+                    if (event.action == MotionEvent.ACTION_UP) {
+                        onSRCVItemClickListener?.invoke(id, v)
+                        return@setOnTouchListener true
+                    }
+                    false
+                }
                 itemView.setOnClickListener {
                     onSRCVItemClickListener?.invoke(id, it)
                 }
