@@ -397,7 +397,7 @@ class MainActivity : AppCompatActivity() {
         val popupMenu = HPopupMenu(this, btnMa!!)
         popupMenu.buildMenuMap(0, HPopupMenu.ROOTMENU_ID, R.menu.main_ma_menu)
         popupMenu.buildMenuMap(0, R.id.file, R.menu.main_ma_file)
-        popupMenu.buildMenuMap(0, R.id.transfer, R.menu.main_ma_transfer)
+        popupMenu.buildMenuMap(0, R.id.nwshare, R.menu.main_ma_nwshare)
         popupMenu.prepare()
         // Show or hide items
         val disabledMenuItems = ArrayList<Int>()

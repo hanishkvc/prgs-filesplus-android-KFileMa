@@ -7,8 +7,8 @@
         android:id="@+id/file"
         android:title="@string/File" />
     <item
-        android:id="@+id/transfer"
-        android:title="@string/Transfer" />
+        android:id="@+id/nwshare"
+        android:title="@string/NwShare" />
     <item
         android:id="@+id/storagevolume"
         android:title="@string/StorageVolume" />
