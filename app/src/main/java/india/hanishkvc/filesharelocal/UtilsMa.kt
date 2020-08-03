@@ -16,6 +16,12 @@ object UtilsMa {
      * Chop a given string to fit within display width
      */
     fun strChopToDispWidth(resources: Resources, inStr: String?, charPixelWidth: Int=12): String? {
+        Log.d(TAGME, "xdpi: ${resources.displayMetrics.xdpi}")
+        Log.d(TAGME, "ydpi: ${resources.displayMetrics.ydpi}")
+        Log.d(TAGME, "widthPixels: ${resources.displayMetrics.widthPixels}")
+        Log.d(TAGME, "density: ${resources.displayMetrics.density}")
+        Log.d(TAGME, "scaledDensity: ${resources.displayMetrics.scaledDensity}")
+        Log.d(TAGME, "densityDpi: ${resources.displayMetrics.densityDpi}")
         val limit = resources.displayMetrics.widthPixels/charPixelWidth
         Log.d(TAGME, "strChopDW: w=${resources.displayMetrics.widthPixels}, lim=$limit")
         if (inStr == null) {
