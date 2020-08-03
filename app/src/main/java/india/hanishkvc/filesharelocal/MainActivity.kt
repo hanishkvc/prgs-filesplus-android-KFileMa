@@ -435,7 +435,7 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putCharSequence(BID_SAVEPATH,fragMain?.fmd?.curPath.toString())
         Log.v(TAGME,"SaveState: ${outState.getCharSequence(BID_SAVEPATH)}")
-        outState.putCharSequenceArrayList(BID_SELECTEDLIST, selectedFileList as java.util.ArrayList<CharSequence>)
+        outState.putStringArrayList(BID_SELECTEDLIST, selectedFileList)
         super.onSaveInstanceState(outState)
     }
 
