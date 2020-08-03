@@ -79,6 +79,7 @@ class HPopupMenu(val context: Context, val view: View ) {
                 curPopup.dismiss()
                 callStack.push(Pair(curLvl, curId))
                 popupMenu = PopupMenu(context, view)
+                popupMenu.menu.add("[${it.title}]").isEnabled = false
                 popupMenu.inflate(hm[newPath]!!)
                 curLvl += 1
                 curId = it.itemId
