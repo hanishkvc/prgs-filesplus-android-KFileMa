@@ -142,14 +142,15 @@ class MainActivity : AppCompatActivity() {
 
     fun showPath(pathStr: String?) {
         val limit = resources.displayMetrics.widthPixels/16
+        Log.d(TAGME, "showPath: w=${resources.displayMetrics.widthPixels}, lim=$limit")
         if (pathStr == null) {
             Log.d(TAGME, "showPath: $pathStr")
             return
         }
         var thePathStr = pathStr
         if (pathStr.length > limit) {
-            pathStr.substring(pathStr.length-limit)
-            thePathStr = "...$pathStr"
+            thePathStr = pathStr.substring(pathStr.length-limit)
+            thePathStr = "...$thePathStr"
         }
         tvPath?.text = thePathStr
     }
