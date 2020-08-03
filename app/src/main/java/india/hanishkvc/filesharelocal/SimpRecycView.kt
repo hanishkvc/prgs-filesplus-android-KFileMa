@@ -256,6 +256,7 @@ class SimpRecycView<E> : RecyclerView {
 
         override fun onBindViewHolder(holder: SimpViewHolder, position: Int) {
             holder.id = position
+            Log.v(TAGME, "onBindVH: $position")
             onSRCVBindView?.invoke(holder.itemView, position) ?: bindInternalSimpleView(holder.itemView, position)
             if (bHandleMultiSelection) holder.itemView.isActivated = selected.contains(position)
         }
@@ -293,8 +294,11 @@ class SimpRecycView<E> : RecyclerView {
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         bLongClicked = false
                     }
-                    if ((event.action == MotionEvent.ACTION_UP) && !bLongClicked) {
-                        return@setOnTouchListener v.performClick()
+                    if (event.action == MotionEvent.ACTION_UP) {
+                        if (!bLongClicked) {
+                            return@setOnTouchListener v.performClick()
+                        }
+                        //return@setOnTouchListener true
                     }
                     false
                 }
