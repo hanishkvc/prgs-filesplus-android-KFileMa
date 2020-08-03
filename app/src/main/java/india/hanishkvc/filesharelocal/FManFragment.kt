@@ -39,7 +39,7 @@ class FManFragment : Fragment() {
         recyclerView = inflater.inflate(R.layout.fragment_fman_list, container, false) as SimpRecycView<FMan.FManItem>
 
         fmd = FMan.FManData()
-        fmd!!.loadPath(defaultPathStr)
+        //fmd!!.loadPath(defaultPathStr)
 
         recyclerView?.onSRCVCreateView = { parent ->
             val view = LayoutInflater.from(context)
@@ -65,7 +65,7 @@ class FManFragment : Fragment() {
             FMan.fManItemInteractionIF?.doSelect(position)!!
         }
 
-        recyclerView?.assignDataList(fmd!!.ITEMS as ArrayList<FMan.FManItem>)
+        //recyclerView?.assignDataList(fmd!!.ITEMS as ArrayList<FMan.FManItem>)
         recyclerView?.preserveFocusAfterLayout = true
         return recyclerView
     }

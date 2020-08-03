@@ -160,6 +160,18 @@ class MainActivity : AppCompatActivity() {
         }
         checkPermissions()
         setupFManInteractions()
+        loadDefaultPath()
+    }
+
+    fun loadDefaultPath() {
+        fileioJob = scope.launch {
+            withContext(Dispatchers.IO){
+                fragMain?.fmd?.loadPath(FManFragment.defaultPathStr)
+            }
+            withContext(Dispatchers.Main) {
+                fragMain?.updateFrag()
+            }
+        }
     }
 
     /**
