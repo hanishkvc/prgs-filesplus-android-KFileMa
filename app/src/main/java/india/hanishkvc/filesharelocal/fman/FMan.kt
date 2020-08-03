@@ -114,7 +114,7 @@ object FMan {
         var bDone = true
         val errFiles = ArrayList<String>()
         var dstActual = dst
-        if ((dst.isDirectory) && (src.isFile)) {
+        if (dst.isDirectory) {
             dstActual = File(dst,src.name)
         }
         Log.v(TAGME, "copy: ${src.absolutePath} to ${dstActual.absolutePath}")
