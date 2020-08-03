@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private val TAGME = "FSLMain"
     private val BID_SAVEPATH = "BID_SAVEPATH"
+    private val BID_SELECTEDLIST = "BID_SELECTEDLIST"
     val scope = MainScope()
     var fileioJob: Job? = null
 
@@ -81,6 +82,9 @@ class MainActivity : AppCompatActivity() {
             Log.v(TAGME,"Start:LoadState: $sPath")
         }
         FManFragment.defaultPathStr = sPath as String
+        // Handle selectedFileList
+        val savedSelectedFileList = savedInstanceState?.getStringArrayList(BID_SELECTEDLIST)
+        savedSelectedFileList?.let { selectedFileList.addAll(it) }
         // Handle num of cols in View
         var bModeGrid = false
         if (windowManager.defaultDisplay.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -431,6 +435,7 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putCharSequence(BID_SAVEPATH,fragMain?.fmd?.curPath.toString())
         Log.v(TAGME,"SaveState: ${outState.getCharSequence(BID_SAVEPATH)}")
+        outState.putCharSequenceArrayList(BID_SELECTEDLIST, selectedFileList as java.util.ArrayList<CharSequence>)
         super.onSaveInstanceState(outState)
     }
 
