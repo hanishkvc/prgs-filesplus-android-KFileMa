@@ -39,7 +39,7 @@ class ViewerActivity : AppCompatActivity() {
         Log.v(TAGME, "onCreate: Entered, ${intent.type}, ${intent.data}")
         setContentView(R.layout.activity_viewer)
 
-        title = "Viewer:"+intent.dataString
+        title = "Viewer:"+ UtilsMa.strChopToDispWidth(resources, intent.dataString, 36)
         webv = findViewById<WebView>(R.id.webv)
         webv?.isEnabled = false
         webv?.visibility = View.GONE
