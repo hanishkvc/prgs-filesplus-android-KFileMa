@@ -34,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     private val TAGME = "FSLMain"
     private val BID_SAVEPATH = "BID_SAVEPATH"
     private val BID_SELECTEDLIST = "BID_SELECTEDLIST"
+    private val BID_VIEWFILEINTERNALFIRST = "BID_VIEWFILEINTERNALFIRST"
+
     val scope = MainScope()
     var fileioJob: Job? = null
 
@@ -89,6 +91,10 @@ class MainActivity : AppCompatActivity() {
         // Handle selectedFileList
         val savedSelectedFileList = savedInstanceState?.getStringArrayList(BID_SELECTEDLIST)
         savedSelectedFileList?.let { selectedFileList.addAll(it) }
+        // Handle bViewFileInternalFirst
+        savedInstanceState?.apply {
+            bViewFileInternalFirst = getBoolean(BID_VIEWFILEINTERNALFIRST)
+        }
         // Handle num of cols in View
         var bModeGrid = false
         if (windowManager.defaultDisplay.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -497,6 +503,7 @@ class MainActivity : AppCompatActivity() {
         outState.putCharSequence(BID_SAVEPATH,fragMain?.fmd?.curPath.toString())
         Log.v(TAGME,"SaveState: ${outState.getCharSequence(BID_SAVEPATH)}")
         outState.putStringArrayList(BID_SELECTEDLIST, selectedFileList)
+        outState.putBoolean(BID_VIEWFILEINTERNALFIRST, bViewFileInternalFirst)
         super.onSaveInstanceState(outState)
     }
 
