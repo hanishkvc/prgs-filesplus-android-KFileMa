@@ -409,7 +409,7 @@ class MainActivity : AppCompatActivity() {
                     Log.e(TAGME, "handleNewFolder: ${e.localizedMessage}")
                 }
                 if (!bDone) {
-                    btnMa?.text = "Failed"
+                    btnMa?.text = resources.getString(R.string.Error)
                     btnMa?.postDelayed({
                         btnMa?.text = resources.getString(R.string.Ma)
                     }, 5000)
