@@ -389,6 +389,10 @@ class MainActivity : AppCompatActivity() {
         handleFileIO(FILEIOTYPE.DELETE, deleteList, "")
     }
 
+    fun handleNewFolder() {
+
+    }
+
     fun contextMenu() {
         // Check we are ok to do things
         if (fileioJob != null) {
@@ -424,6 +428,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.paste -> handleFileIO(FILEIOTYPE.COPY, selectedFileList, fragMain!!.fmd!!.curPath!!.absolutePath)
                 R.id.storagevolume -> storageVolumeSelector()
                 R.id.delete -> handleDelete(selectedList!!)
+                R.id.newfolder -> handleNewFolder()
                 R.id.exit -> finish()
             }
             true
