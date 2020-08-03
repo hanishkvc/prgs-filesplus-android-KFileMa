@@ -188,6 +188,8 @@ class SimpRecycView<E> : RecyclerView {
         Log.v(TAGME, "assignDataList:${dataList.size} items in")
         if (bHandleMultiSelection) selected.clear()
         adapter?.notifyDataSetChanged()
+        layoutManager?.removeAllViews()
+        postInvalidateDelayed(500)
         if (initialPosition >= 0) {
             focus(initialPosition, true)
         }
