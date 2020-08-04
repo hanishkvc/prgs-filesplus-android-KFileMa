@@ -46,12 +46,10 @@ class FManFragment : Fragment() {
             val view = LayoutInflater.from(context)
                 .inflate(R.layout.fragment_fman_item, parent, false)
             val sizeView: TextView = view.findViewById(R.id.item_size)
-            if (FMan.bGetSize) {
-                sizeView.typeface = Typeface.MONOSPACE
-                sizeView.textSize = 12.0f
-            } else {
-                sizeView.visibility = View.GONE
-            }
+            sizeView.typeface = Typeface.MONOSPACE
+            sizeView.textSize = 12.0f
+            sizeView.isEnabled = false
+            sizeView.visibility = View.GONE
             view
         }
 
@@ -68,6 +66,11 @@ class FManFragment : Fragment() {
                 } else {
                     sizeView.text = "% 7d".format(item.size)
                 }
+                sizeView.isEnabled = true
+                sizeView.visibility = View.VISIBLE
+            } else {
+                sizeView.isEnabled = false
+                sizeView.visibility = View.GONE
             }
         }
 

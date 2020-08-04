@@ -42,7 +42,7 @@ object FMan {
     /**
      * Get size info. File = Length, Dir = NumOfEntries
      */
-    var bGetSize: Boolean = true
+    var bGetSize: Boolean = false
 
     init {
         // Do nothing for now
