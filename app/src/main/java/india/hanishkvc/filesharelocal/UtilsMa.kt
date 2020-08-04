@@ -36,7 +36,17 @@ object UtilsMa {
         return theStr
     }
 
-    fun longTo8Str(inLong: Long): String {
+    fun longTo7Str(inLong: Long): String {
+        var theStr: String = ""
+        if (inLong > 999999) {
+            theStr = "%.2G".format(inLong.toDouble())
+        } else {
+            theStr = "% 7d".format(inLong)
+        }
+        return theStr
+    }
+
+    fun longToKMG8Str(inLong: Long): String {
         var theDbl = inLong.toDouble()
         var theStr: String = ""
         when {
