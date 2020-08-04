@@ -35,4 +35,26 @@ object UtilsMa {
         }
         return theStr
     }
+
+    fun longTo8Str(inLong: Long): String {
+        var theDbl = inLong.toDouble()
+        var theStr: String = ""
+        when {
+            inLong <= 999 -> theStr = "% 7d ".format(inLong)
+            inLong <= 999999 -> {
+                theDbl = theDbl/1024
+                theStr = "% 7.2fK".format(theDbl)
+            }
+            inLong <= 999999999 -> {
+                theDbl = theDbl/(1024*1024)
+                theStr = "% 7.2fM".format(theDbl)
+            }
+            inLong > 999999999 -> {
+                theDbl = theDbl/(1024*1024*1024)
+                theStr = "% 7.2fG".format(theDbl)
+            }
+        }
+        return theStr
+    }
+
 }

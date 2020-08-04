@@ -61,11 +61,14 @@ class FManFragment : Fragment() {
             typeView.text = item.type.shortDesc
             pathView.text = item.path.substringAfterLast(File.separator)
             if (FMan.bGetSize) {
+                /*
                 if (item.size > 999999) {
                     sizeView.text = "%.2G".format(item.size.toDouble())
                 } else {
                     sizeView.text = "% 7d".format(item.size)
                 }
+                */
+                sizeView.text = UtilsMa.longTo8Str(item.size)
                 sizeView.isEnabled = true
                 sizeView.visibility = View.VISIBLE
             } else {
