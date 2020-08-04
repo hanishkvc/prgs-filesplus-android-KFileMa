@@ -454,14 +454,16 @@ class MainActivity : AppCompatActivity() {
     fun handleSettings() {
         AlertDialog.Builder(this).apply {
             setTitle("Settings")
-            val sSettings = arrayOf("Viewer: Internal First")
+            val sSettings = arrayOf("Viewer: Internal First", "Show FileSize|DirEntryCnt")
             val bSettings = ArrayList<Boolean>()
             bSettings.add(bViewFileInternalFirst)
+            bSettings.add(FMan.bGetSize)
             setMultiChoiceItems(sSettings, bSettings.toBooleanArray(), { dlgIF: DialogInterface, index: Int, bChecked: Boolean ->
                 bSettings[index] = bChecked
             })
             setPositiveButton("Ok", { dialogInterface: DialogInterface, id: Int ->
                 bViewFileInternalFirst = bSettings[0]
+                FMan.bGetSize = bSettings[1]
             })
             setNegativeButton("Cancel", { dialogInterface: DialogInterface, id: Int ->
                 dialogInterface.cancel()

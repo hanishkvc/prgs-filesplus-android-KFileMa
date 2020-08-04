@@ -46,8 +46,12 @@ class FManFragment : Fragment() {
             val view = LayoutInflater.from(context)
                 .inflate(R.layout.fragment_fman_item, parent, false)
             val sizeView: TextView = view.findViewById(R.id.item_size)
-            sizeView.typeface = Typeface.MONOSPACE
-            sizeView.textSize = 12.0f
+            if (FMan.bGetSize) {
+                sizeView.typeface = Typeface.MONOSPACE
+                sizeView.textSize = 12.0f
+            } else {
+                sizeView.visibility = View.GONE
+            }
             view
         }
 
@@ -58,10 +62,12 @@ class FManFragment : Fragment() {
             val sizeView: TextView = view.findViewById(R.id.item_size)
             typeView.text = item.type.shortDesc
             pathView.text = item.path.substringAfterLast(File.separator)
-            if (item.size > 999999) {
-                sizeView.text = "%.2G".format(item.size.toDouble())
-            } else {
-                sizeView.text = "% 7d".format(item.size)
+            if (FMan.bGetSize) {
+                if (item.size > 999999) {
+                    sizeView.text = "%.2G".format(item.size.toDouble())
+                } else {
+                    sizeView.text = "% 7d".format(item.size)
+                }
             }
         }
 
