@@ -260,7 +260,7 @@ class SimpRecycView<E> : RecyclerView {
             holder.id = position
             //Log.d(TAGME, "onBindVH: $position")
             onSRCVBindView?.invoke(holder.itemView, position) ?: bindInternalSimpleView(holder.itemView, position)
-            if (bHandleMultiSelection) holder.itemView.isActivated = selected.contains(position)
+            if (bHandleMultiSelection) holder.itemView.isSelected = selected.contains(position)
         }
 
         override fun getItemCount(): Int {
@@ -274,10 +274,10 @@ class SimpRecycView<E> : RecyclerView {
             private fun handleSelectedPlus() {
                 if (selected.contains(id)) {
                     selected.remove(id)
-                    itemView.isActivated = false
+                    itemView.isSelected = false
                 } else  {
                     selected.add(id)
-                    itemView.isActivated = true
+                    itemView.isSelected = true
                 }
             }
 
