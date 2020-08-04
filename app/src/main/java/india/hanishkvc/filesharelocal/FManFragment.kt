@@ -51,8 +51,10 @@ class FManFragment : Fragment() {
             val item = fmd!!.ITEMS[position]
             val typeView: TextView = view.findViewById(R.id.item_type)
             val pathView: TextView = view.findViewById(R.id.item_path)
+            val sizeView: TextView = view.findViewById(R.id.item_size)
             typeView.text = item.type.shortDesc
             pathView.text = item.path.substringAfterLast(File.separator)
+            sizeView.text = item.size.toString()
         }
 
         recyclerView?.onSRCVItemClickListener = { position: Int, view: View ->
