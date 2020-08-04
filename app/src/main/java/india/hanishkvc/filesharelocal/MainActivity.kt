@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private val BID_SAVEPATH = "BID_SAVEPATH"
     private val BID_SELECTEDLIST = "BID_SELECTEDLIST"
     private val BID_VIEWFILEINTERNALFIRST = "BID_VIEWFILEINTERNALFIRST"
+    private val BID_GETSIZE = "BID_GETSIZE"
 
     val scope = MainScope()
     var fileioJob: Job? = null
@@ -91,9 +92,10 @@ class MainActivity : AppCompatActivity() {
         // Handle selectedFileList
         val savedSelectedFileList = savedInstanceState?.getStringArrayList(BID_SELECTEDLIST)
         savedSelectedFileList?.let { selectedFileList.addAll(it) }
-        // Handle bViewFileInternalFirst
+        // Handle bViewFileInternalFirst, bGetSize
         savedInstanceState?.apply {
             bViewFileInternalFirst = getBoolean(BID_VIEWFILEINTERNALFIRST)
+            FMan.bGetSize = getBoolean(BID_GETSIZE)
         }
         // Handle num of cols in View
         var bModeGrid = false
@@ -522,6 +524,7 @@ class MainActivity : AppCompatActivity() {
         Log.v(TAGME,"SaveState: ${outState.getCharSequence(BID_SAVEPATH)}")
         outState.putStringArrayList(BID_SELECTEDLIST, selectedFileList)
         outState.putBoolean(BID_VIEWFILEINTERNALFIRST, bViewFileInternalFirst)
+        outState.putBoolean(BID_GETSIZE, FMan.bGetSize)
         super.onSaveInstanceState(outState)
     }
 
