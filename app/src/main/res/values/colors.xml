@@ -3,10 +3,12 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
     <color name="colorListBGFocused">#8080F0F0</color>
     <color name="colorListBGActivated">#808080F0</color>
     <color name="colorListBGPressed">#8000A0A0</color>
     <color name="colorListBGFocusedOld">#80C0C0C0</color>
+
     <color name="colorButtonBGFocused">#8080F0F0</color>
     <color name="colorButtonBGActivated">#808080F0</color>
     <color name="colorButtonBGPressed">#8000A0A0</color>
