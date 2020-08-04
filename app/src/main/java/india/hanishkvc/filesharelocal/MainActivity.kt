@@ -410,10 +410,23 @@ class MainActivity : AppCompatActivity() {
 
     fun handleDelete(selectedList: ArrayList<FMan.FManItem>) {
         val deleteList = ArrayList<String>()
+        var iDirs = 0
+        var iFiles = 0
         for (e in selectedList) {
+            if (e.type == FMan.FManItemType.DIR) iDirs += 1 else iFiles += 1
             deleteList.add(e.path)
         }
-        handleFileIO(FILEIOTYPE.DELETE, deleteList, "")
+        AlertDialog.Builder(this).apply{
+            setTitle("Delete Check")
+            setMessage("About to delete $iDirs dirs,  $iFiles files\nNOTE: files within dirs not counted")
+            setPositiveButton("Yes Delete", { _: DialogInterface, i: Int ->
+                handleFileIO(FILEIOTYPE.DELETE, deleteList, "")
+            })
+            setNegativeButton("Cancel", { dlgIntf: DialogInterface, id: Int ->
+                dlgIntf.cancel()
+            })
+            show()
+        }
     }
 
     fun handleNewFolder() {
