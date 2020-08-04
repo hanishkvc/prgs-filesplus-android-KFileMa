@@ -80,22 +80,23 @@ class MainActivity : AppCompatActivity() {
     val BTNMA_ERRORMILLIS = 5000
 
     private fun setupStartState(savedInstanceState: Bundle?) {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
         // Handle initial path
-        var sPath = savedInstanceState?.getCharSequence(BID_SAVEPATH)
-        if (sPath == null) {
-            sPath = FMan.getDefaultVolume(applicationContext)
+        val defPath = FMan.getDefaultVolume(applicationContext)
+        var sPath = sharedPref.getString(BID_SAVEPATH, defPath)
+        if (sPath == defPath) {
             Log.v(TAGME,"Start:FreshState: $sPath")
         } else {
             Log.v(TAGME,"Start:LoadState: $sPath")
         }
-        FManFragment.defaultPathStr = sPath as String
+        FManFragment.defaultPathStr = sPath
         // Handle selectedFileList
         val savedSelectedFileList = savedInstanceState?.getStringArrayList(BID_SELECTEDLIST)
         savedSelectedFileList?.let { selectedFileList.addAll(it) }
         // Handle bViewFileInternalFirst, bGetSize
-        savedInstanceState?.apply {
-            bViewFileInternalFirst = getBoolean(BID_VIEWFILEINTERNALFIRST)
-            FMan.bGetSize = getBoolean(BID_GETSIZE)
+        sharedPref.apply {
+            bViewFileInternalFirst = getBoolean(BID_VIEWFILEINTERNALFIRST, true)
+            FMan.bGetSize = getBoolean(BID_GETSIZE, false)
         }
         // Handle num of cols in View
         var bModeGrid = false
@@ -527,12 +528,20 @@ class MainActivity : AppCompatActivity() {
         popupMenu.show()
     }
 
+    fun saveConfigAndState(outState: Bundle?) {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString(BID_SAVEPATH, fragMain?.fmd?.curPath?.absolutePath)
+            Log.v(TAGME,"saveConfigAndState: ${sharedPref.getString(BID_SAVEPATH, "DBUG:SharedPref")}")
+            putBoolean(BID_GETSIZE, FMan.bGetSize)
+            putBoolean(BID_VIEWFILEINTERNALFIRST, bViewFileInternalFirst)
+            commit()
+        }
+        outState?.putStringArrayList(BID_SELECTEDLIST, selectedFileList)
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putCharSequence(BID_SAVEPATH,fragMain?.fmd?.curPath.toString())
-        Log.v(TAGME,"SaveState: ${outState.getCharSequence(BID_SAVEPATH)}")
-        outState.putStringArrayList(BID_SELECTEDLIST, selectedFileList)
-        outState.putBoolean(BID_VIEWFILEINTERNALFIRST, bViewFileInternalFirst)
-        outState.putBoolean(BID_GETSIZE, FMan.bGetSize)
+        saveConfigAndState(outState)
         super.onSaveInstanceState(outState)
     }
 
