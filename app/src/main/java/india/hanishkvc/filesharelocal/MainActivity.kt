@@ -528,20 +528,25 @@ class MainActivity : AppCompatActivity() {
         popupMenu.show()
     }
 
-    fun saveConfigAndState(outState: Bundle?) {
+    fun saveConfig() {
+        Log.d(TAGME,"saveConfig")
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString(BID_SAVEPATH, fragMain?.fmd?.curPath?.absolutePath)
-            Log.v(TAGME,"saveConfigAndState: ${sharedPref.getString(BID_SAVEPATH, "DBUG:SharedPref")}")
             putBoolean(BID_GETSIZE, FMan.bGetSize)
             putBoolean(BID_VIEWFILEINTERNALFIRST, bViewFileInternalFirst)
-            commit()
+            apply()
         }
-        outState?.putStringArrayList(BID_SELECTEDLIST, selectedFileList)
+    }
+
+    override fun onPause() {
+        saveConfig()
+        super.onPause()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        saveConfigAndState(outState)
+        Log.d(TAGME,"saveInstState")
+        outState.putStringArrayList(BID_SELECTEDLIST, selectedFileList)
         super.onSaveInstanceState(outState)
     }
 
