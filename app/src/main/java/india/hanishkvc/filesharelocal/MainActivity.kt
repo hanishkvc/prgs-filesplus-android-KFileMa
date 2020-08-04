@@ -158,11 +158,6 @@ class MainActivity : AppCompatActivity() {
         btnMa = findViewById<Button>(R.id.btnMa)
         btnMa?.setOnClickListener {
             contextMenu()
-            /*
-            backPath()
-            Log.v(TAGME, "btnMa: items ${fragMain!!.fmd?.ITEMS?.size}")
-            Toast.makeText(this,"Items ${fragMain?.fmd?.ITEMS?.size}", Toast.LENGTH_SHORT).show()
-             */
         }
         checkPermissions()
         setupFManInteractions()
