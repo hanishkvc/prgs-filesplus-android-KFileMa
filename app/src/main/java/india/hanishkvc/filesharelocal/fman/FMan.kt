@@ -91,8 +91,17 @@ object FMan {
         // Get External storage paths usable by the App
         val appExts = context.getExternalFilesDirs(null)
         for (appExt in appExts) {
-            Log.v(TAGME, "getVol:appExt: ${appExt.absolutePath}")
-            vols.add(getBasePath(appExt,"Android").toString())
+            if (appExt == null) {
+                Log.w(TAGME, "getVol:appExt: some storage temporarily not available")
+                continue
+            }
+            val extState = Environment.getExternalStorageState(appExt)
+            if ((extState == Environment.MEDIA_MOUNTED) || (extState == Environment.MEDIA_MOUNTED_READ_ONLY)) {
+                Log.v(TAGME, "getVol:appExt: ${appExt.absolutePath}")
+                vols.add(getBasePath(appExt,"Android").toString())
+            } else {
+                Log.v(TAGME, "getVol:appExt:UnAvailable: ${appExt.absolutePath}")
+            }
         }
         // Get Android System's root directory
         val sysRoot = Environment.getRootDirectory().absolutePath
