@@ -6,7 +6,5 @@
         android:drawable="@color/colorListBGFocused" />
     <item android:state_activated="true"
         android:drawable="@color/colorListBGActivated" />
-    <item android:state_selected="true"
-        android:drawable="@color/colorListBGSelected" />
     <item android:drawable="@android:color/transparent" />
 </selector>
