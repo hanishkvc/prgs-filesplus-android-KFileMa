@@ -39,6 +39,11 @@ object FMan {
         NONE_TEST("T")
     }
 
+    /**
+     * Get size info. File = Length, Dir = NumOfEntries
+     */
+    var bGetSize: Boolean = false
+
     init {
         // Do nothing for now
     }
@@ -176,7 +181,8 @@ object FMan {
 
         fun dummyItems(start: Int, end: Int) {
             for (i in start..end) {
-                addItem(createFManItem(i, "path$i", FManItemType.NONE_TEST))
+                val size = if (bGetSize) Math.random().times(1024*1024).toLong() else 0
+                addItem(createFManItem(i, "path$i", FManItemType.NONE_TEST, size))
             }
         }
 
@@ -201,14 +207,16 @@ object FMan {
                     }
                     if (dEntriesGrouped[FManItemType.DIR] != null) {
                         for (de in dEntriesGrouped.get(FManItemType.DIR)!!) {
-                            addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.DIR))
+                            val nEntries = if (bGetSize) de.list().size else 0
+                            addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.DIR, nEntries as Long))
                             iCur += 1
                         }
                     }
                     val lFiles = dEntriesGrouped.get(FManItemType.FILE)
                     if (lFiles != null) {
                         for (de in lFiles) {
-                            addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.FILE))
+                            val length = if (bGetSize) de.length() else 0
+                            addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.FILE, length))
                             iCur += 1
                         }
                     }
@@ -250,14 +258,14 @@ object FMan {
 
     }
 
-    private fun createFManItem(position: Int, path: String, type: FManItemType): FManItem {
-        return FManItem(position, path, type)
+    private fun createFManItem(position: Int, path: String, type: FManItemType, size: Long): FManItem {
+        return FManItem(position, path, type, size)
     }
 
     /**
      * A fman item representing a piece of content.
      */
-    data class FManItem(val id: Int, val path: String, val type: FManItemType) {
+    data class FManItem(val id: Int, val path: String, val type: FManItemType, val size: Long) {
         override fun toString(): String = path
     }
 
