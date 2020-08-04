@@ -42,7 +42,7 @@ object FMan {
     /**
      * Get size info. File = Length, Dir = NumOfEntries
      */
-    var bGetSize: Boolean = false
+    var bGetSize: Boolean = true
 
     init {
         // Do nothing for now
@@ -207,7 +207,7 @@ object FMan {
                     }
                     if (dEntriesGrouped[FManItemType.DIR] != null) {
                         for (de in dEntriesGrouped.get(FManItemType.DIR)!!) {
-                            val nEntries = if (bGetSize) de.list().size else 0
+                            val nEntries = if (bGetSize) de.list()?.size ?: 0 else 0
                             addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.DIR, nEntries.toLong()))
                             iCur += 1
                         }
