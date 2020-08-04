@@ -3,7 +3,7 @@
     <item android:state_pressed="true"
         android:drawable="@color/colorListBGPressed" />
     <item android:state_focused="true"
-        android:drawable="@color/colorListBGFocused" />
+        android:drawable="@drawable/infocus" />
     <item android:state_activated="true"
         android:drawable="@color/colorListBGActivated" />
     <item android:drawable="@android:color/transparent" />
