@@ -154,7 +154,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.v(TAGME, "onCreate: View inflated")
         tvPath = findViewById<TextView>(R.id.tvPath)
-        showPath(FManFragment.defaultPathStr)
         fragMain = supportFragmentManager.findFragmentById(R.id.fragMain) as FManFragment
         btnMa = findViewById<Button>(R.id.btnMa)
         btnMa?.setOnClickListener {
@@ -168,9 +167,16 @@ class MainActivity : AppCompatActivity() {
     fun loadDefaultPath() {
         fileioJob = scope.launch {
             withContext(Dispatchers.IO){
-                fragMain?.fmd?.loadPath(FManFragment.defaultPathStr)
+                val res = fragMain?.fmd?.loadPath(FManFragment.defaultPathStr)
+                // the below instead of if (res != null) and (res == false)
+                res?.let {
+                    if (it == false) {
+                        fragMain?.fmd?.loadPath(FMan.getDefaultVolume(this@MainActivity))
+                    }
+                }
             }
             withContext(Dispatchers.Main) {
+                showPath(fragMain?.fmd?.curPath?.absolutePath)
                 fragMain?.updateFrag()
             }
         }
