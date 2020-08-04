@@ -45,6 +45,9 @@ class FManFragment : Fragment() {
         recyclerView?.onSRCVCreateView = { parent ->
             val view = LayoutInflater.from(context)
                 .inflate(R.layout.fragment_fman_item, parent, false)
+            val typeView: TextView = view.findViewById(R.id.item_type)
+            typeView.isEnabled = false
+            typeView.visibility = View.GONE
             val sizeView: TextView = view.findViewById(R.id.item_size)
             sizeView.typeface = Typeface.MONOSPACE
             sizeView.textSize = 12.0f
@@ -59,7 +62,8 @@ class FManFragment : Fragment() {
             val pathView: TextView = view.findViewById(R.id.item_path)
             val sizeView: TextView = view.findViewById(R.id.item_size)
             typeView.text = item.type.shortDesc
-            pathView.text = item.path.substringAfterLast(File.separator)
+            val sDir = if (item.type == FMan.FManItemType.DIR) "/" else ""
+            pathView.text = item.path.substringAfterLast(File.separator) + sDir
             if (FMan.bGetSize) {
                 sizeView.text = UtilsMa.longToKMG8Str(item.size)
                 sizeView.isEnabled = true
