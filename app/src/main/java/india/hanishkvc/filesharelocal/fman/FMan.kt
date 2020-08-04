@@ -208,7 +208,7 @@ object FMan {
                     if (dEntriesGrouped[FManItemType.DIR] != null) {
                         for (de in dEntriesGrouped.get(FManItemType.DIR)!!) {
                             val nEntries = if (bGetSize) de.list().size else 0
-                            addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.DIR, nEntries as Long))
+                            addItem(createFManItem(iCur, de.normalize().toString(), FManItemType.DIR, nEntries.toLong()))
                             iCur += 1
                         }
                     }
