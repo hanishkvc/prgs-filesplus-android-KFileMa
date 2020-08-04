@@ -1,7 +1,7 @@
 /**
  * Bunch of utility functions
- * @author: C Hanish Menon <hanishkvc@gmail.com>
- * @version: 20200804IST0046
+ * @author: C Hanish Menon <hanishkvc@gmail.com>, 2020
+ * @license: LGPL
  */
 package india.hanishkvc.filesharelocal
 

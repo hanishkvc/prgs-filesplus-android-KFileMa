@@ -1,7 +1,7 @@
 /**
  * HPopupMenu - Hierarchical popup menu for android
- * @author C Hanish Menon <hanishkvc@gmail.com>
- * @version v20200802IST1604
+ * @author C Hanish Menon <hanishkvc@gmail.com>, 2020
+ * @license LGPL
  */
 package india.hanishkvc.filesharelocal
 
