@@ -17,7 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Lean"
         android:banner="@drawable/banner">
-        <activity android:name=".ViewerActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +27,7 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ViewerActivity"></activity>
     </application>
 
 </manifest>

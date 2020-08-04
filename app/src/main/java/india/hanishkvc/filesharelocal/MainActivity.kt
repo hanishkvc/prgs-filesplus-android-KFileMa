@@ -470,7 +470,7 @@ class MainActivity : AppCompatActivity() {
 
     fun handleSettings() {
         AlertDialog.Builder(this).apply {
-            setTitle("Settings")
+            setTitle("Settings [KFileMa]")
             val sSettings = arrayOf("Viewer: Internal First", "Show FileSize|DirEntryCnt")
             val bSettings = ArrayList<Boolean>()
             bSettings.add(bViewFileInternalFirst)
