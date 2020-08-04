@@ -1,5 +1,6 @@
 package india.hanishkvc.filesharelocal
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,6 +45,8 @@ class FManFragment : Fragment() {
         recyclerView?.onSRCVCreateView = { parent ->
             val view = LayoutInflater.from(context)
                 .inflate(R.layout.fragment_fman_item, parent, false)
+            val sizeView: TextView = view.findViewById(R.id.item_size)
+            sizeView.typeface = Typeface.MONOSPACE
             view
         }
 
@@ -54,7 +57,11 @@ class FManFragment : Fragment() {
             val sizeView: TextView = view.findViewById(R.id.item_size)
             typeView.text = item.type.shortDesc
             pathView.text = item.path.substringAfterLast(File.separator)
-            sizeView.text = item.size.toString()
+            if (item.size > 999999) {
+                sizeView.text = "%.2G".format(item.size.toDouble())
+            } else {
+                sizeView.text = "% 7d".format(item.size)
+            }
         }
 
         recyclerView?.onSRCVItemClickListener = { position: Int, view: View ->
