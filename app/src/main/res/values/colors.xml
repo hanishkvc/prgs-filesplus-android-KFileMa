@@ -4,9 +4,9 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
-    <color name="colorListBGFocused">#8020F020</color>
-    <color name="colorListBGActivated">#802020F0</color>
-    <color name="colorListBGActivatedInFocus">#8020F0F0</color>
+    <color name="colorListBGFocused">#8080F0F0</color>
+    <color name="colorListBGActivated">#8020F080</color>
+    <color name="colorListBGActivatedInFocus">#8020F020</color>
     <color name="colorListBGPressed">#8000A0A0</color>
     <color name="colorListBGFocusedOld">#80C0C0C0</color>
 
