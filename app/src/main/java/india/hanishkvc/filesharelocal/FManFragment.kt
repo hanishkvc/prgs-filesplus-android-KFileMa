@@ -47,6 +47,7 @@ class FManFragment : Fragment() {
                 .inflate(R.layout.fragment_fman_item, parent, false)
             val sizeView: TextView = view.findViewById(R.id.item_size)
             sizeView.typeface = Typeface.MONOSPACE
+            sizeView.textSize = 12.0f
             view
         }
 
